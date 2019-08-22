@@ -1,0 +1,188 @@
+{
+  "characters": [
+    {
+      "name": "ペコリーヌ",
+      "initialRarity": 1,
+      "maxRarity": 6,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "コッコロ",
+      "initialRarity": 1,
+      "maxRarity": 6,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ユイ",
+      "initialRarity": 1,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "レイ",
+      "initialRarity": 1,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "シズル",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ミミ",
+      "initialRarity": 2,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "キョウカ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "アオイ",
+      "initialRarity": 1,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "イリヤ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "シノブ",
+      "initialRarity": 2,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ジュン",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "トモ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "サレン",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "クルミ",
+      "initialRarity": 1,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "カスミ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "マヒル",
+      "initialRarity": 2,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "リマ",
+      "initialRarity": 1,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "シオリ",
+      "initialRarity": 2,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "アキノ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ミフユ",
+      "initialRarity": 2,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ルカ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "エリコ",
+      "initialRarity": 2,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ミサキ",
+      "initialRarity": 1,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ユキ",
+      "initialRarity": 2,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ニノン",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "アリサ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "ジータ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    },
+    {
+      "name": "アン",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": true
+    }
+  ],
+  "uniqueEquipment": {
+    "30": 50,
+    "50": 10,
+    "70": 10,
+    "90": 10,
+    "110": 10,
+    "130": 10,
+    "140": 15
+  },
+  "upgradingRarity": {
+    "2": 30,
+    "3": 100,
+    "4": 120,
+    "5": 150,
+    "6": 50
+  }
+}
