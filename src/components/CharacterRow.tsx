@@ -64,7 +64,7 @@ const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
 
   React.useEffect(() => {
     const notHavingRarity =
-      difference(Object.keys(upgradingRarity).filter((rarity) => initialRarity < Number(rarity)), havingRarity);
+      difference(Object.keys(upgradingRarity).filter((rarity) => initialRarity < Number(rarity) && Number(rarity) <= maxRarity), havingRarity);
     const newRequiredNumber = notHavingRarity.length === 0 ? 0 : notHavingRarity.map((rarity) => {
       return upgradingRarity[rarity as "2" | "3" | "4" | "5" | "6"];
     }).reduce((sum, value) => sum + value);
