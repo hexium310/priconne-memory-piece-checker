@@ -166,7 +166,7 @@
       "name": "アン",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": false
     }
   ],
   "uniqueEquipment": {
