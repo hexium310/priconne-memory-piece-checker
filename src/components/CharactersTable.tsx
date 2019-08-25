@@ -9,7 +9,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { characters, upgradingRarity, uniqueEquipment } from 'data/data.json';
 import CharacterRow from 'components/CharacterRow';
 
-interface StyleProps {
+export interface StyleProps {
   borderCells?: number[];
 }
 
@@ -56,11 +56,16 @@ const buildRarityOrLevelCell = (
 
 const CharactersTable: React.FunctionComponent = () => {
   const nameClasses = useStyles({
-    borderCells: [1, 2, 3],
+    borderCells: [1, 2, 3, 4],
   });
 
   const numberClasses = useStyles({
-    borderCells: [1, 1 + upgradingRarityArray.length, 1 + upgradingRarityArray.length + uniqueEquipmentArray.length],
+    borderCells: [
+      1,
+      1 + upgradingRarityArray.length,
+      1 + upgradingRarityArray.length + uniqueEquipmentArray.length,
+      1 + upgradingRarityArray.length + uniqueEquipmentArray.length + 1,
+    ],
   });
 
   return (
@@ -88,11 +93,15 @@ const CharactersTable: React.FunctionComponent = () => {
             <TableCell padding="checkbox" align="center">
               所持数/必要数
             </TableCell>
+            <TableCell padding="checkbox" align="center">
+              不足数
+            </TableCell>
           </TableRow>
           <TableRow className={ numberClasses.tableRow }>
             <TableCell />
             { upgradingRarityArray.map(buildRarityOrLevelCell) }
             { uniqueEquipmentArray.map(buildRarityOrLevelCell) }
+            <TableCell />
             <TableCell />
           </TableRow>
         </TableHead>
