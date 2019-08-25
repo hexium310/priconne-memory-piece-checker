@@ -154,16 +154,19 @@ const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
         ))
       }
       {
-        hasUniqueEquipment && uniqueEquipmentArray.map(([level, number], i) => (
+        uniqueEquipmentArray.map(([level, number], i) => (
           <TableCell padding="none" align="center" key={ i }>
-            <Button
-              size="small"
-              variant="contained"
-              color={ havingEquipmentLevel.includes(level) ? 'primary' : 'default' }
-              onClick={ () => handleChangeEquopment(level) }
-            >
-              { number }
-            </Button>
+            {
+              hasUniqueEquipment
+              && <Button
+                size="small"
+                variant="contained"
+                color={ havingEquipmentLevel.includes(level) ? 'primary' : 'default' }
+                onClick={ () => handleChangeEquopment(level) }
+              >
+                { number }
+              </Button>
+            }
           </TableCell>
         ))
       }
