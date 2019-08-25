@@ -1,4 +1,6 @@
 import React from 'react';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,7 +11,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { characters, upgradingRarity, uniqueEquipment } from 'data/data.json';
 import CharacterRow from 'components/CharacterRow';
 
-interface StyleProps {
+export interface StyleProps {
   borderCells?: number[];
 }
 
@@ -55,16 +57,36 @@ const buildRarityOrLevelCell = (
 };
 
 const CharactersTable: React.FunctionComponent = () => {
+  const [showExcess, setShowExcess] = React.useState(true);
   const nameClasses = useStyles({
-    borderCells: [1, 2, 3],
+    borderCells: [1, 2, 3, 4],
   });
 
   const numberClasses = useStyles({
-    borderCells: [1, 1 + upgradingRarityArray.length, 1 + upgradingRarityArray.length + uniqueEquipmentArray.length],
+    borderCells: [
+      1,
+      1 + upgradingRarityArray.length,
+      1 + upgradingRarityArray.length + uniqueEquipmentArray.length,
+      1 + upgradingRarityArray.length + uniqueEquipmentArray.length + 1,
+    ],
   });
+
+  const handleChangeShowExcess = (): void => {
+    setShowExcess((value) => !value);
+  };
 
   return (
     <div className={ nameClasses.content }>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={ showExcess }
+            onChange={ () => handleChangeShowExcess() }
+            color="primary"
+          />
+        }
+        label="必要数持っているキャラクターも表示"
+      />
       <Table>
         <TableHead>
           <TableRow className={ nameClasses.tableRow }>
@@ -88,11 +110,15 @@ const CharactersTable: React.FunctionComponent = () => {
             <TableCell padding="checkbox" align="center">
               所持数/必要数
             </TableCell>
+            <TableCell padding="checkbox" align="center">
+              不足数
+            </TableCell>
           </TableRow>
           <TableRow className={ numberClasses.tableRow }>
             <TableCell />
             { upgradingRarityArray.map(buildRarityOrLevelCell) }
             { uniqueEquipmentArray.map(buildRarityOrLevelCell) }
+            <TableCell />
             <TableCell />
           </TableRow>
         </TableHead>
@@ -100,7 +126,7 @@ const CharactersTable: React.FunctionComponent = () => {
           {
             characters.map((character, index) => {
               return (
-                <CharacterRow key={ index } character={ character as Character } />
+                <CharacterRow key={ index } character={ character as Character } showExcess={ showExcess } />
               );
             })
           }

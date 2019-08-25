@@ -7,13 +7,16 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { upgradingRarity, uniqueEquipment } from 'data/data.json';
-import { styles, upgradingRarityArray, uniqueEquipmentArray } from 'components/CharactersTable';
+import { styles, upgradingRarityArray, uniqueEquipmentArray, StyleProps } from 'components/CharactersTable';
 
 interface CharacterRowProps {
   character: Character;
+  showExcess: boolean;
 }
 
-const useStyles = makeStyles(() => createStyles({
+type RowStyleProps = StyleProps & { isDeficiency: boolean }
+
+const useStyles = makeStyles((theme) => createStyles({
   ...styles,
   name: {
     whiteSpace: 'nowrap',
@@ -27,6 +30,10 @@ const useStyles = makeStyles(() => createStyles({
       },
     },
   },
+  deficiency: ({ isDeficiency }: RowStyleProps) => ({
+    color: isDeficiency ? theme.palette.error.main : theme.palette.primary.main,
+    fontSize: '1.2rem',
+  }),
 }));
 
 const saveStorage = (name: string, data: { [s: string]: string[] | number }): void => {
@@ -42,16 +49,24 @@ const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
     name,
     hasUniqueEquipment,
   },
+  showExcess,
 }) => {
-  const classes = useStyles({
-    borderCells: [1, 1 + upgradingRarityArray.length, 1 + upgradingRarityArray.length + uniqueEquipmentArray.length],
-  });
   const [havingRarity, setHavingRarity] = React.useState<string[]>([]);
   const [havingEquipmentLevel, setHavingEquipmentLevel] = React.useState<string[]>([]);
   const [rarityRequired, setRarityRequired] = React.useState(0);
   const [equipmentRequired, setEquipmentRequired] = React.useState(0);
   const [requiredNumber, setRequiredNumber] = React.useState(0);
   const [possessionPieces, setPossessionPieces] = React.useState(0);
+  const deficiency =  requiredNumber - possessionPieces;
+  const classes = useStyles({
+    borderCells: [
+      1,
+      1 + upgradingRarityArray.length,
+      1 + upgradingRarityArray.length + uniqueEquipmentArray.length,
+      1 + upgradingRarityArray.length + uniqueEquipmentArray.length + 1,
+    ],
+    isDeficiency: deficiency > 0,
+  });
 
   React.useEffect(() => {
     const storage = window.localStorage.getItem(name);
@@ -113,6 +128,10 @@ const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
     setPossessionPieces(newPossessionPieces);
   };
 
+  if (deficiency <= 0 && !showExcess) {
+    return <></>;
+  }
+
   return (
     <TableRow className={ classes.tableRow }>
       <TableCell className={ classes.name } padding="none" align="center">{ name }</TableCell>
@@ -158,6 +177,13 @@ const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
           onFocus={ (e) => e.target.select() }
         />
         { requiredNumber }
+      </TableCell>
+      <TableCell
+        className={ classes.deficiency }
+        padding="none"
+        align="center"
+      >
+        { deficiency }
       </TableCell>
     </TableRow>
   );
