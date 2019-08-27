@@ -12,6 +12,9 @@ import { styles, upgradingRarityArray, uniqueEquipmentArray, StyleProps } from '
 interface CharacterRowProps {
   character: Character;
   showExcess: boolean;
+  showPieceTypes: {
+    [type: string]: boolean;
+  };
 }
 
 type RowStyleProps = StyleProps & { isDeficiency: boolean }
@@ -48,8 +51,10 @@ const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
     maxRarity,
     name,
     hasUniqueEquipment,
+    pieceType,
   },
   showExcess,
+  showPieceTypes,
 }) => {
   const [havingRarity, setHavingRarity] = React.useState<string[]>([]);
   const [havingEquipmentLevel, setHavingEquipmentLevel] = React.useState<string[]>([]);
@@ -128,7 +133,7 @@ const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
     setPossessionPieces(newPossessionPieces);
   };
 
-  if (deficiency <= 0 && !showExcess) {
+  if (!showPieceTypes[pieceType] || deficiency <= 0 && !showExcess) {
     return <></>;
   }
 

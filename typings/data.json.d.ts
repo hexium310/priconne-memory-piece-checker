@@ -3,6 +3,7 @@ interface Character {
   initialRarity: 1 | 2 | 3;
   maxRarity: 5 | 6;
   name: string;
+  pieceType: 'hard' | 'dungeon' | 'arena' | 'pArena' | 'clan' | 'master' | 'none';
 }
 
 interface UniqueEquipment {
@@ -16,6 +17,9 @@ interface UpgradingRarities {
 declare module '*data/data.json' {
   interface Data {
     characters: Character[];
+    pieceTypes: {
+      [type in Character['pieceType']]: string;
+    };
     uniqueEquipment: UniqueEquipment;
     upgradingRarity: upgradingRarity;
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { characters, upgradingRarity, uniqueEquipment } from 'data/data.json';
+import { characters, pieceTypes, upgradingRarity, uniqueEquipment } from 'data/data.json';
 import CharacterRow from 'components/CharacterRow';
 
 export interface StyleProps {
@@ -58,6 +59,10 @@ const buildRarityOrLevelCell = (
 
 const CharactersTable: React.FunctionComponent = () => {
   const [showExcess, setShowExcess] = React.useState(true);
+  const [
+    showPieceTypes,
+    setShowPieceTypes,
+  ] = React.useState(Object.fromEntries(Object.keys(pieceTypes).map((type) => [type, true])));
   const nameClasses = useStyles({
     borderCells: [1, 2, 3, 4],
   });
@@ -75,6 +80,13 @@ const CharactersTable: React.FunctionComponent = () => {
     setShowExcess((value) => !value);
   };
 
+  const handleChangeShowPieceTypes = (type: string, checked: boolean): void => {
+    setShowPieceTypes({
+      ...showPieceTypes,
+      [type]: checked,
+    });
+  };
+
   return (
     <div className={ nameClasses.content }>
       <FormControlLabel
@@ -87,6 +99,23 @@ const CharactersTable: React.FunctionComponent = () => {
         }
         label="必要数持っているキャラクターも表示"
       />
+      <FormGroup row>
+        {
+          Object.entries(pieceTypes).map(([type, name]) => (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={ showPieceTypes[type] }
+                  onChange={ (_, checked) => handleChangeShowPieceTypes(type, checked) }
+                  color="primary"
+                />
+              }
+              label={ name }
+              key={ type }
+            />
+          ))
+        }
+      </FormGroup>
       <Table>
         <TableHead>
           <TableRow className={ nameClasses.tableRow }>
@@ -126,7 +155,12 @@ const CharactersTable: React.FunctionComponent = () => {
           {
             characters.map((character, index) => {
               return (
-                <CharacterRow key={ index } character={ character as Character } showExcess={ showExcess } />
+                <CharacterRow
+                  key={ index }
+                  character={ character as Character }
+                  showExcess={ showExcess }
+                  showPieceTypes={ showPieceTypes }
+                />
               );
             })
           }

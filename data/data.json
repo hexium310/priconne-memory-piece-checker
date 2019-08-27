@@ -4,171 +4,208 @@
       "name": "ペコリーヌ",
       "initialRarity": 1,
       "maxRarity": 6,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "コッコロ",
       "initialRarity": 1,
       "maxRarity": 6,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ユイ",
       "initialRarity": 1,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "レイ",
       "initialRarity": 1,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "シズル",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ミミ",
       "initialRarity": 2,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "キョウカ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "アオイ",
       "initialRarity": 1,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "イリヤ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "シノブ",
       "initialRarity": 2,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ジュン",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "トモ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "サレン",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "クルミ",
       "initialRarity": 1,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "カスミ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "マヒル",
       "initialRarity": 2,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "リマ",
       "initialRarity": 1,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "シオリ",
       "initialRarity": 2,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "アキノ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ミフユ",
       "initialRarity": 2,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ルカ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "エリコ",
       "initialRarity": 2,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ミサキ",
       "initialRarity": 1,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ユキ",
       "initialRarity": 2,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ニノン",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "アリサ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "ジータ",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": true
+      "hasUniqueEquipment": true,
+      "pieceType": "hard"
     },
     {
       "name": "アン",
       "initialRarity": 3,
       "maxRarity": 5,
-      "hasUniqueEquipment": false
+      "hasUniqueEquipment": false,
+      "pieceType": "hard"
     }
   ],
+  "pieceTypes": {
+    "hard": "ハードクエスト",
+    "dungeon": "ダンジョンコイン",
+    "arena": "アリーナコイン",
+    "pArena": "プリンセスアリーナコイン",
+    "clan": "クランコイン",
+    "master": "マスターコイン",
+    "none": "女神の秘石"
+  },
   "uniqueEquipment": {
     "30": 50,
     "50": 10,
