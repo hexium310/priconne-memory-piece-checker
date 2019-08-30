@@ -7,7 +7,13 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { upgradingRarity, uniqueEquipment } from 'data/data.json';
-import { styles, upgradingRarityArray, uniqueEquipmentArray, StyleProps } from 'components/CharactersTable';
+import {
+  saveStorage,
+  styles,
+  upgradingRarityArray,
+  uniqueEquipmentArray,
+  StyleProps,
+} from 'components/CharactersTable';
 
 interface CharacterRowProps {
   character: Character;
@@ -38,12 +44,6 @@ const useStyles = makeStyles((theme) => createStyles({
     fontSize: '1.2rem',
   }),
 }));
-
-const saveStorage = (name: string, data: { [s: string]: string[] | number }): void => {
-  const storage = window.localStorage.getItem(name);
-  const json = storage === null ? {} : JSON.parse(storage);
-  window.localStorage.setItem(name, JSON.stringify({ ...json, ...data }));
-};
 
 const CharacterRow: React.FunctionComponent<CharacterRowProps> = ({
   character: {

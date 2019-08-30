@@ -42,6 +42,15 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
+export const saveStorage = (
+  name: string,
+  data: { [s: string]: string[] | number | boolean }
+): void => {
+  const storage = window.localStorage.getItem(name);
+  const json = storage === null ? {} : JSON.parse(storage);
+  window.localStorage.setItem(name, JSON.stringify({ ...json, ...data }));
+};
+
 const buildRarityOrLevelCell = (
   [rarityOrLevel]: [keyof UpgradingRarities | keyof UniqueEquipment, number],
   index: number,
@@ -75,6 +84,17 @@ const CharactersTable: React.FunctionComponent = () => {
       1 + upgradingRarityArray.length + uniqueEquipmentArray.length + 1,
     ],
   });
+
+  React.useEffect(() => {
+    const storage = window.localStorage.getItem('showPieceTypes');
+    const data = storage === null ? {} : JSON.parse(storage);
+
+    setShowPieceTypes(data);
+  },[setShowPieceTypes]);
+
+  React.useEffect(() => {
+    saveStorage('showPieceTypes', showPieceTypes);
+  }, [showPieceTypes]);
 
   const handleChangeShowExcess = (): void => {
     setShowExcess((value) => !value);
