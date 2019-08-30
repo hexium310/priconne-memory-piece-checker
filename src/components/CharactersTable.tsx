@@ -87,7 +87,7 @@ const CharactersTable: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     const storage = window.localStorage.getItem('showPieceTypes');
-    const data = storage === null ? {} : JSON.parse(storage);
+    const data = storage === null ? showPieceTypes : JSON.parse(storage);
 
     setShowPieceTypes(data);
   },[setShowPieceTypes]);
