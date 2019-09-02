@@ -629,6 +629,13 @@
       "maxRarity": 5,
       "hasUniqueEquipment": false,
       "pieceType": "none"
+    },
+    {
+      "name": "アオイ（編入生）",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": false,
+      "pieceType": "none"
     }
   ],
   "pieceTypes": {
