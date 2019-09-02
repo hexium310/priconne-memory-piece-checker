@@ -3,11 +3,10 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import CharactersTable from 'components/CharactersTable';
+import CharactersList from 'components/CharactersList';
 
 const useStyles = makeStyles((theme) => createStyles({
   content: {
-    backgroundColor: theme.palette.background.paper,
     paddingTop: theme.spacing(4),
   },
 }));
@@ -33,7 +32,7 @@ const Main: React.FunctionComponent = () => {
           </Button>
         </Container>
         <Container maxWidth="lg">
-          <CharactersTable />
+          <CharactersList />
         </Container>
       </div>
     </main>
