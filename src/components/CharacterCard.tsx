@@ -1,13 +1,14 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import difference from 'lodash-es/difference';
 import TextField from '@material-ui/core/TextField';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import max from 'lodash-es/max';
 
 import { upgradingRarity, uniqueEquipment } from 'data/data.json';
 import {
@@ -28,7 +29,7 @@ interface CharacterCardProps {
 type CharacterStateProps = {
   title: string;
   piecesList: [string, number][];
-  states: string[];
+  state: number;
   handleClick: (value: string) => void;
 } & XOR<{ initialRarity: number; maxRarity: number }, { hasUniqueEquipment: boolean }>
 
@@ -50,15 +51,21 @@ const useStyles = makeStyles((theme) => createStyles({
     borderWidth: 1,
     borderColor: theme.palette.divider,
   },
-  state: {
-    padding: theme.spacing(0.5),
-  },
   stateButtonContainer: {
     paddingTop: theme.spacing(1),
   },
   stateButton: {
+    width: 80,
     textTransform: 'none',
+    '&$stateButtonSelected': {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+      '&:hover': {
+        backgroundColor: theme.palette.primary.dark,
+      },
+    },
   },
+  stateButtonSelected: {},
   verticalWriting: {
     writingMode: 'vertical-rl',
   },
@@ -70,12 +77,15 @@ const useStyles = makeStyles((theme) => createStyles({
     paddingTop: 7,
     fontSize: '1.2rem',
   },
+  toggleButtonGroup: {
+    flexWrap: 'wrap',
+  },
 }));
 
 const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
   title,
   piecesList,
-  states,
+  state,
   handleClick,
   initialRarity,
   maxRarity,
@@ -85,46 +95,34 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
   const valuePrefix = (initialRarity && '☆') || (hasUniqueEquipment && 'Lv. ');
 
   return (
-    <Grid className={ classes.state } container direction="row" alignItems="center">
+    <Grid container direction="row" alignItems="center">
       <Grid className={ classes.verticalWriting } item>{ title }</Grid>
       <Grid item xs={ 11 }>
         <CardActions>
-          <Grid container direction="row" spacing={ 1 }>
+          <ToggleButtonGroup
+            className={ classes.toggleButtonGroup }
+            exclusive
+            value={ state.toString() }
+            onChange={ (_, v) => handleClick(v) }
+          >
             {
-              piecesList.map(([value, number], i) => (
-                <React.Fragment key={ i }>
-                  {
-                    (
-                      hasUniqueEquipment || (
-                        initialRarity && maxRarity
-                        && Number(value) > initialRarity && Number(value) <= maxRarity
-                      )
-                    ) && <Grid item>
-                      <Grid
-                        className={ classes.stateButtonContainer }
-                        container
-                        direction="column"
-                        alignItems="center"
-                      >
-                        <Button
-                          className={ classes.stateButton }
-                          size="small"
-                          variant="contained"
-                          color={ states.includes(value) ? 'primary' : 'default' }
-                          onClick={ () => handleClick(value) }
-                        >
-                          { `${ valuePrefix }${ value }` }
-                        </Button>
-                        <Typography variant="caption" color="textSecondary">
-                          { `${ number }個` }
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  }
-                </React.Fragment>
+              piecesList.map(([value], i) => (
+                (
+                  hasUniqueEquipment || (
+                    initialRarity && maxRarity
+                    && Number(value) > initialRarity && Number(value) <= maxRarity
+                  )
+                ) && <ToggleButton
+                  key={ i }
+                  className={ classes.stateButton }
+                  classes={ { selected: classes.stateButtonSelected } }
+                  value={ value }
+                >
+                  { `${ valuePrefix }${ value }` }
+                </ToggleButton>
               ))
             }
-          </Grid>
+          </ToggleButtonGroup>
         </CardActions>
       </Grid>
     </Grid>
@@ -142,8 +140,8 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   showExcess,
   showPieceTypes,
 }) => {
-  const [havingRarity, setHavingRarity] = React.useState<string[]>([]);
-  const [havingEquipmentLevel, setHavingEquipmentLevel] = React.useState<string[]>([]);
+  const [havingRarity, setHavingRarity] = React.useState(0);
+  const [havingEquipmentLevel, setHavingEquipmentLevel] = React.useState(0);
   const [rarityRequired, setRarityRequired] = React.useState(0);
   const [equipmentRequired, setEquipmentRequired] = React.useState(0);
   const [requiredNumber, setRequiredNumber] = React.useState(0);
@@ -154,29 +152,37 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   React.useEffect(() => {
     const storage = window.localStorage.getItem(name);
     const data = storage === null ? {} : JSON.parse(storage);
+    const rarity = Array.isArray(data.rarity)
+      ? max(data.rarity.map((n: string) => Number(n))) || 0
+      : data.rarity || 0;
+    const equipment = Array.isArray(data.equipment)
+      ? max(data.equipment.map((n: string) => Number(n))) || 0
+      : data.equipment || 0;
 
-    setHavingRarity(data.rarity || []);
-    setHavingEquipmentLevel(data.equipment || []);
+    setHavingRarity(rarity);
+    setHavingEquipmentLevel(equipment);
     setPossessionPieces(data.possessionPieces || 0);
   },[setHavingRarity, setHavingEquipmentLevel, setPossessionPieces]);
 
   React.useEffect(() => {
-    const notHavingRarity =
-      difference(Object.keys(upgradingRarity).filter((rarity) => initialRarity < Number(rarity) && Number(rarity) <= maxRarity), havingRarity);
-    const newRequiredNumber = notHavingRarity.length === 0 ? 0 : notHavingRarity.map((rarity) => {
-      return upgradingRarity[rarity as "2" | "3" | "4" | "5" | "6"];
-    }).reduce((sum, value) => sum + value);
+    const notHavingRarity = Object.keys(upgradingRarity)
+      .map((v) => Number(v))
+      .filter((rarity) => rarity > havingRarity && rarity > initialRarity && rarity <= maxRarity);
+    const newRequiredNumber = notHavingRarity.map((rarity) => {
+      return upgradingRarity[rarity.toString() as '2' | '3' | '4' | '5' | '6'];
+    }).reduce((sum, value) => sum + value, 0);
 
     saveStorage(name, { rarity: havingRarity });
     setRarityRequired(newRequiredNumber);
   }, [havingRarity]);
 
   React.useEffect(() => {
-    const notHavingEquipment =
-      difference(Object.keys(uniqueEquipment).filter((level) => initialRarity < Number(level)), havingEquipmentLevel);
-    const newRequiredNumber = notHavingEquipment.length === 0 ? 0 : notHavingEquipment.map((level) => {
-      return uniqueEquipment[level as "30" | "50" | "70" | "90" | "110" | "130" | "140"];
-    }).reduce((sum, value) => sum + value);
+    const notHavingEquipment = Object.keys(uniqueEquipment)
+      .map((v) => Number(v))
+      .filter((level) => level > havingEquipmentLevel);
+    const newRequiredNumber = notHavingEquipment.map((level) => {
+      return uniqueEquipment[level.toString() as '30' | '50' | '70' | '90' | '110' | '130' | '140'];
+    }).reduce((sum, value) => sum + value, 0);
 
     saveStorage(name, { equipment: havingEquipmentLevel });
     setEquipmentRequired(newRequiredNumber);
@@ -187,19 +193,11 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   }, [rarityRequired, equipmentRequired]);
 
   const handleChangeRarity = (rarity: string): void => {
-    const newHavingRarity = havingRarity.includes(rarity) ?
-      havingRarity.filter((r) => r !== rarity) :
-      [...havingRarity, rarity];
-
-    setHavingRarity(newHavingRarity);
+    setHavingRarity(Number(rarity));
   };
 
   const handleChangeEquopment = (level: string): void => {
-    const newHavingEquipmentLevel = havingEquipmentLevel.includes(level) ?
-      havingEquipmentLevel.filter((l) => l !== level) :
-      [...havingEquipmentLevel, level];
-
-    setHavingEquipmentLevel(newHavingEquipmentLevel);
+    setHavingEquipmentLevel(Number(level));
   };
 
   const handleChangePossessionPieces = (
@@ -233,7 +231,7 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
             <CharacterState
               title="才能開花"
               piecesList={ upgradingRarityArray }
-              states={ havingRarity }
+              state={ havingRarity }
               handleClick={ handleChangeRarity }
               initialRarity={ initialRarity }
               maxRarity={ maxRarity }
@@ -242,7 +240,7 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
             <CharacterState
               title="専用装備"
               piecesList={ uniqueEquipmentArray }
-              states={ havingEquipmentLevel }
+              state={ havingEquipmentLevel }
               handleClick={ handleChangeEquopment }
               hasUniqueEquipment={ hasUniqueEquipment }
             />
