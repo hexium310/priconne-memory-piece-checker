@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => createStyles({
   },
   required: {
     paddingTop: 7,
+    fontSize: '1.2rem',
   },
 }));
 
