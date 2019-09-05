@@ -7,11 +7,11 @@ import Grid from '@material-ui/core/Grid';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { characters, pieceTypes, upgradingRarity, uniqueEquipment } from 'data/data.json';
+import { characters, pieceTypes, rarities, uniqueEquipments, Character } from 'data';
 import CharacterCard from 'components/CharacterCard';
 
-export const upgradingRarityArray = Object.entries(upgradingRarity);
-export const uniqueEquipmentArray = Object.entries(uniqueEquipment);
+export const upgradingRarityArray = Object.entries(rarities);
+export const uniqueEquipmentArray = Object.entries(uniqueEquipments);
 
 const useStyles = makeStyles((theme) => createStyles({
   borderRight: {

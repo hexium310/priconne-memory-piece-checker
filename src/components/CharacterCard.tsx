@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import max from 'lodash-es/max';
 
-import { upgradingRarity, uniqueEquipment } from 'data/data.json';
+import { rarities, uniqueEquipments, Character } from 'data';
 import {
   saveStorage,
   upgradingRarityArray,
@@ -165,11 +165,11 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   },[setHavingRarity, setHavingEquipmentLevel, setPossessionPieces]);
 
   React.useEffect(() => {
-    const notHavingRarity = Object.keys(upgradingRarity)
+    const notHavingRarity = Object.keys(rarities)
       .map((v) => Number(v))
       .filter((rarity) => rarity > havingRarity && rarity > initialRarity && rarity <= maxRarity);
     const newRequiredNumber = notHavingRarity.map((rarity) => {
-      return upgradingRarity[rarity.toString() as '2' | '3' | '4' | '5' | '6'];
+      return rarities[rarity.toString() as '2' | '3' | '4' | '5' | '6'];
     }).reduce((sum, value) => sum + value, 0);
 
     saveStorage(name, { rarity: havingRarity });
@@ -177,11 +177,11 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   }, [havingRarity]);
 
   React.useEffect(() => {
-    const notHavingEquipment = Object.keys(uniqueEquipment)
+    const notHavingEquipment = Object.keys(uniqueEquipments)
       .map((v) => Number(v))
       .filter((level) => level > havingEquipmentLevel);
     const newRequiredNumber = notHavingEquipment.map((level) => {
-      return uniqueEquipment[level.toString() as '30' | '50' | '70' | '90' | '110' | '130' | '140'];
+      return uniqueEquipments[level.toString() as '30' | '50' | '70' | '90' | '110' | '130' | '140'];
     }).reduce((sum, value) => sum + value, 0);
 
     saveStorage(name, { equipment: havingEquipmentLevel });
