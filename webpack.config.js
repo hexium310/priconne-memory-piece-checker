@@ -8,7 +8,7 @@ const loaders = {
   },
 };
 
-module.exports = {
+module.exports = (_, argv) => ({
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -35,4 +35,5 @@ module.exports = {
       filename: 'index.html',
     }),
   ],
-};
+  devtool: argv.mode === 'development' ? 'source-map' : 'none',
+});
