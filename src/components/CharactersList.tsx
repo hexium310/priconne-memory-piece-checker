@@ -60,16 +60,18 @@ const CharactersList: React.FunctionComponent = () => {
     saveStorage('showPieceTypes', showPieceTypes);
   }, [showPieceTypes]);
 
-  const handleChangeShowExcess = (): void => {
+  const handleChangeShowExcess = React.useCallback(() => {
     setShowExcess((value) => !value);
-  };
+  }, []);
 
-  const handleChangeShowPieceTypes = (type: string, checked: boolean): void => {
-    setShowPieceTypes({
-      ...showPieceTypes,
-      [type]: checked,
-    });
-  };
+  const handleChangeShowPieceTypes = React.useCallback((type: string) => {
+    return (_: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+      setShowPieceTypes({
+        ...showPieceTypes,
+        [type]: checked,
+      });
+    };
+  }, [showPieceTypes]);
 
   return (
     <div className={ classes.content }>
@@ -77,7 +79,7 @@ const CharactersList: React.FunctionComponent = () => {
         control={
           <Checkbox
             checked={ showExcess }
-            onChange={ () => handleChangeShowExcess() }
+            onChange={ handleChangeShowExcess }
             color="primary"
           />
         }
@@ -90,7 +92,7 @@ const CharactersList: React.FunctionComponent = () => {
               control={
                 <Checkbox
                   checked={ showPieceTypes[type] }
-                  onChange={ (_, checked) => handleChangeShowPieceTypes(type, checked) }
+                  onChange={ handleChangeShowPieceTypes(type) }
                   color="primary"
                 />
               }

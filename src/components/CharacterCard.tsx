@@ -30,7 +30,7 @@ type CharacterStateProps = {
   title: string;
   piecesList: [string, number][];
   state: number;
-  handleClick: (value: string) => void;
+  handleClick: (_: React.MouseEvent<HTMLElement, MouseEvent>, value: string) => void;
 } & XOR<{ initialRarity: number; maxRarity: number }, { hasUniqueEquipment: boolean }>
 
 const useStyles = makeStyles((theme) => createStyles({
@@ -103,7 +103,7 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
             className={ classes.toggleButtonGroup }
             exclusive
             value={ state.toString() }
-            onChange={ (_, v) => handleClick(v) }
+            onChange={ handleClick }
           >
             {
               piecesList.map(([value], i) => (
@@ -192,22 +192,34 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
     setRequiredNumber(rarityRequired + equipmentRequired);
   }, [rarityRequired, equipmentRequired]);
 
-  const handleChangeRarity = (rarity: string): void => {
+  const handleChangeRarity = React.useCallback((
+    _: React.MouseEvent<HTMLElement, MouseEvent>,
+    rarity: string
+  ) => {
     setHavingRarity(Number(rarity));
-  };
+  }, []);
 
-  const handleChangeEquopment = (level: string): void => {
+  const handleChangeEquopment = React.useCallback((
+    _: React.MouseEvent<HTMLElement, MouseEvent>,
+    level: string
+  ) => {
     setHavingEquipmentLevel(Number(level));
-  };
+  }, []);
 
-  const handleChangePossessionPieces = (
+  const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ): void => {
+  ) => {
     const newPossessionPieces = Number(event.target.value);
 
     saveStorage(name, { possessionPieces: newPossessionPieces });
     setPossessionPieces(newPossessionPieces);
-  };
+  }, []);
+
+  const handleFocusPossessionPieces = React.useCallback((
+    event: React.FocusEvent<HTMLInputElement>
+  ) => {
+    event.target.select();
+  }, []);
 
   if (!showPieceTypes[pieceType] || deficiency <= 0 && !showExcess) {
     return <></>;
@@ -257,10 +269,10 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
             <TextField
               className={ classes.textBox }
               value={ possessionPieces }
-              onChange={ (e) => handleChangePossessionPieces(e) }
+              onChange={ handleChangePossessionPieces }
               type="number"
               inputProps={ { min: 0 } }
-              onFocus={ (e) => e.target.select() }
+              onFocus={ handleFocusPossessionPieces }
             />
             <Typography className={ classes.required }>{ requiredNumber }</Typography>
           </Grid>
