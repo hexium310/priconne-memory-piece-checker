@@ -4,11 +4,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { characters, pieceTypes, rarities, uniqueEquipments, Character } from 'data';
 import CharacterCard from 'components/CharacterCard';
+
+interface ShowPieceTypes {
+  [s: string]: boolean;
+}
 
 export const upgradingRarityArray = Object.entries(rarities);
 export const uniqueEquipmentArray = Object.entries(uniqueEquipments);
@@ -39,12 +42,63 @@ export const saveStorage = (
   window.localStorage.setItem(name, JSON.stringify({ ...json, ...data }));
 };
 
+const FilteredCharacter = React.memo<{
+  character: Character;
+  showExcess: boolean;
+  showPieceTypes: {
+    [s: string]: boolean;
+  };
+}>(({ character, showExcess, showPieceTypes }) => (
+  <CharacterCard
+    character={ character }
+    showExcess={ showExcess }
+    showPieceTypes={ showPieceTypes }
+  />
+), (prevProps, nextProps) => {
+  return prevProps.showExcess === nextProps.showExcess &&
+    prevProps.showPieceTypes[prevProps.character.pieceType] === nextProps.showPieceTypes[nextProps.character.pieceType];
+});
+FilteredCharacter.displayName = 'FilteredCharacter';
+
+const PieceTypeCheckboxes = React.memo<{
+  showPieceTypes: ShowPieceTypes;
+  setShowPieceTypes: React.Dispatch<React.SetStateAction<ShowPieceTypes>>;
+  pieceType: string;
+  name: string;
+}>(({ showPieceTypes, setShowPieceTypes, pieceType, name }) => {
+  const handleChangeShowPieceTypes = React.useCallback((
+    _: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    setShowPieceTypes({
+      ...showPieceTypes,
+      [pieceType]: checked,
+    });
+  }, []);
+
+  return (
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={ showPieceTypes[pieceType] }
+          onChange={ handleChangeShowPieceTypes }
+          color="primary"
+        />
+      }
+      label={ name }
+    />
+  );
+}, (prevProps, nextProps) => {
+  return prevProps.showPieceTypes[prevProps.pieceType] === nextProps.showPieceTypes[nextProps.pieceType];
+});
+PieceTypeCheckboxes.displayName = 'PieceTypeCheckboxes';
+
 const CharactersList: React.FunctionComponent = () => {
   const [showExcess, setShowExcess] = React.useState(true);
   const [
     showPieceTypes,
     setShowPieceTypes,
-  ] = React.useState(Object.fromEntries(Object.keys(pieceTypes).map((type) => [type, true])));
+  ] = React.useState<ShowPieceTypes>(Object.fromEntries(Object.keys(pieceTypes).map((type) => [type, true])));
   const classes = useStyles({
     borderCells: [1, 2, 3, 4],
   });
@@ -64,15 +118,6 @@ const CharactersList: React.FunctionComponent = () => {
     setShowExcess((value) => !value);
   }, []);
 
-  const handleChangeShowPieceTypes = React.useCallback((type: string) => {
-    return (_: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-      setShowPieceTypes({
-        ...showPieceTypes,
-        [type]: checked,
-      });
-    };
-  }, [showPieceTypes]);
-
   return (
     <div className={ classes.content }>
       <FormControlLabel
@@ -87,17 +132,13 @@ const CharactersList: React.FunctionComponent = () => {
       />
       <FormGroup row>
         {
-          Object.entries(pieceTypes).map(([type, name]) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={ showPieceTypes[type] }
-                  onChange={ handleChangeShowPieceTypes(type) }
-                  color="primary"
-                />
-              }
-              label={ name }
-              key={ type }
+          Object.entries(pieceTypes).map(([pieceType, name]) => (
+            <PieceTypeCheckboxes
+              key={ pieceType }
+              showPieceTypes={ showPieceTypes }
+              setShowPieceTypes={ setShowPieceTypes }
+              pieceType={ pieceType }
+              name={ name }
             />
           ))
         }
@@ -116,9 +157,9 @@ const CharactersList: React.FunctionComponent = () => {
           </Grid>
           {
             characters.map((character, index) => (
-              <CharacterCard
+              <FilteredCharacter
                 key={ index }
-                character={ character as Character }
+                character={ character }
                 showExcess={ showExcess }
                 showPieceTypes={ showPieceTypes }
               />
