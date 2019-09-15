@@ -636,6 +636,13 @@
       "maxRarity": 5,
       "hasUniqueEquipment": false,
       "pieceType": "none"
+    },
+    {
+      "name": "クロエ",
+      "initialRarity": 3,
+      "maxRarity": 5,
+      "hasUniqueEquipment": false,
+      "pieceType": "none"
     }
   ],
   "pieceTypes": {
