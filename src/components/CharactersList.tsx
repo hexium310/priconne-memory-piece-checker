@@ -70,9 +70,13 @@ const PieceTypeCheckboxes = React.memo<{
     _: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
-    setShowPieceTypes({
-      ...showPieceTypes,
-      [pieceType]: checked,
+    setShowPieceTypes((shows) => {
+      const newShows = {
+        ...shows,
+        [pieceType]: checked,
+      };
+
+      return newShows;
     });
   }, []);
 
