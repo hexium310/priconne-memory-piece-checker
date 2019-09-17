@@ -146,7 +146,9 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   const [equipmentRequired, setEquipmentRequired] = React.useState(0);
   const [requiredNumber, setRequiredNumber] = React.useState(0);
   const [possessionPieces, setPossessionPieces] = React.useState(0);
-  const deficiency =  requiredNumber - possessionPieces;
+  const deficiency =  React.useMemo(() => (
+    requiredNumber - possessionPieces
+  ), [requiredNumber, possessionPieces]);
   const classes = useStyles();
 
   React.useEffect(() => {
