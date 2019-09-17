@@ -502,7 +502,7 @@ export const characters: Character[] = [
     "initialRarity": 3,
     "maxRarity": 5,
     "hasUniqueEquipment": false,
-    "pieceType": "none",
+    "pieceType": "hard",
   },
   {
     "name": "クウカ（オーエド）",
@@ -639,6 +639,13 @@ export const characters: Character[] = [
   },
   {
     "name": "アオイ（編入生）",
+    "initialRarity": 3,
+    "maxRarity": 5,
+    "hasUniqueEquipment": false,
+    "pieceType": "none",
+  },
+  {
+    "name": "クロエ",
     "initialRarity": 3,
     "maxRarity": 5,
     "hasUniqueEquipment": false,
