@@ -12,7 +12,7 @@ module.exports = (_, argv) => ({
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
   },
   module: {
     rules: [
@@ -28,6 +28,22 @@ module.exports = (_, argv) => ({
     plugins: [
       new TsconfigPathsPlugin(),
     ],
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/]react.+/,
+          name: 'react',
+          chunks: 'all',
+        },
+        core: {
+          test: /[\\/]node_modules[\\/](?!react).+/,
+          name: 'core',
+          chunks: 'all',
+        },
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
