@@ -3,19 +3,17 @@ import Card from '@material-ui/core/Card';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import max from 'lodash-es/max';
 
 import { rarities, uniqueEquipments, Character } from 'data';
+import CharacterState from 'components/CharacterState';
 import {
   saveStorage,
   upgradingRarityArray,
   uniqueEquipmentArray,
 } from 'components/CharactersList';
-import { XOR } from 'src/utils/types';
 
 interface CharacterCardProps {
   character: Character;
@@ -24,13 +22,6 @@ interface CharacterCardProps {
     [type: string]: boolean;
   };
 }
-
-type CharacterStateProps = {
-  title: string;
-  piecesList: [string, number][];
-  state: number;
-  handleClick: (_: React.MouseEvent<HTMLElement, MouseEvent>, value: string) => void;
-} & XOR<{ initialRarity: number; maxRarity: number }, { hasUniqueEquipment: boolean }>
 
 const useStyles = makeStyles((theme) => createStyles({
   textBox: {
@@ -50,21 +41,6 @@ const useStyles = makeStyles((theme) => createStyles({
     borderWidth: 1,
     borderColor: theme.palette.divider,
   },
-  stateButtonContainer: {
-    paddingTop: theme.spacing(1),
-  },
-  stateButton: {
-    width: 80,
-    textTransform: 'none',
-    '&$stateButtonSelected': {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-      '&:hover': {
-        backgroundColor: theme.palette.primary.dark,
-      },
-    },
-  },
-  stateButtonSelected: {},
   verticalWriting: {
     writingMode: 'vertical-rl',
   },
@@ -76,65 +52,7 @@ const useStyles = makeStyles((theme) => createStyles({
     paddingTop: 7,
     fontSize: '1.2rem',
   },
-  characterCard: {
-    '& > div': {
-      padding: theme.spacing(1, 0),
-      '&:first-child': {
-        paddingRight: theme.spacing(1),
-      },
-    },
-  },
-  toggleButtonGroup: {
-    flexWrap: 'wrap',
-  },
 }));
-
-const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
-  title,
-  piecesList,
-  state,
-  handleClick,
-  initialRarity,
-  maxRarity,
-  hasUniqueEquipment,
-}) => {
-  const classes = useStyles();
-  const valuePrefix = (initialRarity && '☆') || (hasUniqueEquipment && 'Lv. ');
-
-  return (
-    <Grid className={ classes.characterCard } container direction="row" alignItems="center">
-      <Grid className={ classes.verticalWriting } item>{ title }</Grid>
-      {
-        (hasUniqueEquipment || (initialRarity && maxRarity)) && <Grid item xs={ 11 }>
-          <ToggleButtonGroup
-            className={ classes.toggleButtonGroup }
-            exclusive
-            value={ state.toString() }
-            onChange={ handleClick }
-          >
-            {
-              piecesList.map(([value], i) => (
-                (
-                  hasUniqueEquipment || (
-                    initialRarity && maxRarity
-                    && Number(value) > initialRarity && Number(value) <= maxRarity
-                  )
-                ) && <ToggleButton
-                  key={ i }
-                  className={ classes.stateButton }
-                  classes={ { selected: classes.stateButtonSelected } }
-                  value={ value }
-                >
-                  { `${ valuePrefix }${ value }` }
-                </ToggleButton>
-              ))
-            }
-          </ToggleButtonGroup>
-        </Grid>
-      }
-    </Grid>
-  );
-};
 
 const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   character: {
@@ -233,6 +151,10 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
     event.target.select();
   }, []);
 
+  const isInRarityRange = React.useCallback((rarity: number) => (
+    rarity > initialRarity && rarity <= maxRarity
+  ), []);
+
   const Character = React.useMemo(() => {
     return showCharacter ? (
       <Grid item xs={ 12 }>
@@ -250,19 +172,20 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
           <Grid className={ classes.borderRight } item xs={ 9 }>
             <CharacterState
               title="才能開花"
-              piecesList={ upgradingRarityArray }
+              valuePrefix="☆"
+              data={ upgradingRarityArray.filter(([rarity]) => isInRarityRange(Number(rarity))) }
               state={ havingRarity }
-              handleClick={ handleChangeRarity }
-              initialRarity={ initialRarity }
-              maxRarity={ maxRarity }
+              handleButtonClick={ handleChangeRarity }
+              displayCondition
             />
             <Divider />
             <CharacterState
               title="専用装備"
-              piecesList={ uniqueEquipmentArray }
+              valuePrefix="Lv. "
+              data={ uniqueEquipmentArray }
               state={ havingEquipmentLevel }
-              handleClick={ handleChangeEquopment }
-              hasUniqueEquipment={ hasUniqueEquipment }
+              handleButtonClick={ handleChangeEquopment }
+              displayCondition={ hasUniqueEquipment }
             />
           </Grid>
           <Grid
