@@ -149,6 +149,9 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   const deficiency =  React.useMemo(() => (
     requiredNumber - possessionPieces
   ), [requiredNumber, possessionPieces]);
+  const showCharacter = React.useMemo(() => (
+    showPieceTypes[pieceType] && (deficiency > 0 || showExcess)
+  ), [showPieceTypes, pieceType, deficiency, showExcess]);
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -223,76 +226,83 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
     event.target.select();
   }, []);
 
-  if (!showPieceTypes[pieceType] || deficiency <= 0 && !showExcess) {
-    return <></>;
-  }
+  const Character = React.useMemo(() => {
+    return showCharacter ? (
+      <Grid item xs={ 12 }>
+        <Card>
+          <Grid container alignItems="stretch">
+            <Grid
+              className={ classes.borderRight }
+              alignItems="center"
+              justify="center"
+              container
+              item
+              xs={ 1 }
+            >
+              <Grid item>{ name }</Grid>
+            </Grid>
+            <Grid className={ classes.borderRight } item xs={ 9 }>
+              <CharacterState
+                title="才能開花"
+                piecesList={ upgradingRarityArray }
+                state={ havingRarity }
+                handleClick={ handleChangeRarity }
+                initialRarity={ initialRarity }
+                maxRarity={ maxRarity }
+              />
+              <Divider />
+              <CharacterState
+                title="専用装備"
+                piecesList={ uniqueEquipmentArray }
+                state={ havingEquipmentLevel }
+                handleClick={ handleChangeEquopment }
+                hasUniqueEquipment={ hasUniqueEquipment }
+              />
+            </Grid>
+            <Grid
+              className={ classes.borderRight }
+              container
+              item
+              xs={ 1 }
+              direction="column"
+              alignItems="center"
+              justify="center"
+            >
+              <TextField
+                className={ classes.textBox }
+                value={ possessionPieces }
+                onChange={ handleChangePossessionPieces }
+                type="number"
+                inputProps={ { min: 0 } }
+                onFocus={ handleFocusPossessionPieces }
+              />
+              <Typography className={ classes.required }>{ requiredNumber }</Typography>
+            </Grid>
+            <Grid
+              container
+              item
+              xs={ 1 }
+              alignItems="center"
+              justify="center"
+            >
+              <Typography className={ classes.deficiency } color={ deficiency > 0 ? 'error' : 'primary' }>
+                { deficiency }
+              </Typography>
+            </Grid>
+          </Grid>
+        </Card>
+      </Grid>
+    ) : null;
+  }, [
+    havingRarity,
+    havingEquipmentLevel,
+    deficiency,
+    requiredNumber,
+    possessionPieces,
+    showCharacter,
+  ]);
 
-  return (
-    <Grid item xs={ 12 }>
-      <Card>
-        <Grid container alignItems="stretch">
-          <Grid
-            className={ classes.borderRight }
-            alignItems="center"
-            justify="center"
-            container
-            item
-            xs={ 1 }
-          >
-            <Grid item>{ name }</Grid>
-          </Grid>
-          <Grid className={ classes.borderRight } item xs={ 9 }>
-            <CharacterState
-              title="才能開花"
-              piecesList={ upgradingRarityArray }
-              state={ havingRarity }
-              handleClick={ handleChangeRarity }
-              initialRarity={ initialRarity }
-              maxRarity={ maxRarity }
-            />
-            <Divider />
-            <CharacterState
-              title="専用装備"
-              piecesList={ uniqueEquipmentArray }
-              state={ havingEquipmentLevel }
-              handleClick={ handleChangeEquopment }
-              hasUniqueEquipment={ hasUniqueEquipment }
-            />
-          </Grid>
-          <Grid
-            className={ classes.borderRight }
-            container
-            item
-            xs={ 1 }
-            direction="column"
-            alignItems="center"
-            justify="center"
-          >
-            <TextField
-              className={ classes.textBox }
-              value={ possessionPieces }
-              onChange={ handleChangePossessionPieces }
-              type="number"
-              inputProps={ { min: 0 } }
-              onFocus={ handleFocusPossessionPieces }
-            />
-            <Typography className={ classes.required }>{ requiredNumber }</Typography>
-          </Grid>
-          <Grid
-            container
-            item
-            xs={ 1 }
-            alignItems="center"
-            justify="center"
-          >
-            <Typography className={ classes.deficiency } color={ deficiency > 0 ? 'error' : 'primary' }>
-              { deficiency }
-            </Typography>
-          </Grid>
-        </Grid>
-      </Card>
-    </Grid>
-  );
+  return Character;
 };
 
 export default CharacterCard;
