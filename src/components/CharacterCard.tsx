@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -77,6 +76,14 @@ const useStyles = makeStyles((theme) => createStyles({
     paddingTop: 7,
     fontSize: '1.2rem',
   },
+  characterCard: {
+    '& > div': {
+      padding: theme.spacing(1, 0),
+      '&:first-child': {
+        paddingRight: theme.spacing(1),
+      },
+    },
+  },
   toggleButtonGroup: {
     flexWrap: 'wrap',
   },
@@ -95,10 +102,10 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
   const valuePrefix = (initialRarity && '☆') || (hasUniqueEquipment && 'Lv. ');
 
   return (
-    <Grid container direction="row" alignItems="center">
+    <Grid className={ classes.characterCard } container direction="row" alignItems="center">
       <Grid className={ classes.verticalWriting } item>{ title }</Grid>
-      <Grid item xs={ 11 }>
-        <CardActions>
+      {
+        (hasUniqueEquipment || (initialRarity && maxRarity)) && <Grid item xs={ 11 }>
           <ToggleButtonGroup
             className={ classes.toggleButtonGroup }
             exclusive
@@ -123,8 +130,8 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
               ))
             }
           </ToggleButtonGroup>
-        </CardActions>
-      </Grid>
+        </Grid>
+      }
     </Grid>
   );
 };
@@ -229,68 +236,66 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   const Character = React.useMemo(() => {
     return showCharacter ? (
       <Grid item xs={ 12 }>
-        <Card>
-          <Grid container alignItems="stretch">
-            <Grid
-              className={ classes.borderRight }
-              alignItems="center"
-              justify="center"
-              container
-              item
-              xs={ 1 }
-            >
-              <Grid item>{ name }</Grid>
-            </Grid>
-            <Grid className={ classes.borderRight } item xs={ 9 }>
-              <CharacterState
-                title="才能開花"
-                piecesList={ upgradingRarityArray }
-                state={ havingRarity }
-                handleClick={ handleChangeRarity }
-                initialRarity={ initialRarity }
-                maxRarity={ maxRarity }
-              />
-              <Divider />
-              <CharacterState
-                title="専用装備"
-                piecesList={ uniqueEquipmentArray }
-                state={ havingEquipmentLevel }
-                handleClick={ handleChangeEquopment }
-                hasUniqueEquipment={ hasUniqueEquipment }
-              />
-            </Grid>
-            <Grid
-              className={ classes.borderRight }
-              container
-              item
-              xs={ 1 }
-              direction="column"
-              alignItems="center"
-              justify="center"
-            >
-              <TextField
-                className={ classes.textBox }
-                value={ possessionPieces }
-                onChange={ handleChangePossessionPieces }
-                type="number"
-                inputProps={ { min: 0 } }
-                onFocus={ handleFocusPossessionPieces }
-              />
-              <Typography className={ classes.required }>{ requiredNumber }</Typography>
-            </Grid>
-            <Grid
-              container
-              item
-              xs={ 1 }
-              alignItems="center"
-              justify="center"
-            >
-              <Typography className={ classes.deficiency } color={ deficiency > 0 ? 'error' : 'primary' }>
-                { deficiency }
-              </Typography>
-            </Grid>
+        <Grid component={ Card } container alignItems="stretch">
+          <Grid
+            className={ classes.borderRight }
+            alignItems="center"
+            justify="center"
+            container
+            item
+            xs={ 1 }
+          >
+            <Grid item>{ name }</Grid>
           </Grid>
-        </Card>
+          <Grid className={ classes.borderRight } item xs={ 9 }>
+            <CharacterState
+              title="才能開花"
+              piecesList={ upgradingRarityArray }
+              state={ havingRarity }
+              handleClick={ handleChangeRarity }
+              initialRarity={ initialRarity }
+              maxRarity={ maxRarity }
+            />
+            <Divider />
+            <CharacterState
+              title="専用装備"
+              piecesList={ uniqueEquipmentArray }
+              state={ havingEquipmentLevel }
+              handleClick={ handleChangeEquopment }
+              hasUniqueEquipment={ hasUniqueEquipment }
+            />
+          </Grid>
+          <Grid
+            className={ classes.borderRight }
+            container
+            item
+            xs={ 1 }
+            direction="column"
+            alignItems="center"
+            justify="center"
+          >
+            <TextField
+              className={ classes.textBox }
+              value={ possessionPieces }
+              onChange={ handleChangePossessionPieces }
+              type="number"
+              inputProps={ { min: 0 } }
+              onFocus={ handleFocusPossessionPieces }
+            />
+            <Typography className={ classes.required }>{ requiredNumber }</Typography>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={ 1 }
+            alignItems="center"
+            justify="center"
+          >
+            <Typography className={ classes.deficiency } color={ deficiency > 0 ? 'error' : 'primary' }>
+              { deficiency }
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
     ) : null;
   }, [

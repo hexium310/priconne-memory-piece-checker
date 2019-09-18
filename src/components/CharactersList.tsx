@@ -150,14 +150,12 @@ const CharactersList: React.FunctionComponent = () => {
       <div className={ classes.content }>
         <Grid container spacing={ 1 }>
           <Grid item xs={ 12 }>
-            <Card>
-              <Grid className={ classes.listHeader } container>
-                <Grid className={ classes.borderRight } item xs={ 1 }>名前</Grid>
-                <Grid className={ classes.borderRight } item xs={ 9 }>キャラクターの状態</Grid>
-                <Grid className={ classes.borderRight } item xs={ 1 }>所持数/必要数</Grid>
-                <Grid item xs={ 1 }>不足数</Grid>
-              </Grid>
-            </Card>
+            <Grid component={ Card } className={ classes.listHeader } container>
+              <Grid className={ classes.borderRight } item xs={ 1 }>名前</Grid>
+              <Grid className={ classes.borderRight } item xs={ 9 }>キャラクターの状態</Grid>
+              <Grid className={ classes.borderRight } item xs={ 1 }>所持数/必要数</Grid>
+              <Grid item xs={ 1 }>不足数</Grid>
+            </Grid>
           </Grid>
           {
             characters.map((character, index) => (
