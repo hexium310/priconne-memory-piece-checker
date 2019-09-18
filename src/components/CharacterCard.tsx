@@ -79,6 +79,10 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   ), [showPieceTypes, pieceType, deficiency, showExcess]);
   const classes = useStyles();
 
+  const isInRarityRange = React.useCallback((rarity: number) => (
+    rarity > initialRarity && rarity <= maxRarity
+  ), []);
+
   React.useEffect(() => {
     const storage = window.localStorage.getItem(name);
     const data = storage === null ? {} : JSON.parse(storage);
@@ -97,9 +101,9 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   React.useEffect(() => {
     const notHavingRarity = Object.keys(rarities)
       .map((v) => Number(v))
-      .filter((rarity) => rarity > havingRarity && rarity > initialRarity && rarity <= maxRarity);
+      .filter((rarity) => rarity > havingRarity && isInRarityRange(rarity));
     const newRequiredNumber = notHavingRarity.map((rarity) => {
-      return rarities[rarity.toString() as '2' | '3' | '4' | '5' | '6'];
+      return rarities[rarity];
     }).reduce((sum, value) => sum + value, 0);
 
     saveStorage(name, { rarity: havingRarity });
@@ -111,7 +115,7 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
       .map((v) => Number(v))
       .filter((level) => level > havingEquipmentLevel);
     const newRequiredNumber = notHavingEquipment.map((level) => {
-      return uniqueEquipments[level.toString() as '30' | '50' | '70' | '90' | '110' | '130' | '140'];
+      return uniqueEquipments[level];
     }).reduce((sum, value) => sum + value, 0);
 
     saveStorage(name, { equipment: havingEquipmentLevel });
@@ -150,10 +154,6 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   ) => {
     event.target.select();
   }, []);
-
-  const isInRarityRange = React.useCallback((rarity: number) => (
-    rarity > initialRarity && rarity <= maxRarity
-  ), []);
 
   const Character = React.useMemo(() => {
     return showCharacter ? (
