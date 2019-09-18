@@ -54,6 +54,21 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
+const restore = (data: { [key: string]: string[] | number }, key: string): number => (
+  Array.isArray(data[key])
+    ? max((data[key] as string[]).map((n) => Number(n))) || 0
+    : (data[key] as number) || 0
+);
+
+const extractDispossession = (
+  object: { [key: number]: number },
+  condition: (value: number) => boolean
+): number => Object.keys(object).map((value) => (
+  Number(value)
+)).filter((value) => condition(value)).map((value) => (
+  object[value]
+)).reduce((sum, value) => sum+ value, 0);
+
 const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   character: {
     initialRarity,
@@ -65,88 +80,59 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   showExcess,
   showPieceTypes,
 }) => {
-  const [havingRarity, setHavingRarity] = React.useState(0);
-  const [havingEquipmentLevel, setHavingEquipmentLevel] = React.useState(0);
-  const [rarityRequired, setRarityRequired] = React.useState(0);
-  const [equipmentRequired, setEquipmentRequired] = React.useState(0);
-  const [requiredNumber, setRequiredNumber] = React.useState(0);
-  const [possessionPieces, setPossessionPieces] = React.useState(0);
-  const deficiency =  React.useMemo(() => (
-    requiredNumber - possessionPieces
-  ), [requiredNumber, possessionPieces]);
-  const showCharacter = React.useMemo(() => (
-    showPieceTypes[pieceType] && (deficiency > 0 || showExcess)
-  ), [showPieceTypes, pieceType, deficiency, showExcess]);
   const classes = useStyles();
+  const [possessionRarity, setPossessionRarity] = React.useState(0);
+  const [possessionEquipmentLevel, setPossessionEquipmentLevel] = React.useState(0);
+  const [possessionPieces, setPossessionPieces] = React.useState(0);
 
-  const isInRarityRange = React.useCallback((rarity: number) => (
-    rarity > initialRarity && rarity <= maxRarity
-  ), []);
+  const isInRarityRange = (rarity: number): boolean => rarity > initialRarity && rarity <= maxRarity;
+
+  const requiredRarityPieces = extractDispossession(rarities, (v) => (
+    v > possessionRarity && isInRarityRange(v)
+  ));
+  const requiredEquipmentPieces = extractDispossession(uniqueEquipments, (v) => (
+    v > possessionEquipmentLevel
+  ));
+  const requiredPieces = requiredRarityPieces + requiredEquipmentPieces;
+  const deficiency = requiredPieces - possessionPieces;
+  const showCharacter = showPieceTypes[pieceType] && (deficiency > 0 || showExcess);
 
   React.useEffect(() => {
     const storage = window.localStorage.getItem(name);
     const data = storage === null ? {} : JSON.parse(storage);
-    const rarity = Array.isArray(data.rarity)
-      ? max(data.rarity.map((n: string) => Number(n))) || 0
-      : data.rarity || 0;
-    const equipment = Array.isArray(data.equipment)
-      ? max(data.equipment.map((n: string) => Number(n))) || 0
-      : data.equipment || 0;
 
-    setHavingRarity(rarity);
-    setHavingEquipmentLevel(equipment);
-    setPossessionPieces(data.possessionPieces || 0);
-  },[setHavingRarity, setHavingEquipmentLevel, setPossessionPieces]);
+    setPossessionRarity(restore(data, 'rarity'));
+    setPossessionEquipmentLevel(restore(data, 'equipment'));
+    setPossessionPieces(restore(data, 'possessionPieces'));
+  },[setPossessionRarity, setPossessionEquipmentLevel, setPossessionPieces]);
 
-  React.useEffect(() => {
-    const notHavingRarity = Object.keys(rarities)
-      .map((v) => Number(v))
-      .filter((rarity) => rarity > havingRarity && isInRarityRange(rarity));
-    const newRequiredNumber = notHavingRarity.map((rarity) => {
-      return rarities[rarity];
-    }).reduce((sum, value) => sum + value, 0);
+  const handleChangeState = React.useCallback((
+    value: string, key: string, setState: React.Dispatch<React.SetStateAction<number>>
+  ): void => {
+    const newValue = Number(value);
 
-    saveStorage(name, { rarity: havingRarity });
-    setRarityRequired(newRequiredNumber);
-  }, [havingRarity]);
-
-  React.useEffect(() => {
-    const notHavingEquipment = Object.keys(uniqueEquipments)
-      .map((v) => Number(v))
-      .filter((level) => level > havingEquipmentLevel);
-    const newRequiredNumber = notHavingEquipment.map((level) => {
-      return uniqueEquipments[level];
-    }).reduce((sum, value) => sum + value, 0);
-
-    saveStorage(name, { equipment: havingEquipmentLevel });
-    setEquipmentRequired(newRequiredNumber);
-  }, [havingEquipmentLevel]);
-
-  React.useEffect(() => {
-    setRequiredNumber(rarityRequired + equipmentRequired);
-  }, [rarityRequired, equipmentRequired]);
+    saveStorage(name, { [key]: newValue });
+    setState(newValue);
+  }, []);
 
   const handleChangeRarity = React.useCallback((
     _: React.MouseEvent<HTMLElement, MouseEvent>,
     rarity: string
   ) => {
-    setHavingRarity(Number(rarity));
+    handleChangeState(rarity, 'rarity', setPossessionRarity);
   }, []);
 
   const handleChangeEquopment = React.useCallback((
     _: React.MouseEvent<HTMLElement, MouseEvent>,
-    level: string
+    equipmentLevel: string
   ) => {
-    setHavingEquipmentLevel(Number(level));
+    handleChangeState(equipmentLevel, 'equipment', setPossessionEquipmentLevel);
   }, []);
 
   const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const newPossessionPieces = Number(event.target.value);
-
-    saveStorage(name, { possessionPieces: newPossessionPieces });
-    setPossessionPieces(newPossessionPieces);
+    handleChangeState(event.target.value, 'possessionPieces', setPossessionPieces);
   }, []);
 
   const handleFocusPossessionPieces = React.useCallback((
@@ -174,7 +160,7 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
               title="才能開花"
               valuePrefix="☆"
               data={ upgradingRarityArray.filter(([rarity]) => isInRarityRange(Number(rarity))) }
-              state={ havingRarity }
+              state={ possessionRarity }
               handleButtonClick={ handleChangeRarity }
               displayCondition
             />
@@ -183,7 +169,7 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
               title="専用装備"
               valuePrefix="Lv. "
               data={ uniqueEquipmentArray }
-              state={ havingEquipmentLevel }
+              state={ possessionEquipmentLevel }
               handleButtonClick={ handleChangeEquopment }
               displayCondition={ hasUniqueEquipment }
             />
@@ -205,7 +191,7 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
               inputProps={ { min: 0 } }
               onFocus={ handleFocusPossessionPieces }
             />
-            <Typography className={ classes.required }>{ requiredNumber }</Typography>
+            <Typography className={ classes.required }>{ requiredPieces }</Typography>
           </Grid>
           <Grid
             container
@@ -222,10 +208,10 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
       </Grid>
     ) : null;
   }, [
-    havingRarity,
-    havingEquipmentLevel,
+    possessionRarity,
+    possessionEquipmentLevel,
     deficiency,
-    requiredNumber,
+    requiredPieces,
     possessionPieces,
     showCharacter,
   ]);
