@@ -4,14 +4,17 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { characters, pieceTypes, upgradingRarity, uniqueEquipment } from 'data/data.json';
+import { characters, pieceTypes, rarities, uniqueEquipments, Character } from 'data';
 import CharacterCard from 'components/CharacterCard';
 
-export const upgradingRarityArray = Object.entries(upgradingRarity);
-export const uniqueEquipmentArray = Object.entries(uniqueEquipment);
+interface ShowPieceTypes {
+  [s: string]: boolean;
+}
+
+export const upgradingRarityArray = Object.entries(rarities);
+export const uniqueEquipmentArray = Object.entries(uniqueEquipments);
 
 const useStyles = makeStyles((theme) => createStyles({
   borderRight: {
@@ -39,12 +42,67 @@ export const saveStorage = (
   window.localStorage.setItem(name, JSON.stringify({ ...json, ...data }));
 };
 
+const FilteredCharacter = React.memo<{
+  character: Character;
+  showExcess: boolean;
+  showPieceTypes: {
+    [s: string]: boolean;
+  };
+}>(({ character, showExcess, showPieceTypes }) => (
+  <CharacterCard
+    character={ character }
+    showExcess={ showExcess }
+    showPieceTypes={ showPieceTypes }
+  />
+), (prevProps, nextProps) => {
+  return prevProps.showExcess === nextProps.showExcess &&
+    prevProps.showPieceTypes[prevProps.character.pieceType] === nextProps.showPieceTypes[nextProps.character.pieceType];
+});
+FilteredCharacter.displayName = 'FilteredCharacter';
+
+const PieceTypeCheckboxes = React.memo<{
+  showPieceTypes: ShowPieceTypes;
+  setShowPieceTypes: React.Dispatch<React.SetStateAction<ShowPieceTypes>>;
+  pieceType: string;
+  name: string;
+}>(({ showPieceTypes, setShowPieceTypes, pieceType, name }) => {
+  const handleChangeShowPieceTypes = React.useCallback((
+    _: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    setShowPieceTypes((shows) => {
+      const newShows = {
+        ...shows,
+        [pieceType]: checked,
+      };
+
+      return newShows;
+    });
+  }, []);
+
+  return (
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={ showPieceTypes[pieceType] }
+          onChange={ handleChangeShowPieceTypes }
+          color="primary"
+        />
+      }
+      label={ name }
+    />
+  );
+}, (prevProps, nextProps) => {
+  return prevProps.showPieceTypes[prevProps.pieceType] === nextProps.showPieceTypes[nextProps.pieceType];
+});
+PieceTypeCheckboxes.displayName = 'PieceTypeCheckboxes';
+
 const CharactersList: React.FunctionComponent = () => {
   const [showExcess, setShowExcess] = React.useState(true);
   const [
     showPieceTypes,
     setShowPieceTypes,
-  ] = React.useState(Object.fromEntries(Object.keys(pieceTypes).map((type) => [type, true])));
+  ] = React.useState<ShowPieceTypes>(Object.fromEntries(Object.keys(pieceTypes).map((type) => [type, true])));
   const classes = useStyles({
     borderCells: [1, 2, 3, 4],
   });
@@ -60,16 +118,9 @@ const CharactersList: React.FunctionComponent = () => {
     saveStorage('showPieceTypes', showPieceTypes);
   }, [showPieceTypes]);
 
-  const handleChangeShowExcess = (): void => {
+  const handleChangeShowExcess = React.useCallback(() => {
     setShowExcess((value) => !value);
-  };
-
-  const handleChangeShowPieceTypes = (type: string, checked: boolean): void => {
-    setShowPieceTypes({
-      ...showPieceTypes,
-      [type]: checked,
-    });
-  };
+  }, []);
 
   return (
     <div className={ classes.content }>
@@ -77,7 +128,7 @@ const CharactersList: React.FunctionComponent = () => {
         control={
           <Checkbox
             checked={ showExcess }
-            onChange={ () => handleChangeShowExcess() }
+            onChange={ handleChangeShowExcess }
             color="primary"
           />
         }
@@ -85,17 +136,13 @@ const CharactersList: React.FunctionComponent = () => {
       />
       <FormGroup row>
         {
-          Object.entries(pieceTypes).map(([type, name]) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={ showPieceTypes[type] }
-                  onChange={ (_, checked) => handleChangeShowPieceTypes(type, checked) }
-                  color="primary"
-                />
-              }
-              label={ name }
-              key={ type }
+          Object.entries(pieceTypes).map(([pieceType, name]) => (
+            <PieceTypeCheckboxes
+              key={ pieceType }
+              showPieceTypes={ showPieceTypes }
+              setShowPieceTypes={ setShowPieceTypes }
+              pieceType={ pieceType }
+              name={ name }
             />
           ))
         }
@@ -103,20 +150,18 @@ const CharactersList: React.FunctionComponent = () => {
       <div className={ classes.content }>
         <Grid container spacing={ 1 }>
           <Grid item xs={ 12 }>
-            <Card>
-              <Grid className={ classes.listHeader } container>
-                <Grid className={ classes.borderRight } item xs={ 1 }>名前</Grid>
-                <Grid className={ classes.borderRight } item xs={ 9 }>キャラクターの状態</Grid>
-                <Grid className={ classes.borderRight } item xs={ 1 }>所持数/必要数</Grid>
-                <Grid item xs={ 1 }>不足数</Grid>
-              </Grid>
-            </Card>
+            <Grid component={ Card } className={ classes.listHeader } container>
+              <Grid className={ classes.borderRight } item xs={ 1 }>名前</Grid>
+              <Grid className={ classes.borderRight } item xs={ 9 }>キャラクターの状態</Grid>
+              <Grid className={ classes.borderRight } item xs={ 1 }>所持数/必要数</Grid>
+              <Grid item xs={ 1 }>不足数</Grid>
+            </Grid>
           </Grid>
           {
             characters.map((character, index) => (
-              <CharacterCard
+              <FilteredCharacter
                 key={ index }
-                character={ character as Character }
+                character={ character }
                 showExcess={ showExcess }
                 showPieceTypes={ showPieceTypes }
               />

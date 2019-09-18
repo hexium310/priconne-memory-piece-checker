@@ -8,11 +8,11 @@ const loaders = {
   },
 };
 
-module.exports = {
+module.exports = (_, argv) => ({
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
   },
   module: {
     rules: [
@@ -29,10 +29,27 @@ module.exports = {
       new TsconfigPathsPlugin(),
     ],
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/]react.+/,
+          name: 'react',
+          chunks: 'all',
+        },
+        core: {
+          test: /[\\/]node_modules[\\/](?!react).+/,
+          name: 'core',
+          chunks: 'all',
+        },
+      },
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
     }),
   ],
-};
+  devtool: argv.mode === 'development' ? 'source-map' : 'none',
+});
