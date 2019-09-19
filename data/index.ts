@@ -1,4 +1,4 @@
-export { characters, Character } from './character';
-export { pieceTypes, PieceTypes } from './pieceTypes';
-export { uniqueEquipments, UniqueEquipments } from './uniqueEquipment';
-export { rarities, Rarities } from './rarity';
+export { characters, Character } from 'data/character';
+export { pieceTypes, PieceTypes } from 'data/pieceTypes';
+export { uniqueEquipments, UniqueEquipments } from 'data/uniqueEquipment';
+export { rarities, Rarities } from 'data/rarity';
