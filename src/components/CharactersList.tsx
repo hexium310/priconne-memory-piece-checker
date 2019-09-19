@@ -42,24 +42,6 @@ export const saveStorage = (
   window.localStorage.setItem(name, JSON.stringify({ ...json, ...data }));
 };
 
-const FilteredCharacter = React.memo<{
-  character: Character;
-  showExcess: boolean;
-  showPieceTypes: {
-    [s: string]: boolean;
-  };
-}>(({ character, showExcess, showPieceTypes }) => (
-  <CharacterCard
-    character={ character }
-    showExcess={ showExcess }
-    showPieceTypes={ showPieceTypes }
-  />
-), (prevProps, nextProps) => {
-  return prevProps.showExcess === nextProps.showExcess &&
-    prevProps.showPieceTypes[prevProps.character.pieceType] === nextProps.showPieceTypes[nextProps.character.pieceType];
-});
-FilteredCharacter.displayName = 'FilteredCharacter';
-
 const PieceTypeCheckboxes = React.memo<{
   showPieceTypes: ShowPieceTypes;
   setShowPieceTypes: React.Dispatch<React.SetStateAction<ShowPieceTypes>>;
@@ -159,7 +141,7 @@ const CharactersList: React.FunctionComponent = () => {
           </Grid>
           {
             characters.map((character, index) => (
-              <FilteredCharacter
+              <CharacterCard
                 key={ index }
                 character={ character }
                 showExcess={ showExcess }

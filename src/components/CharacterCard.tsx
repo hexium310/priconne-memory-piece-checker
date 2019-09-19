@@ -69,7 +69,7 @@ const extractDispossession = (
   object[value]
 )).reduce((sum, value) => sum+ value, 0);
 
-const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
+const CharacterCard = React.memo<CharacterCardProps>(({
   character: {
     initialRarity,
     maxRarity,
@@ -217,6 +217,10 @@ const CharacterCard: React.FunctionComponent<CharacterCardProps> = ({
   ]);
 
   return Character;
-};
+}, (prevProps, nextProps) => {
+  return prevProps.showExcess === nextProps.showExcess &&
+    prevProps.showPieceTypes[prevProps.character.pieceType] === nextProps.showPieceTypes[nextProps.character.pieceType];
+});
+CharacterCard.displayName = 'CharacterCard';
 
 export default CharacterCard;
