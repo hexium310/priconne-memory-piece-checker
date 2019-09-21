@@ -5,11 +5,11 @@ export type PieceTypes = {
 }
 
 export const pieceTypes: PieceTypes = {
-  "hard": "ハードクエスト",
-  "dungeon": "ダンジョンコイン",
-  "arena": "アリーナコイン",
-  "pArena": "プリンセスアリーナコイン",
-  "clan": "クランコイン",
-  "master": "マスターコイン",
-  "none": "女神の秘石",
+  hard: 'ハードクエスト',
+  dungeon: 'ダンジョンコイン',
+  arena: 'アリーナコイン',
+  pArena: 'プリンセスアリーナコイン',
+  clan: 'クランコイン',
+  master: 'マスターコイン',
+  none: '女神の秘石',
 };

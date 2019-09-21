@@ -6,15 +6,13 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { characters, pieceTypes, rarities, uniqueEquipments, Character } from 'data';
+import { characters, pieceTypes } from 'data';
+import { saveStorage } from 'src/utils/storage';
 import CharacterCard from 'components/CharacterCard';
 
 interface ShowPieceTypes {
   [s: string]: boolean;
 }
-
-export const upgradingRarityArray = Object.entries(rarities);
-export const uniqueEquipmentArray = Object.entries(uniqueEquipments);
 
 const useStyles = makeStyles((theme) => createStyles({
   borderRight: {
@@ -33,34 +31,7 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
-export const saveStorage = (
-  name: string,
-  data: { [s: string]: string[] | number | boolean }
-): void => {
-  const storage = window.localStorage.getItem(name);
-  const json = storage === null ? {} : JSON.parse(storage);
-  window.localStorage.setItem(name, JSON.stringify({ ...json, ...data }));
-};
-
-const FilteredCharacter = React.memo<{
-  character: Character;
-  showExcess: boolean;
-  showPieceTypes: {
-    [s: string]: boolean;
-  };
-}>(({ character, showExcess, showPieceTypes }) => (
-  <CharacterCard
-    character={ character }
-    showExcess={ showExcess }
-    showPieceTypes={ showPieceTypes }
-  />
-), (prevProps, nextProps) => {
-  return prevProps.showExcess === nextProps.showExcess &&
-    prevProps.showPieceTypes[prevProps.character.pieceType] === nextProps.showPieceTypes[nextProps.character.pieceType];
-});
-FilteredCharacter.displayName = 'FilteredCharacter';
-
-const PieceTypeCheckboxes = React.memo<{
+const PieceTypeCheckbox = React.memo<{
   showPieceTypes: ShowPieceTypes;
   setShowPieceTypes: React.Dispatch<React.SetStateAction<ShowPieceTypes>>;
   pieceType: string;
@@ -95,7 +66,7 @@ const PieceTypeCheckboxes = React.memo<{
 }, (prevProps, nextProps) => {
   return prevProps.showPieceTypes[prevProps.pieceType] === nextProps.showPieceTypes[nextProps.pieceType];
 });
-PieceTypeCheckboxes.displayName = 'PieceTypeCheckboxes';
+PieceTypeCheckbox.displayName = 'PieceTypeCheckbox';
 
 const CharactersList: React.FunctionComponent = () => {
   const [showExcess, setShowExcess] = React.useState(true);
@@ -103,9 +74,7 @@ const CharactersList: React.FunctionComponent = () => {
     showPieceTypes,
     setShowPieceTypes,
   ] = React.useState<ShowPieceTypes>(Object.fromEntries(Object.keys(pieceTypes).map((type) => [type, true])));
-  const classes = useStyles({
-    borderCells: [1, 2, 3, 4],
-  });
+  const classes = useStyles();
 
   React.useEffect(() => {
     const storage = window.localStorage.getItem('showPieceTypes');
@@ -137,7 +106,7 @@ const CharactersList: React.FunctionComponent = () => {
       <FormGroup row>
         {
           Object.entries(pieceTypes).map(([pieceType, name]) => (
-            <PieceTypeCheckboxes
+            <PieceTypeCheckbox
               key={ pieceType }
               showPieceTypes={ showPieceTypes }
               setShowPieceTypes={ setShowPieceTypes }
@@ -158,9 +127,9 @@ const CharactersList: React.FunctionComponent = () => {
             </Grid>
           </Grid>
           {
-            characters.map((character, index) => (
-              <FilteredCharacter
-                key={ index }
+            characters.map((character) => (
+              <CharacterCard
+                key={ character.name }
                 character={ character }
                 showExcess={ showExcess }
                 showPieceTypes={ showPieceTypes }
