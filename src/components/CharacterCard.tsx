@@ -5,15 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import max from 'lodash-es/max';
 
 import { rarities, uniqueEquipments, Character } from 'data';
+import { saveStorage, loadStorage, restore } from 'src/utils/storage';
 import CharacterState from 'components/CharacterState';
-import {
-  saveStorage,
-  upgradingRarityArray,
-  uniqueEquipmentArray,
-} from 'components/CharactersList';
 
 interface CharacterCardProps {
   character: Character;
@@ -54,12 +49,6 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
-const restore = (data: { [key: string]: string[] | number }, key: string): number => (
-  Array.isArray(data[key])
-    ? max((data[key] as string[]).map((n) => Number(n))) || 0
-    : (data[key] as number) || 0
-);
-
 const extractDispossession = (
   object: { [key: number]: number },
   condition: (value: number) => boolean
@@ -98,16 +87,17 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   const showCharacter = showPieceTypes[pieceType] && (deficiency > 0 || showExcess);
 
   React.useEffect(() => {
-    const storage = window.localStorage.getItem(name);
-    const data = storage === null ? {} : JSON.parse(storage);
+    const data = loadStorage(name);
 
-    setPossessionRarity(restore(data, 'rarity'));
-    setPossessionEquipmentLevel(restore(data, 'equipment'));
-    setPossessionPieces(restore(data, 'possessionPieces'));
-  },[setPossessionRarity, setPossessionEquipmentLevel, setPossessionPieces]);
+    setPossessionRarity(restore('rarity', data));
+    setPossessionEquipmentLevel(restore('equipment', data));
+    setPossessionPieces(restore('possessionPieces', data));
+  }, []);
 
   const handleChangeState = React.useCallback((
-    value: string, key: string, setState: React.Dispatch<React.SetStateAction<number>>
+    key: string,
+    value: string,
+    setState: React.Dispatch<React.SetStateAction<number>>
   ): void => {
     const newValue = Number(value);
 
@@ -119,20 +109,20 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     _: React.MouseEvent<HTMLElement, MouseEvent>,
     rarity: string
   ) => {
-    handleChangeState(rarity, 'rarity', setPossessionRarity);
+    handleChangeState('rarity', rarity, setPossessionRarity);
   }, []);
 
   const handleChangeEquopment = React.useCallback((
     _: React.MouseEvent<HTMLElement, MouseEvent>,
     equipmentLevel: string
   ) => {
-    handleChangeState(equipmentLevel, 'equipment', setPossessionEquipmentLevel);
+    handleChangeState('equipment', equipmentLevel, setPossessionEquipmentLevel);
   }, []);
 
   const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    handleChangeState(event.target.value, 'possessionPieces', setPossessionPieces);
+    handleChangeState('possessionPieces', event.target.value, setPossessionPieces);
   }, []);
 
   const handleFocusPossessionPieces = React.useCallback((
@@ -159,7 +149,7 @@ const CharacterCard = React.memo<CharacterCardProps>(({
             <CharacterState
               title="才能開花"
               valuePrefix="☆"
-              data={ upgradingRarityArray.filter(([rarity]) => isInRarityRange(Number(rarity))) }
+              data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
               state={ possessionRarity }
               handleButtonClick={ handleChangeRarity }
               displayCondition
@@ -168,7 +158,7 @@ const CharacterCard = React.memo<CharacterCardProps>(({
             <CharacterState
               title="専用装備"
               valuePrefix="Lv. "
-              data={ uniqueEquipmentArray }
+              data={ Object.entries(uniqueEquipments) }
               state={ possessionEquipmentLevel }
               handleButtonClick={ handleChangeEquopment }
               displayCondition={ hasUniqueEquipment }
