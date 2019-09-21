@@ -9,26 +9,26 @@
     "lint": "eslint '**/*.{js,ts,tsx}' --ignore-path .gitignore"
   },
   "devDependencies": {
-    "@material-ui/core": "^4.3.3",
+    "@material-ui/core": "^4.4.2",
     "@material-ui/lab": "^4.0.0-alpha.25",
     "@types/lodash-es": "^4.17.3",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "eslint": "^6.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.3.0",
+    "@typescript-eslint/parser": "^2.3.0",
+    "eslint": "^6.4.0",
     "eslint-plugin-react": "^7.14.3",
     "html-webpack-plugin": "^3.2.0",
     "lodash-es": "^4.17.15",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "source-map": "^0.7.3",
-    "ts-loader": "^6.0.4",
+    "ts-loader": "^6.1.2",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "typescript": "^3.5.3",
-    "webpack": "^4.39.2",
-    "webpack-bundle-analyzer": "^3.5.0",
-    "webpack-cli": "^3.3.7",
-    "webpack-dev-server": "^3.8.0"
+    "typescript": "^3.6.3",
+    "webpack": "^4.40.2",
+    "webpack-bundle-analyzer": "^3.5.1",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
   }
 }
