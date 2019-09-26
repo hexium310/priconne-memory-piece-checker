@@ -1,6 +1,6 @@
 {
   "root": true,
-  "plugins": ["@typescript-eslint", "react"],
+  "plugins": ["@typescript-eslint", "react", "jest"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
@@ -12,7 +12,8 @@
   "env": {
     "es6": true,
     "node": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "extends": [
     "eslint:recommended",
@@ -42,7 +43,8 @@
         "allowTypedFunctionExpressions": true
       }
     ],
-    "@typescript-eslint/indent": ["error", 2]
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }]
   },
   "overrides": [
     {
