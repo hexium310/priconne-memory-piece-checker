@@ -651,4 +651,18 @@ export const characters: Character[] = [
     hasUniqueEquipment: false,
     pieceType: 'none',
   },
+  {
+    name: 'ミソギ（ハロウィン）',
+    initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
+  {
+    name: 'キョウカ（ハロウィン）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
 ];
