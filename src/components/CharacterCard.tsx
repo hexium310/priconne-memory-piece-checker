@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { rarities, uniqueEquipments, Character } from 'data';
-import { saveStorage, loadStorage, restore } from 'src/utils/storage';
+import { saveStorage, loadStorage, restore } from 'utils/storage/v1';
 import CharacterState from 'components/CharacterState';
 
 interface CharacterCardProps {

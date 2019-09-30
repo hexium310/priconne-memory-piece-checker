@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { characters, pieceTypes } from 'data';
-import { saveStorage } from 'src/utils/storage';
+import { saveStorage } from 'utils/storage/v1';
 import CharacterCard from 'components/CharacterCard';
 
 interface ShowPieceTypes {

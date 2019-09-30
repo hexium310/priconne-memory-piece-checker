@@ -5,7 +5,9 @@
     "baseUrl": ".",
     "paths": {
       "components/*": ["src/components/*"],
-      "data/*": ["data/*"]
+      "data/*": ["data/*"],
+      "data": ["data"],
+      "utils/*": ["src/utils/*"]
     },
     "jsx": "react",
     "lib": ["dom", "esnext"],
