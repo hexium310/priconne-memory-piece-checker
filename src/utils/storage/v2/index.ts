@@ -36,10 +36,10 @@ export const loadStorage = <T extends Storage, K extends keyof T & string>(
 };
 
 export const buildData = <T>(oldData: T, newData: T, rewrite: boolean): T => {
-  if (rewrite) {
-    return typeof newData === 'number' ? newData : { ...oldData, ...newData };
+  if (typeof newData === 'number') {
+    return rewrite || typeof oldData !== 'number' ? newData : oldData;
   } else {
-    return typeof newData === 'number' ? oldData : { ...newData, ...oldData };
+    return rewrite ? { ...oldData, ...newData } : { ...newData, ...oldData };
   }
 };
 
