@@ -122,7 +122,7 @@ export const characters: Character[] = [
   {
     name: 'リマ',
     initialRarity: 1,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: 'hard',
   },
@@ -667,6 +667,13 @@ export const characters: Character[] = [
   },
   {
     name: 'ミミ（ハロウィン）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
+  {
+    name: 'ルナ',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
