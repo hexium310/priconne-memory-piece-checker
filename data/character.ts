@@ -466,15 +466,15 @@ export const characters: Character[] = [
     name: 'チカ（クリスマス）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
-    pieceType: 'none',
+    hasUniqueEquipment: true,
+    pieceType: 'master',
   },
   {
     name: 'アヤネ（クリスマス）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
-    pieceType: 'none',
+    hasUniqueEquipment: true,
+    pieceType: 'master',
   },
   {
     name: 'ユイ（ニューイヤー）',
@@ -585,7 +585,7 @@ export const characters: Character[] = [
     name: 'クルミ（クリスマス）',
     initialRarity: 1,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'none',
   },
   {
