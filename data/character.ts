@@ -480,14 +480,14 @@ export const characters: Character[] = [
     name: 'ユイ（ニューイヤー）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'none',
   },
   {
     name: 'ヒヨリ（ニューイヤー）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'none',
   },
   {
@@ -592,7 +592,7 @@ export const characters: Character[] = [
     name: 'レイ（ニューイヤー）',
     initialRarity: 1,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'none',
   },
   {
