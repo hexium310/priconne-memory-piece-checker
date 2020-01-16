@@ -481,14 +481,14 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: 'none',
+    pieceType: 'master',
   },
   {
     name: 'ヒヨリ（ニューイヤー）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: 'none',
+    pieceType: 'master',
   },
   {
     name: 'シズル（バレンタイン）',
