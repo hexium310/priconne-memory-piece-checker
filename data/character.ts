@@ -494,7 +494,7 @@ export const characters: Character[] = [
     name: 'シズル（バレンタイン）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'none',
   },
   {
@@ -599,7 +599,7 @@ export const characters: Character[] = [
     name: 'エリコ（バレンタイン）',
     initialRarity: 1,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'none',
   },
   {
