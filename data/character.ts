@@ -410,7 +410,7 @@ export const characters: Character[] = [
     name: 'クリスティーナ',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'master',
   },
   {
@@ -495,7 +495,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: 'none',
+    pieceType: 'master',
   },
   {
     name: 'グレア',
@@ -737,6 +737,13 @@ export const characters: Character[] = [
   },
   {
     name: 'カスミ（マジカル）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
+  {
+    name: 'ペコリーヌ（プリンセス）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
