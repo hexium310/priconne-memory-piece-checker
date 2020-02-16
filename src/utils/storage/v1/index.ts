@@ -1,16 +1,18 @@
 import max from 'lodash-es/max';
 
-interface ShowPieceTypes {
+export interface ShowPieceTypes {
   [s: string]: boolean;
 }
 
-interface CharacterState {
-  rarity: string[] | number;
-  equipment: string[] | number;
-  possessionPieces: string[] | number;
+export interface CharacterState {
+  rarity?: string[] | number;
+  equipment?: string[] | number;
+  possessionPieces?: string[] | number;
 }
 
-interface Storage {
+export type Characters = Record<string, Partial<CharacterState>>
+
+export interface Storage {
   [characterName: string]: CharacterState | ShowPieceTypes;
   showPieceTypes: ShowPieceTypes;
 }
@@ -22,12 +24,12 @@ export const loadStorage = <T extends object = Storage>(key: string): T[keyof T]
   return data;
 };
 
-export const saveStorage = <T extends object = Storage>(
-  key: string,
-  newData: Partial<T>
+export const saveStorage = <T extends object = Storage, K extends keyof T = keyof T>(
+  key: K,
+  newData: Partial<T[K]>
 ): void => {
-  const data = loadStorage<T>(key);
-  window.localStorage.setItem(key, JSON.stringify({ ...data, ...newData }));
+  const data = loadStorage<T>(key.toString());
+  window.localStorage.setItem(key.toString(), JSON.stringify({ ...data, ...newData }));
 };
 
 export const restore = (
