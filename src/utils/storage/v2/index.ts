@@ -22,8 +22,17 @@ export const isStorageTopKey = (key: string): key is keyof Storage => (
   key === 'characters' || key === 'showPieceTypes' || key === 'version'
 );
 
+const validateJSON = (value: string): boolean => {
+  try {
+    JSON.parse(value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export const parseStorage = <T>(): T => (
-  Object.fromEntries(Object.entries(window.localStorage).filter(([key]) => isStorageTopKey(key)).map(([key, value]) => [key, JSON.parse(value)]))
+  Object.fromEntries(Object.entries(window.localStorage).filter(([, value]) => validateJSON(value)).map(([key, value]) => [key, JSON.parse(value)]))
 );
 
 export const loadStorage = <T extends Storage, K extends keyof T & string>(
