@@ -18,12 +18,12 @@ export type Storage = {
   version: 2;
 }
 
-export const parseStorage = <T>(): T => (
-  Object.fromEntries(Object.entries(window.localStorage).map(([key, value]) => [key, JSON.parse(value)]))
-);
-
 export const isStorageTopKey = (key: string): key is keyof Storage => (
   key === 'characters' || key === 'showPieceTypes' || key === 'version'
+);
+
+export const parseStorage = <T>(): T => (
+  Object.fromEntries(Object.entries(window.localStorage).filter(([key]) => isStorageTopKey(key)).map(([key, value]) => [key, JSON.parse(value)]))
 );
 
 export const loadStorage = <T extends Storage, K extends keyof T & string>(
