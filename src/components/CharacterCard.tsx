@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { rarities, uniqueEquipments, Character } from 'data';
-import { saveStorage, loadStorage, restore } from 'utils/storage/v1';
+import { saveStorage, loadStorage, CharacterState as CharacterStateType } from 'utils/storage/v2';
 import CharacterState from 'components/CharacterState';
 
 interface CharacterCardProps {
@@ -87,42 +87,43 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   const showCharacter = showPieceTypes[pieceType] && (deficiency > 0 || showExcess);
 
   React.useEffect(() => {
-    const data = loadStorage(name);
+    const data = loadStorage('characters')[name];
 
-    setPossessionRarity(restore('rarity', data));
-    setPossessionEquipmentLevel(restore('equipment', data));
-    setPossessionPieces(restore('possessionPieces', data));
+    setPossessionRarity(data.rarity || 0);
+    setPossessionEquipmentLevel(data.equipment || 0);
+    setPossessionPieces(data.possessionPieces || 0);
   }, []);
 
   const handleChangeState = React.useCallback((
     key: string,
-    value: string,
+    value: number,
     setState: React.Dispatch<React.SetStateAction<number>>
   ): void => {
-    const newValue = Number(value);
+    const oldData = loadStorage('characters')[name];
+    const newData: CharacterStateType = { ...oldData, [key]: value };
 
-    saveStorage(name, { [key]: newValue });
-    setState(newValue);
+    saveStorage('characters', { [name]: newData });
+    setState(value);
   }, []);
 
   const handleChangeRarity = React.useCallback((
     _: React.MouseEvent<HTMLElement, MouseEvent>,
     rarity: string
   ) => {
-    handleChangeState('rarity', rarity, setPossessionRarity);
+    handleChangeState('rarity', Number(rarity), setPossessionRarity);
   }, []);
 
   const handleChangeEquopment = React.useCallback((
     _: React.MouseEvent<HTMLElement, MouseEvent>,
     equipmentLevel: string
   ) => {
-    handleChangeState('equipment', equipmentLevel, setPossessionEquipmentLevel);
+    handleChangeState('equipment', Number(equipmentLevel), setPossessionEquipmentLevel);
   }, []);
 
   const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    handleChangeState('possessionPieces', event.target.value, setPossessionPieces);
+    handleChangeState('possessionPieces', Number(event.target.value), setPossessionPieces);
   }, []);
 
   const handleFocusPossessionPieces = React.useCallback((

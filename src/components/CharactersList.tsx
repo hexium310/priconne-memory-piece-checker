@@ -5,14 +5,11 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import mapValues from 'lodash-es/mapValues';
 
-import { characters, pieceTypes } from 'data';
-import { saveStorage } from 'utils/storage/v1';
+import { characters, pieceTypes, PieceTypes } from 'data';
+import { saveStorage, ShowPieceTypes } from 'utils/storage/v2';
 import CharacterCard from 'components/CharacterCard';
-
-interface ShowPieceTypes {
-  [s: string]: boolean;
-}
 
 const useStyles = makeStyles((theme) => createStyles({
   borderRight: {
@@ -34,7 +31,7 @@ const useStyles = makeStyles((theme) => createStyles({
 const PieceTypeCheckbox = React.memo<{
   showPieceTypes: ShowPieceTypes;
   setShowPieceTypes: React.Dispatch<React.SetStateAction<ShowPieceTypes>>;
-  pieceType: string;
+  pieceType: keyof PieceTypes;
   name: string;
 }>(({ showPieceTypes, setShowPieceTypes, pieceType, name }) => {
   const handleChangeShowPieceTypes = React.useCallback((
@@ -73,7 +70,7 @@ const CharactersList: React.FunctionComponent = () => {
   const [
     showPieceTypes,
     setShowPieceTypes,
-  ] = React.useState<ShowPieceTypes>(Object.fromEntries(Object.keys(pieceTypes).map((type) => [type, true])));
+  ] = React.useState<ShowPieceTypes>(mapValues(pieceTypes, () => true));
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -110,7 +107,7 @@ const CharactersList: React.FunctionComponent = () => {
               key={ pieceType }
               showPieceTypes={ showPieceTypes }
               setShowPieceTypes={ setShowPieceTypes }
-              pieceType={ pieceType }
+              pieceType={ pieceType as keyof PieceTypes }
               name={ name }
             />
           ))
