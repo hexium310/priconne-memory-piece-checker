@@ -73,6 +73,7 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
                   className={ classes.stateButton }
                   classes={ { selected: classes.stateButtonSelected } }
                   value={ value }
+                  disableRipple
                 >
                   { `${ valuePrefix }${ value }` }
                 </ToggleButton>
