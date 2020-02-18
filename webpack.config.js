@@ -1,10 +1,14 @@
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const loaders = {
   typescript: {
     loader: 'ts-loader',
+    options: {
+      transpileOnly: true,
+    },
   },
 };
 
@@ -50,6 +54,21 @@ module.exports = (_, argv) => ({
       template: './src/index.html',
       filename: 'index.html',
     }),
+    new ForkTsCheckerWebpackPlugin({
+      async: argv.mode === 'development',
+      useTypescriptIncrementalApi: argv.mode !== 'development',
+    }),
   ],
   devtool: argv.mode === 'development' ? 'source-map' : 'none',
+  stats: {
+    warningsFilter: /export .* was not found in/,
+  },
+  devServer: {
+    clientLogLevel: 'warn',
+    historyApiFallback: true,
+    stats: 'errors-only',
+    progress: true,
+    overlay: true,
+    compress: true,
+  },
 });
