@@ -1,15 +1,16 @@
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
+import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import mapValues from 'lodash-es/mapValues';
 
-import { characters, pieceTypes, PieceTypes } from 'data';
-import { saveStorage, ShowPieceTypes } from 'utils/storage/v2';
+import { characters, pieceTypes } from 'data';
 import CharacterCard from 'components/CharacterCard';
+import TabPanel from 'components/TabPanel';
 
 const useStyles = makeStyles((theme) => createStyles({
   borderRight: {
@@ -20,72 +21,34 @@ const useStyles = makeStyles((theme) => createStyles({
   content: {
     marginTop: theme.spacing(2),
   },
-  character: {
-    margin: theme.spacing(2, 0),
+  tabBar: {
+    position: 'sticky',
+    top: 0,
+    left: 'auto',
+    right: 0,
+    zIndex: 10000,
   },
   listHeader: {
     textAlign: 'center',
+    position: 'sticky',
+    top: theme.spacing(6),
+    left: 'auto',
+    right: 0,
+    zIndex: 10000,
   },
 }));
 
-const PieceTypeCheckbox = React.memo<{
-  showPieceTypes: ShowPieceTypes;
-  setShowPieceTypes: React.Dispatch<React.SetStateAction<ShowPieceTypes>>;
-  pieceType: keyof PieceTypes;
-  name: string;
-}>(({ showPieceTypes, setShowPieceTypes, pieceType, name }) => {
-  const handleChangeShowPieceTypes = React.useCallback((
-    _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
-  ) => {
-    setShowPieceTypes((shows) => {
-      const newShows = {
-        ...shows,
-        [pieceType]: checked,
-      };
-
-      return newShows;
-    });
-  }, []);
-
-  return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={ showPieceTypes[pieceType] }
-          onChange={ handleChangeShowPieceTypes }
-          color="primary"
-        />
-      }
-      label={ name }
-    />
-  );
-}, (prevProps, nextProps) => {
-  return prevProps.showPieceTypes[prevProps.pieceType] === nextProps.showPieceTypes[nextProps.pieceType];
-});
-PieceTypeCheckbox.displayName = 'PieceTypeCheckbox';
-
 const CharactersList: React.FunctionComponent = () => {
   const [showExcess, setShowExcess] = React.useState(true);
-  const [
-    showPieceTypes,
-    setShowPieceTypes,
-  ] = React.useState<ShowPieceTypes>(mapValues(pieceTypes, () => true));
+  const [currentTab, setCurrentTab] = React.useState('hard');
   const classes = useStyles();
-
-  React.useEffect(() => {
-    const storage = window.localStorage.getItem('showPieceTypes');
-    const data = storage === null ? showPieceTypes : JSON.parse(storage);
-
-    setShowPieceTypes(data);
-  },[setShowPieceTypes]);
-
-  React.useEffect(() => {
-    saveStorage('showPieceTypes', showPieceTypes);
-  }, [showPieceTypes]);
 
   const handleChangeShowExcess = React.useCallback(() => {
     setShowExcess((value) => !value);
+  }, []);
+
+  const handleChange = React.useCallback((_: React.ChangeEvent<{}>, newTab: string) => {
+    setCurrentTab(newTab);
   }, []);
 
   return (
@@ -100,23 +63,36 @@ const CharactersList: React.FunctionComponent = () => {
         }
         label="必要数持っているキャラクターも表示"
       />
-      <FormGroup row>
-        {
-          Object.entries(pieceTypes).map(([pieceType, name]) => (
-            <PieceTypeCheckbox
-              key={ pieceType }
-              showPieceTypes={ showPieceTypes }
-              setShowPieceTypes={ setShowPieceTypes }
-              pieceType={ pieceType as keyof PieceTypes }
-              name={ name }
-            />
-          ))
-        }
-      </FormGroup>
+      <Paper className={ classes.tabBar }>
+        <Tabs
+          value={ currentTab }
+          variant='scrollable'
+          indicatorColor='primary'
+          textColor='primary'
+          onChange={ handleChange }
+        >
+          {
+            Object.entries(pieceTypes).map(([pieceType, name]) => (
+              <Tab
+                key={ pieceType }
+                value={ pieceType }
+                label={ name }
+                id={ `tab-${pieceType}` }
+              />
+            ))
+          }
+          <Tab
+            key='all'
+            value='all'
+            label='すべて'
+            id='tab-all'
+          />
+        </Tabs>
+      </Paper>
       <div className={ classes.content }>
         <Grid container spacing={ 1 }>
-          <Grid item xs={ 12 }>
-            <Grid component={ Card } className={ classes.listHeader } container>
+          <Grid item xs={ 12 } className={ classes.listHeader }>
+            <Grid component={ Card } container>
               <Grid className={ classes.borderRight } item xs={ 1 }>名前</Grid>
               <Grid className={ classes.borderRight } item xs={ 9 }>キャラクターの状態</Grid>
               <Grid className={ classes.borderRight } item xs={ 1 }>所持数/必要数</Grid>
@@ -124,14 +100,26 @@ const CharactersList: React.FunctionComponent = () => {
             </Grid>
           </Grid>
           {
-            characters.map((character) => (
-              <CharacterCard
-                key={ character.name }
-                character={ character }
-                showExcess={ showExcess }
-                showPieceTypes={ showPieceTypes }
-              />
-            ))
+            Object.entries(pieceTypes)
+              .filter(([pieceType]) => pieceType === currentTab || currentTab === 'all')
+              .map(([pieceType]) => (
+                <TabPanel key={ pieceType } index={ pieceType }>
+                  {
+                    characters
+                      .filter((character) => (
+                        character.pieceType === currentTab ||
+                          currentTab === 'all' && character.pieceType === pieceType
+                      ))
+                      .map((character) => (
+                        <CharacterCard
+                          key={ character.name }
+                          character={ character }
+                          showExcess={ showExcess }
+                        />
+                      ))
+                  }
+                </TabPanel>
+              ))
           }
         </Grid>
       </div>
