@@ -7,14 +7,14 @@ import {
 import {
   parseStorage,
   saveStorage,
+  STORAGE_VERSION,
   Storage,
   Characters,
-  ShowPieceTypes,
 } from 'utils/storage/v2';
 
 export type OldStorage = Storage | StorageV1
 
-export const isStorageV2 = (storage: OldStorage): storage is Storage => storage.version === 2;
+export const isLatestStorage = (storage: OldStorage): storage is Storage => storage.version === STORAGE_VERSION;
 
 export const convertToNumber = (value: number | string[] | undefined): number => {
   if (value === undefined) {
@@ -36,7 +36,7 @@ export const complementCharacterProperties = (characters: CharactersV1): Charact
   return complemented;
 };
 
-export const deleteFlattenedCharacters = (names: string[]): void => {
+export const removeItems = (names: string[]): void => {
   for (const name of names) {
     window.localStorage.removeItem(name);
   }
@@ -45,13 +45,12 @@ export const deleteFlattenedCharacters = (names: string[]): void => {
 export const migrateStorage = (): void => {
   const oldStorage = parseStorage<OldStorage>();
 
-  if (!isStorageV2(oldStorage)) {
+  if (!isLatestStorage(oldStorage)) {
     const { showPieceTypes, ...characters } = oldStorage;
     const complementedCharacters = complementCharacterProperties(characters);
 
-    deleteFlattenedCharacters(Object.keys(complementedCharacters));
-    saveStorage('showPieceTypes', showPieceTypes as ShowPieceTypes);
+    removeItems([...Object.keys(complementedCharacters), 'showPieceTypes']);
     saveStorage('characters', complementedCharacters);
-    saveStorage('version', 2);
+    saveStorage('version', STORAGE_VERSION);
   }
 };
