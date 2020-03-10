@@ -1,6 +1,7 @@
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +12,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { characters, pieceTypes } from 'data';
 import CharacterCard from 'components/CharacterCard';
 import TabPanel from 'components/TabPanel';
+import ClearStorage from 'components/ClearStorage';
 
 const useStyles = makeStyles((theme) => createStyles({
   borderRight: {
@@ -26,7 +28,7 @@ const useStyles = makeStyles((theme) => createStyles({
     top: 0,
     left: 'auto',
     right: 0,
-    zIndex: 10000,
+    zIndex: 1000,
   },
   listHeader: {
     textAlign: 'center',
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme) => createStyles({
     top: theme.spacing(6),
     left: 'auto',
     right: 0,
-    zIndex: 10000,
+    zIndex: 1000,
   },
 }));
 
@@ -53,16 +55,19 @@ const CharactersList: React.FunctionComponent = () => {
 
   return (
     <div className={ classes.content }>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={ showExcess }
-            onChange={ handleChangeShowExcess }
-            color="primary"
-          />
-        }
-        label="必要数持っているキャラクターも表示"
-      />
+      <Box display='flex' justifyContent='space-between'>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={ showExcess }
+              onChange={ handleChangeShowExcess }
+              color="primary"
+            />
+          }
+          label="必要数持っているキャラクターも表示"
+        />
+        <ClearStorage></ClearStorage>
+      </Box>
       <Paper className={ classes.tabBar }>
         <Tabs
           value={ currentTab }
