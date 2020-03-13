@@ -747,7 +747,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
-    pieceType: 'none',
+    pieceType: 'master',
   },
   {
     name: 'ミオ（デレマス）',
@@ -758,6 +758,13 @@ export const characters: Character[] = [
   },
   {
     name: 'ウヅキ（デレマス）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
+  {
+    name: 'リン（デレマス）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
