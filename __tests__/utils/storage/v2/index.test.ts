@@ -5,7 +5,6 @@ import {
   parseStorage,
   saveStorage,
   Characters,
-  ShowPieceTypes,
 } from 'utils/storage/v2';
 
 const characters: Characters = {
@@ -14,16 +13,6 @@ const characters: Characters = {
     equipment: 5,
     possessionPieces: 5,
   },
-};
-
-const showPieceTypes: ShowPieceTypes = {
-  arena: true,
-  clan: true,
-  dungeon: true,
-  hard: true,
-  master: true,
-  none: true,
-  pArena: true,
 };
 
 beforeEach(() => {
@@ -85,16 +74,7 @@ describe('initStorage()', () => {
         rarity: 0,
       },
     });
-    expect(loadStorage('showPieceTypes')).toStrictEqual({
-      hard: true,
-      dungeon: true,
-      arena: true,
-      pArena: true,
-      clan: true,
-      master: true,
-      none: true,
-    });
-    expect(loadStorage('version')).toBe(2);
+    expect(loadStorage('version')).toBe(2.1);
   });
 
   test('should initialize parts when storage isn\'t empty', () => {
@@ -105,7 +85,6 @@ describe('initStorage()', () => {
         rarity: 1,
       },
     });
-    saveStorage('showPieceTypes', showPieceTypes);
     saveStorage('version', 2);
     initStorage();
     expect(loadStorage('characters')).toMatchObject({
@@ -120,15 +99,6 @@ describe('initStorage()', () => {
         rarity: 0,
       },
     });
-    expect(loadStorage('showPieceTypes')).toStrictEqual({
-      hard: true,
-      dungeon: true,
-      arena: true,
-      pArena: true,
-      clan: true,
-      master: true,
-      none: true,
-    });
     expect(loadStorage('version')).toBe(2);
   });
 });
@@ -137,16 +107,11 @@ describe('loadStorage()', () => {
 
   beforeEach(() => {
     window.localStorage.setItem('characters', JSON.stringify(characters));
-    window.localStorage.setItem('showPieceTypes', JSON.stringify(showPieceTypes));
     window.localStorage.setItem('version', '2');
   });
 
   test('should return characters when it is passed \'characters\'', () => {
     expect(loadStorage('characters')).toStrictEqual(characters);
-  });
-
-  test('should return showPieceTypes when it is passed \'showPieceTypes\'', () => {
-    expect(loadStorage('showPieceTypes')).toStrictEqual(showPieceTypes);
   });
 
   test('should return 2 when it is passed \'version\'', () => {
@@ -167,15 +132,6 @@ describe('saveStorage()', () => {
 
     expect(gotItemString).not.toBeNull();
     expect(JSON.parse(gotItemString as string)).toStrictEqual(characters);
-  });
-
-  test('should save showPieceTypes to storage when pass \'showPieceTypes\' to 1st argument', () => {
-    saveStorage('showPieceTypes', showPieceTypes);
-
-    const gotItemString = window.localStorage.getItem('showPieceTypes');
-
-    expect(gotItemString).not.toBeNull();
-    expect(JSON.parse(gotItemString as string)).toStrictEqual(showPieceTypes);
   });
 
   test('should save 2 to storage when pass \'version\' to 1st argument', () => {

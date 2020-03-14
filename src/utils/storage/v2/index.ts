@@ -1,8 +1,4 @@
-import mapValues from 'lodash-es/mapValues';
-
-import { characters, pieceTypes, PieceTypes } from 'data';
-
-export type ShowPieceTypes = Record<keyof PieceTypes, boolean>
+import { characters } from 'data';
 
 export type CharacterState = {
   rarity: number;
@@ -14,12 +10,13 @@ export type Characters = Record<string, CharacterState>;
 
 export type Storage = {
   characters: Characters;
-  showPieceTypes: ShowPieceTypes;
-  version: 2;
+  version: number;
 }
 
+export const STORAGE_VERSION = 2.1;
+
 export const isStorageTopKey = (key: string): key is keyof Storage => (
-  key === 'characters' || key === 'showPieceTypes' || key === 'version'
+  key === 'characters' || key === 'version'
 );
 
 const validateJSON = (value: string): boolean => {
@@ -74,10 +71,7 @@ export const initStorage = (): void => {
       possessionPieces: 0,
     },
   ]));
-  const showPieceTypesItem = mapValues(pieceTypes, () => true);
-  const versionItem = 2;
 
   saveStorage('characters', charactersItem, false);
-  saveStorage('showPieceTypes', showPieceTypesItem, false);
-  saveStorage('version', versionItem, false);
+  saveStorage('version', STORAGE_VERSION, false);
 };

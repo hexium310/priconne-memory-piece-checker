@@ -1,7 +1,7 @@
 import {
   convertToNumber,
   complementCharacterProperties,
-  deleteFlattenedCharacters,
+  removeItems,
   migrateStorage,
 } from 'utils/storage/v2/migration';
 import {
@@ -81,11 +81,11 @@ describe('using storage:', () => {
     window.localStorage.clear();
   });
 
-  test('deleteFlattenedCharacters() should delete only flattened characters', () => {
+  test('removeItems() should delete item in key list', () => {
     for (const [key, value] of Object.entries(storageV1)) {
       saveStorageV1(key, value);
     }
-    deleteFlattenedCharacters(Object.keys(characters));
+    removeItems(Object.keys(characters));
 
     expect(parseStorage()).toStrictEqual({ showPieceTypes });
   });
@@ -93,8 +93,7 @@ describe('using storage:', () => {
   describe('migration', () => {
     const storageV2: Storage = {
       characters,
-      showPieceTypes,
-      version: 2,
+      version: 2.1,
     };
 
     test('from storage that has flattened character properties', () => {

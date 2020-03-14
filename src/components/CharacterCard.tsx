@@ -13,9 +13,6 @@ import CharacterState from 'components/CharacterState';
 interface CharacterCardProps {
   character: Character;
   showExcess: boolean;
-  showPieceTypes: {
-    [type: string]: boolean;
-  };
 }
 
 const useStyles = makeStyles((theme) => createStyles({
@@ -64,10 +61,8 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     maxRarity,
     name,
     hasUniqueEquipment,
-    pieceType,
   },
   showExcess,
-  showPieceTypes,
 }) => {
   const classes = useStyles();
   const [possessionRarity, setPossessionRarity] = React.useState(0);
@@ -84,7 +79,7 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   ));
   const requiredPieces = requiredRarityPieces + requiredEquipmentPieces;
   const deficiency = requiredPieces - possessionPieces;
-  const showCharacter = showPieceTypes[pieceType] && (deficiency > 0 || showExcess);
+  const showCharacter = deficiency > 0 || showExcess;
 
   React.useEffect(() => {
     const data = loadStorage('characters')[name];
@@ -209,8 +204,7 @@ const CharacterCard = React.memo<CharacterCardProps>(({
 
   return Character;
 }, (prevProps, nextProps) => {
-  return prevProps.showExcess === nextProps.showExcess &&
-    prevProps.showPieceTypes[prevProps.character.pieceType] === nextProps.showPieceTypes[nextProps.character.pieceType];
+  return prevProps.showExcess === nextProps.showExcess;
 });
 CharacterCard.displayName = 'CharacterCard';
 
