@@ -1,5 +1,5 @@
 export interface UniqueEquipments {
-  [level: number]: number;
+  [level: string]: number;
 }
 
 export const uniqueEquipments: UniqueEquipments = {

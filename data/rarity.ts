@@ -1,5 +1,5 @@
 export interface Rarities {
-  [rarity: number]: number;
+  [rarity: string]: number;
 }
 
 export const rarities: Rarities = {

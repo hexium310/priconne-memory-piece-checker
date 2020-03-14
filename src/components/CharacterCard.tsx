@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { rarities, uniqueEquipments, Character } from 'data';
+import { rarities, uniqueEquipments, Character, Rarities, UniqueEquipments } from 'data';
 import { saveStorage, loadStorage, CharacterState as CharacterStateType } from 'utils/storage/v2';
 import CharacterState from 'components/CharacterState';
 
@@ -46,86 +46,72 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
-const extractDispossession = (
-  object: { [key: number]: number },
-  condition: (value: number) => boolean
-): number => Object.keys(object).map((value) => (
-  Number(value)
-)).filter((value) => condition(value)).map((value) => (
-  object[value]
-)).reduce((sum, value) => sum+ value, 0);
+const calculateRequired = (
+  target: Rarities | UniqueEquipments,
+  condition: (key: string) => boolean
+): number => Object.keys(target).filter(condition).reduce((sum, key) => sum + target[key], 0);
+
+const handleFocusPossessionPieces = (
+  event: React.FocusEvent<HTMLInputElement>
+): void => {
+  event.target.select();
+};
 
 const CharacterCard = React.memo<CharacterCardProps>(({
   character: {
     initialRarity,
     maxRarity,
-    name,
+    name: characterName,
     hasUniqueEquipment,
   },
   showExcess,
 }) => {
   const classes = useStyles();
-  const [possessionRarity, setPossessionRarity] = React.useState(0);
-  const [possessionEquipmentLevel, setPossessionEquipmentLevel] = React.useState(0);
+  const [rarity, setRarity] = React.useState(0);
+  const [equipmentLevel, setEquipmentLevel] = React.useState(0);
   const [possessionPieces, setPossessionPieces] = React.useState(0);
 
   const isInRarityRange = (rarity: number): boolean => rarity > initialRarity && rarity <= maxRarity;
 
-  const requiredRarityPieces = extractDispossession(rarities, (v) => (
-    v > possessionRarity && isInRarityRange(v)
-  ));
-  const requiredEquipmentPieces = extractDispossession(uniqueEquipments, (v) => (
-    v > possessionEquipmentLevel
-  ));
+  const requiredRarityPieces = calculateRequired(rarities, (v) => Number(v) > rarity && isInRarityRange(Number(v)));
+  const requiredEquipmentPieces = calculateRequired(uniqueEquipments, (v) => Number(v) > equipmentLevel);
   const requiredPieces = requiredRarityPieces + requiredEquipmentPieces;
   const deficiency = requiredPieces - possessionPieces;
   const showCharacter = deficiency > 0 || showExcess;
 
   React.useEffect(() => {
-    const data = loadStorage('characters')[name];
+    const data = loadStorage('characters')[characterName];
 
-    setPossessionRarity(data.rarity || 0);
-    setPossessionEquipmentLevel(data.equipment || 0);
+    setRarity(data.rarity || 0);
+    setEquipmentLevel(data.equipment || 0);
     setPossessionPieces(data.possessionPieces || 0);
   }, []);
 
-  const handleChangeState = React.useCallback((
+  const storeState = React.useCallback((
     key: string,
     value: number,
     setState: React.Dispatch<React.SetStateAction<number>>
   ): void => {
-    const oldData = loadStorage('characters')[name];
+    const oldData = loadStorage('characters')[characterName];
     const newData: CharacterStateType = { ...oldData, [key]: value };
 
-    saveStorage('characters', { [name]: newData });
+    saveStorage('characters', { [characterName]: newData });
     setState(value);
   }, []);
 
   const handleChangeRarity = React.useCallback((
     _: React.MouseEvent<HTMLElement, MouseEvent>,
-    rarity: string
-  ) => {
-    handleChangeState('rarity', Number(rarity), setPossessionRarity);
-  }, []);
+    newRarity: string
+  ) => storeState('rarity', Number(newRarity), setRarity), []);
 
-  const handleChangeEquopment = React.useCallback((
+  const handleChangeEquopmentLevel = React.useCallback((
     _: React.MouseEvent<HTMLElement, MouseEvent>,
-    equipmentLevel: string
-  ) => {
-    handleChangeState('equipment', Number(equipmentLevel), setPossessionEquipmentLevel);
-  }, []);
+    newEquipmentLevel: string
+  ) => storeState('equipment', Number(newEquipmentLevel), setEquipmentLevel), []);
 
   const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    handleChangeState('possessionPieces', Number(event.target.value), setPossessionPieces);
-  }, []);
-
-  const handleFocusPossessionPieces = React.useCallback((
-    event: React.FocusEvent<HTMLInputElement>
-  ) => {
-    event.target.select();
-  }, []);
+  ) => storeState('possessionPieces', Number(event.target.value), setPossessionPieces), []);
 
   const Character = React.useMemo(() => {
     return showCharacter ? (
@@ -139,14 +125,14 @@ const CharacterCard = React.memo<CharacterCardProps>(({
             item
             xs={ 1 }
           >
-            <Grid item>{ name }</Grid>
+            <Grid item>{ characterName }</Grid>
           </Grid>
           <Grid className={ classes.borderRight } item xs={ 9 }>
             <CharacterState
               title="才能開花"
               valuePrefix="☆"
               data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
-              state={ possessionRarity }
+              state={ rarity }
               handleButtonClick={ handleChangeRarity }
               displayCondition
             />
@@ -155,8 +141,8 @@ const CharacterCard = React.memo<CharacterCardProps>(({
               title="専用装備"
               valuePrefix="Lv. "
               data={ Object.entries(uniqueEquipments) }
-              state={ possessionEquipmentLevel }
-              handleButtonClick={ handleChangeEquopment }
+              state={ equipmentLevel }
+              handleButtonClick={ handleChangeEquopmentLevel }
               displayCondition={ hasUniqueEquipment }
             />
           </Grid>
@@ -194,8 +180,8 @@ const CharacterCard = React.memo<CharacterCardProps>(({
       </Grid>
     ) : null;
   }, [
-    possessionRarity,
-    possessionEquipmentLevel,
+    rarity,
+    equipmentLevel,
     deficiency,
     requiredPieces,
     possessionPieces,
