@@ -113,9 +113,9 @@ const CharactersList: React.FunctionComponent = () => {
                     characters
                       .filter((character) => (
                         character.pieceType === currentTab ||
-                          character.pieceType.indexOf(currentTab as PieceType) > -1 ||
+                          character.pieceType.includes(currentTab as PieceType) ||
                           currentTab === 'all' &&
-                          (character.pieceType === pieceType || character.pieceType.indexOf(pieceType as PieceType) > -1)
+                          (character.pieceType === pieceType || character.pieceType.includes(pieceType as PieceType))
                       ))
                       .map((character) => (
                         <CharacterCard
