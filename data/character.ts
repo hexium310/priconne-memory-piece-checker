@@ -1,9 +1,11 @@
+import { PieceType } from 'data/pieceTypes';
+
 export interface Character {
   hasUniqueEquipment: boolean;
   initialRarity: 1 | 2 | 3;
   maxRarity: 5 | 6;
   name: string;
-  pieceType: 'hard' | 'dungeon' | 'arena' | 'pArena' | 'clan' | 'master' | 'none';
+  pieceType: PieceType | PieceType[];
 }
 
 export const characters: Character[] = [

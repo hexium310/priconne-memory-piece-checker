@@ -1,11 +1,12 @@
-import { Character } from './character';
+export type PieceType = 'hard' | 'side' | 'dungeon' | 'arena' | 'pArena' | 'clan' | 'master' | 'none';
 
 export type PieceTypes = {
-  [type in Character['pieceType']]: string;
+  [type in PieceType]: string;
 }
 
 export const pieceTypes: PieceTypes = {
   hard: 'ハードクエスト',
+  side: 'サイドストーリー',
   dungeon: 'ダンジョンコイン',
   arena: 'アリーナコイン',
   pArena: 'プリンセスアリーナコイン',

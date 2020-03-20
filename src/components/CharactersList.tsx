@@ -9,7 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { characters, pieceTypes } from 'data';
+import { characters, pieceTypes, PieceType } from 'data';
 import CharacterCard from 'components/CharacterCard';
 import TabPanel from 'components/TabPanel';
 import ClearStorage from 'components/ClearStorage';
@@ -113,7 +113,9 @@ const CharactersList: React.FunctionComponent = () => {
                     characters
                       .filter((character) => (
                         character.pieceType === currentTab ||
-                          currentTab === 'all' && character.pieceType === pieceType
+                          character.pieceType.indexOf(currentTab as PieceType) > -1 ||
+                          currentTab === 'all' &&
+                          (character.pieceType === pieceType || character.pieceType.indexOf(pieceType as PieceType) > -1)
                       ))
                       .map((character) => (
                         <CharacterCard
