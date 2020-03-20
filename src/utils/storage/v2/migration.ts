@@ -14,7 +14,7 @@ import {
 
 export type OldStorage = Storage | StorageV1
 
-export const isLatestStorage = (storage: OldStorage): storage is Storage => storage.version === STORAGE_VERSION;
+export const isV2 = (storage: OldStorage): storage is Storage => storage.version >= 2 && storage.version < 3;
 
 export const convertToNumber = (value: number | string[] | undefined): number => {
   if (value === undefined) {
@@ -45,7 +45,7 @@ export const removeItems = (names: string[]): void => {
 export const migrateStorage = (): void => {
   const oldStorage = parseStorage<OldStorage>();
 
-  if (!isLatestStorage(oldStorage)) {
+  if (!isV2(oldStorage)) {
     const { showPieceTypes, ...characters } = oldStorage;
     const complementedCharacters = complementCharacterProperties(characters);
 
@@ -53,4 +53,6 @@ export const migrateStorage = (): void => {
     saveStorage('characters', complementedCharacters);
     saveStorage('version', STORAGE_VERSION);
   }
+
+  saveStorage('version', STORAGE_VERSION);
 };
