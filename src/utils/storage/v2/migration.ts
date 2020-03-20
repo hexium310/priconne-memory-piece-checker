@@ -49,10 +49,11 @@ export const migrateStorage = (): void => {
     const { showPieceTypes, ...characters } = oldStorage;
     const complementedCharacters = complementCharacterProperties(characters);
 
-    removeItems([...Object.keys(complementedCharacters), 'showPieceTypes']);
+    removeItems(Object.keys(complementedCharacters));
     saveStorage('characters', complementedCharacters);
-    saveStorage('version', STORAGE_VERSION);
   }
 
+  removeItems(['showPieceTypes']);
+  console.log(STORAGE_VERSION)
   saveStorage('version', STORAGE_VERSION);
 };
