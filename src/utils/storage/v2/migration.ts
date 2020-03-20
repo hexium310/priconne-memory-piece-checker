@@ -54,6 +54,5 @@ export const migrateStorage = (): void => {
   }
 
   removeItems(['showPieceTypes']);
-  console.log(STORAGE_VERSION)
   saveStorage('version', STORAGE_VERSION);
 };
