@@ -355,7 +355,7 @@ export const characters: Character[] = [
   {
     name: 'ハツネ',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['pArena', 'side'],
   },
