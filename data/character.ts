@@ -49,7 +49,7 @@ export const characters: Character[] = [
     initialRarity: 2,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: 'hard',
+    pieceType: ['hard', 'side'],
   },
   {
     name: 'キョウカ',
@@ -301,7 +301,7 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: 'arena',
+    pieceType: ['arena', 'side'],
   },
   {
     name: 'モニカ',
@@ -651,7 +651,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
-    pieceType: 'none',
+    pieceType: 'hard',
   },
   {
     name: 'ミソギ（ハロウィン）',
