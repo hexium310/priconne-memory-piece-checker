@@ -59,7 +59,7 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
     <Grid className={ classes.characterCard } container direction="row" alignItems="center">
       <Grid className={ classes.verticalWriting } item>{ title }</Grid>
       {
-        displayCondition && <Grid item xs={ 11 }>
+        <Grid item xs={ 11 }>
           <ToggleButtonGroup
             className={ classes.toggleButtonGroup }
             exclusive
@@ -73,6 +73,7 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
                   className={ classes.stateButton }
                   classes={ { selected: classes.stateButtonSelected } }
                   value={ value }
+                  disabled={ !displayCondition }
                   disableRipple
                 >
                   { `${ valuePrefix }${ value }` }
