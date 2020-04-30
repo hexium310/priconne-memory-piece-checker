@@ -786,4 +786,11 @@ export const characters: Character[] = [
     hasUniqueEquipment: false,
     pieceType: 'none',
   },
+  {
+    name: 'リン（レンジャー）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
 ];
