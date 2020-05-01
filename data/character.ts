@@ -250,7 +250,7 @@ export const characters: Character[] = [
   {
     name: 'キャル',
     initialRarity: 1,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: 'dungeon',
   },
@@ -390,14 +390,14 @@ export const characters: Character[] = [
   {
     name: 'イオ',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: 'clan',
   },
   {
     name: 'チカ',
     initialRarity: 2,
-    maxRarity: 6,
+    maxRarity: 5,
     hasUniqueEquipment: true,
     pieceType: 'clan',
   },
