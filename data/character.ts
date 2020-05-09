@@ -510,14 +510,14 @@ export const characters: Character[] = [
     name: 'クウカ（オーエド）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'hard',
   },
   {
     name: 'ニノン（オーエド）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: 'hard',
   },
   {
