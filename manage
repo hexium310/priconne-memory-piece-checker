@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+
+green=$(tput setaf 2)
+yellow=$(tput setaf 6)
+bold=$(tput bold)
+reset=$(tput sgr0)
+
+read-operation() {
+    local message="$green${bold}Select operation$reset"
+
+    echo $message >&2
+
+    local input=$({
+        echo "${yellow}0$reset Exit"
+        echo "${yellow}1$reset Add character"
+        echo "${yellow}2$reset Edit character unique equipment"
+        echo "${yellow}3$reset Edit character piece type"
+        echo "${yellow}4$reset Edit character max rarity"
+    } | fzf --ansi --reverse)
+
+    tput cuu 1 >&2
+    echo "$message $input" >&2
+
+    awk '{ print $1 }' <<< $input
+}
+
+add-character() {
+    local name initial_rarity max_rarity has_unique_equipment piece_type
+    local confirm
+
+    input-data
+
+    local data=$(build-data "$name" "$initial_rarity" "$max_rarity" "$has_unique_equipment" "$piece_type")
+    echo
+    echo "$data"
+    echo -n "${green}Do you insert data above? (Y/n)$reset > "
+    read -e -r confirm
+    case "$confirm" in
+        [nN]*)
+            return 0
+            ;;
+        [yY]*|*)
+            insert-character "$data"
+            return 0
+            ;;
+    esac
+}
+
+input-data() {
+    echo "$green${bold}Input character information$reset" >&2
+
+    echo 'Name (string)' >&2
+    read -e -r -p '> ' name
+
+    while ! validate-number $initial_rarity; do
+        echo 'Initial Rarity (number)' >&2
+        read -e -r -p '> ' initial_rarity
+    done
+
+    while ! validate-number $max_rarity; do
+        echo 'Max Rarity (number)' >&2
+        read -e -r -p '> ' max_rarity
+    done
+
+    echo 'Unique Equipment (y/N)' >&2
+    read -e -r -p '> ' has_unique_equipment
+    case "$has_unique_equipment" in
+        [yY]*)
+            has_unique_equipment=true
+            ;;
+        [nN]*|*)
+            has_unique_equipment=false
+            ;;
+    esac
+
+    echo 'Piece Type (string)' >&2
+    read -e -r -p '> ' piece_type
+}
+
+build-data() {
+    local name="$1"
+    local initial_rarity="$2"
+    local max_rarity="$3"
+    local has_unique_equipment="$4"
+    local piece_type="$5"
+    shift 5
+
+    cat << DATA
+  {
+    name: '$name',
+    initialRarity: $initial_rarity,
+    maxRarity: $max_rarity,
+    hasUniqueEquipment: $has_unique_equipment,
+    pieceType: '$piece_type',
+  },
+DATA
+}
+
+insert-character() {
+    local input="$1"
+    shift
+
+    sed -i '' '$d' data/character.ts
+    echo "$input" >> data/character.ts
+    echo '];' >> data/character.ts
+}
+
+validate-number() {
+    local input="$1"
+    shift
+
+    [[ "$input" =~ [[:digit:]]+ ]]
+}
+
+run() {
+    local input="$(read-operation)"
+
+    case "$input" in
+        0)
+            git diff data/character.ts
+            return 0
+            ;;
+        1)
+            add-character
+            ;;
+        2)
+            ;;
+        3)
+            ;;
+        4)
+            ;;
+        *)
+            ;;
+    esac
+
+    run
+}
+
+run
