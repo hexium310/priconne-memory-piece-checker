@@ -245,7 +245,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 6,
     hasUniqueEquipment: true,
-    pieceType: 'dungeon',
+    pieceType: ['dungeon', 'side'],
   },
   {
     name: 'キャル',
@@ -343,7 +343,7 @@ export const characters: Character[] = [
     initialRarity: 2,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: 'pArena',
+    pieceType: ['pArena', 'side'],
   },
   {
     name: 'アンナ',
@@ -672,7 +672,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
-    pieceType: 'none',
+    pieceType: 'hard',
   },
   {
     name: 'ルナ',
@@ -788,6 +788,13 @@ export const characters: Character[] = [
   },
   {
     name: 'リン（レンジャー）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
+  {
+    name: 'マヒル（レンジャー）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,

@@ -12,4 +12,5 @@ export const uniqueEquipments: UniqueEquipments = {
   140: 15,
   150: 15,
   160: 15,
+  170: 15,
 };
