@@ -807,4 +807,11 @@ export const characters: Character[] = [
     hasUniqueEquipment: false,
     pieceType: 'none',
   },
+  {
+    name: 'アユミ（ワンダー）',
+    initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: 'none',
+  },
 ];
