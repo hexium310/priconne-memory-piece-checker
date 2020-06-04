@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 
+red=$(tput setaf 1)
 green=$(tput setaf 2)
 yellow=$(tput setaf 6)
 bold=$(tput bold)
@@ -28,7 +29,7 @@ add-character() {
     local name initial_rarity max_rarity has_unique_equipment piece_type
     local confirm
 
-    input-data
+    input-data name initial_rarity max has_unique_equipment piece_type
 
     local data=$(build-data "$name" "$initial_rarity" "$max_rarity" "$has_unique_equipment" "$piece_type")
     echo
@@ -46,36 +47,43 @@ add-character() {
 }
 
 input-data() {
+    local arguments=$@
     echo "$green${bold}Input character information$reset" >&2
 
-    echo 'Name (string)' >&2
-    echo -n '> ' >&2
-    read name
+    [[ -n ${(Q)${(z)arguments[(r)name]}} ]] && {
+        echo 'Name (string)' >&2
+        echo -n '> ' >&2
+        read name
+    }
 
-    while ! validate-number "$initial_rarity"; do
+    [[ -n ${(Q)${(z)arguments[(r)initial_rarity]}} ]] && while ! validate-number "$initial_rarity"; do
         echo 'Initial Rarity (number)' >&2
         echo -n '> ' >&2
         read initial_rarity
     done
 
-    while ! validate-number "$max_rarity"; do
+    [[ -n ${(Q)${(z)arguments[(r)max_rarity]}} ]] && while ! validate-number "$max_rarity"; do
         echo 'Max Rarity (number)' >&2
         echo -n '> ' >&2
         read max_rarity
     done
 
-    echo 'Unique Equipment (y/N)' >&2
-    echo -n '> ' >&2
-    if $(read -q); then
-        has_unique_equipment=true
-    else
-        has_unique_equipment=false
-    fi
-    echo
+    [[ -n ${(Q)${(z)arguments[(r)has_unique_equipment]}} ]] && {
+        echo 'Unique Equipment (y/N)' >&2
+        echo -n '> ' >&2
+        if $(read -q); then
+            has_unique_equipment=true
+        else
+            has_unique_equipment=false
+        fi
+        echo
+    }
 
-    echo 'Piece Type (string)' >&2
-    echo -n '> ' >&2
-    read piece_type
+    [[ -n ${(Q)${(z)arguments[(r)piece_type]}} ]] && {
+        echo 'Piece Type (string)' >&2
+        echo -n '> ' >&2
+        read piece_type
+    }
 }
 
 build-data() {
@@ -113,6 +121,67 @@ validate-number() {
     [[ $input =~ [[:digit:]]+ ]]
 }
 
+edit-character() {
+    local name
+    local -A keys=(
+        'has_unique_equipment' 'hasUniqueEquipment'
+        'piece_type' 'pieceType'
+        'max_rarity' 'maxRarity'
+    )
+    local kind=$1
+    local $kind
+    local key=${keys[$kind]}
+    shift
+
+    echo "$green${bold}Enter the character name to change ${${kind/has_/}/_/ }$reset"
+
+    while true; do
+        echo -n 'Name (empty: cancel) > '
+        read name
+        [[ -z $name ]] && return
+        if grep "'$name'" data/character.ts > /dev/null; then
+            break
+        else
+            echo "$name is not found"
+        fi
+    done
+
+    input-data $kind
+    local value=${(P)kind}
+    edit-$key "$name" "$value"
+
+    echo "$bold$red$key$reset$bold of $red$name$reset$bold was changed to $value$reset"
+}
+
+edit-hasUniqueEquipment() {
+    local name=$1
+    local value=$2
+    shift 2
+
+    edit-data '+normal /hasUniqueEquipment' "+normal Wciw$value"
+}
+
+edit-maxRarity() {
+    local name=$1
+    local value=$2
+    shift 2
+
+    edit-data '+normal /maxRarity' "+normal Wciw$value"
+}
+
+edit-pieceType() {
+    local name=$1
+    local value=$2
+    shift 2
+
+    # TODO: `pieceType: string | string[]` -> `pieceType: string[]`
+    # edit-data '+normal /pieceType' "+normal Wi[f,i, '$value']"
+}
+
+edit-data() {
+    vim -es "+normal /'$name'" $@ '+wq' data/character.ts
+}
+
 run() {
     local input=$(read-operation)
 
@@ -125,10 +194,13 @@ run() {
             add-character
             ;;
         2)
+            edit-character has_unique_equipment
             ;;
         3)
+            edit-character piece_type
             ;;
         4)
+            edit-character max_rarity
             ;;
         *)
             ;;
