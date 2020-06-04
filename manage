@@ -11,13 +11,15 @@ read-operation() {
 
     echo $message >&2
 
-    local input=$({
+    local input
+    input=$({
         echo "${yellow}0$reset Exit"
         echo "${yellow}1$reset Add character"
         echo "${yellow}2$reset Edit character unique equipment"
         echo "${yellow}3$reset Edit character piece type"
         echo "${yellow}4$reset Edit character max rarity"
     } | fzf --ansi --reverse)
+    [[ $? = 130 ]] && input='0 Exit'
 
     tput cuu 1 >&2
     echo "$message $input" >&2
