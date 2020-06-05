@@ -50,41 +50,52 @@ add-character() {
 
 input-data() {
     local arguments=$@
-    echo "$green${bold}Input character information$reset" >&2
+    echo "$green${bold}Enter the character information$reset"
 
     [[ -n ${(Q)${(z)arguments[(r)name]}} ]] && {
-        echo 'Name (string)' >&2
-        echo -n '> ' >&2
+        echo 'Name (string)'
+        echo -n '> '
         read name
     }
 
     [[ -n ${(Q)${(z)arguments[(r)initial_rarity]}} ]] && while ! validate-number "$initial_rarity"; do
-        echo 'Initial Rarity (number)' >&2
-        echo -n '> ' >&2
+        echo 'Initial Rarity (number, default: 3)'
+        echo -n '> '
         read initial_rarity
+        [[ -z $initial_rarity ]] && initial_rarity=3
     done
 
     [[ -n ${(Q)${(z)arguments[(r)max_rarity]}} ]] && while ! validate-number "$max_rarity"; do
-        echo 'Max Rarity (number)' >&2
-        echo -n '> ' >&2
+        echo 'Max Rarity (number, default: 5)'
+        echo -n '> '
         read max_rarity
+        [[ -z $max_rarity ]] && max_rarity=5
     done
 
     [[ -n ${(Q)${(z)arguments[(r)has_unique_equipment]}} ]] && {
-        echo 'Unique Equipment (y/N)' >&2
-        echo -n '> ' >&2
-        if $(read -q); then
-            has_unique_equipment=true
-        else
-            has_unique_equipment=false
-        fi
+        echo 'Unique Equipment (y/N)'
+        echo -n '> '
+        read -k 1 has_unique_equipment
         echo
+        case $has_unique_equipment in
+            [yY])
+                has_unique_equipment=true
+                ;;
+            $'\n')
+                tput cuu 1
+                has_unique_equipment=false
+                ;;
+            *)
+                has_unique_equipment=false
+                ;;
+        esac
     }
 
     [[ -n ${(Q)${(z)arguments[(r)piece_type]}} ]] && {
-        echo 'Piece Type (string)' >&2
-        echo -n '> ' >&2
+        echo 'Piece Type (string, default: none)'
+        echo -n '> '
         read piece_type
+        [[ -z $piece_type ]] && piece_type=none
     }
 }
 
