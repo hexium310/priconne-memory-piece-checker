@@ -113,7 +113,7 @@ build-data() {
     initialRarity: $initial_rarity,
     maxRarity: $max_rarity,
     hasUniqueEquipment: $has_unique_equipment,
-    pieceType: '$piece_type',
+    pieceType: ['$piece_type'],
   },
 DATA
 }
@@ -187,8 +187,7 @@ edit-pieceType() {
     local value=$2
     shift 2
 
-    # TODO: `pieceType: string | string[]` -> `pieceType: string[]`
-    # edit-data '+normal /pieceType' "+normal Wi[f,i, '$value']"
+    edit-data '+normal /pieceType' "+normal f]i, '$value'"
 }
 
 edit-data() {
