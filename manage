@@ -31,7 +31,7 @@ add-character() {
     local name initial_rarity max_rarity has_unique_equipment piece_type
     local confirm
 
-    input-data name initial_rarity max has_unique_equipment piece_type
+    input-data name initial_rarity max_rarity has_unique_equipment piece_type
 
     local data=$(build-data "$name" "$initial_rarity" "$max_rarity" "$has_unique_equipment" "$piece_type")
     echo
