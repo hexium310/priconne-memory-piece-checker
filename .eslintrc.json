@@ -29,13 +29,6 @@
     "semi": ["error", "always"],
     "react/prop-types": "off",
     "react/jsx-curly-spacing": ["error", "always"],
-    "@typescript-eslint/camelcase": [
-      "error",
-      {
-        "properties": "never",
-        "ignoreDestructuring": true
-      }
-    ],
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {

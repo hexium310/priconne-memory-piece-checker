@@ -40,11 +40,11 @@ describe('buildData()', () => {
 
   describe('passed object', () => {
     test('and rewrite = true should return merged new data into old data', () => {
-      expect(buildData<object>(oldData, newData, true)).toStrictEqual({ ...oldData, ...newData });
+      expect(buildData<Record<string, unknown>>(oldData, newData, true)).toStrictEqual({ ...oldData, ...newData });
     });
 
     test('with rewrite = false should return merged old data into new data', () => {
-      expect(buildData<object>(oldData, newData, false)).toStrictEqual({ ...newData, ...oldData });
+      expect(buildData<Record<string, unknown>>(oldData, newData, false)).toStrictEqual({ ...newData, ...oldData });
     });
   });
 

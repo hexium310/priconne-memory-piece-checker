@@ -49,7 +49,7 @@ const CharactersList: React.FunctionComponent = () => {
     setShowExcess((value) => !value);
   }, []);
 
-  const handleChange = React.useCallback((_: React.ChangeEvent<{}>, newTab: string) => {
+  const handleChange = React.useCallback((_: React.ChangeEvent<Record<string, unknown>>, newTab: string) => {
     setCurrentTab(newTab);
   }, []);
 

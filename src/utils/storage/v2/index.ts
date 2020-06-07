@@ -29,7 +29,7 @@ const validateJSON = (value: string): boolean => {
 };
 
 export const parseStorage = <T>(): T => (
-  Object.fromEntries(Object.entries(window.localStorage).filter(([, value]) => validateJSON(value)).map(([key, value]) => [key, JSON.parse(value)]))
+  Object.fromEntries(Object.entries(window.localStorage).filter(([, value]) => validateJSON(value)).map(([key, value]) => [key, JSON.parse(value)])) as T
 );
 
 export const loadStorage = <T extends Storage, K extends keyof T & string>(
