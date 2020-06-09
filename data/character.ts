@@ -538,14 +538,14 @@ export const characters: Character[] = [
     name: 'スズナ（サマー）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
     name: 'サレン（サマー）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
@@ -622,7 +622,7 @@ export const characters: Character[] = [
     name: 'イオ（サマー）',
     initialRarity: 1,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
