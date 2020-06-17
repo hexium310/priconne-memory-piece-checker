@@ -187,7 +187,14 @@ edit-pieceType() {
     local value=$2
     shift 2
 
-    edit-data '+normal /pieceType' "+normal f]i, '$value'"
+    edit-data \
+        '+normal /pieceType' \
+        "+normal f'w" \
+        "+if expand('<cword>') == 'none' |
+            execute 'normal ciw$value' |
+        else |
+            execute 'normal f]i, ''$value''' |
+        endif"
 }
 
 edit-data() {
