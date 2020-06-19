@@ -212,12 +212,12 @@ data-diff() {
         local new_line_count=${${${new_range#*,}/-*/1}/+*/1}
 
         if [[ $new_line_count -gt 6 ]]; then
-            diff -u <(echo -n) <(tail -n $(( new_line_count + 1 )) data/character.ts | head -n $new_line_count) | format-data-diff
+            git diff --color =(echo -n) =(tail -n $(( new_line_count + 1 )) data/character.ts | head -n $new_line_count) | format-data-diff
         else
             local new_data=$(extract-data "$new_range" "$(cat data/character.ts)")
             local old_data=$(extract-data "$old_range" "$(git show :data/character.ts)")
 
-            diff -U 4 <(echo $old_data) <(echo $new_data) | format-data-diff
+            git diff --color --unified=7 =(echo $old_data) =(echo $new_data) | format-data-diff
         fi
         echo --------------------
     done
@@ -237,7 +237,7 @@ extract-data() {
 }
 
 format-data-diff() {
-    sed 1,3d | sed -e 's/\(^+[^+].*$\)/'$green'\1'$reset'/' -e 's/\(^-[^-].*$\)/'$red'\1'$reset'/'
+    sed 1,5d
 }
 
 run() {
