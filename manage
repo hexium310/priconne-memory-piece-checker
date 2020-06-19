@@ -201,12 +201,51 @@ edit-data() {
     vim -es "+normal /'$name'" $@ '+wq' data/character.ts
 }
 
+data-diff() {
+    local ranges=($(git diff --unified=0 data/character.ts | grep '^@@ .\+ @@' | sed -e 's/^@@ \(.*\) @@.*/\1/'))
+
+    echo --------------------
+    local i
+    for (( i=1; i <= ${#ranges}; i=i+2 )); do
+        local old_range=${ranges[$i]}
+        local new_range=${ranges[$i+1]}
+        local new_line_count=${${${new_range#*,}/-*/1}/+*/1}
+
+        if [[ $new_line_count -gt 6 ]]; then
+            diff -u <(echo -n) <(tail -n $(( new_line_count + 1 )) data/character.ts | head -n $new_line_count) | format-data-diff
+        else
+            local new_data=$(extract-data "$new_range" "$(cat data/character.ts)")
+            local old_data=$(extract-data "$old_range" "$(git show :data/character.ts)")
+
+            diff -U 4 <(echo $old_data) <(echo $new_data) | format-data-diff
+        fi
+        echo --------------------
+    done
+}
+
+extract-data() {
+    local range=$1
+    local input=$2
+    shift 2
+
+    local line=${${${range%,*}/-}/+}
+
+    local braces_pos=$(head -n $line <<< $input | tail -n 6 | grep -n '{' | awk -F : '{ print $1 }')
+    local braces_line_count=$(( line - 6 + braces_pos ))
+
+    sed -n $braces_line_count,$(( braces_line_count + 6 ))p <<< $input
+}
+
+format-data-diff() {
+    sed 1,3d | sed -e 's/\(^+[^+].*$\)/'$green'\1'$reset'/' -e 's/\(^-[^-].*$\)/'$red'\1'$reset'/'
+}
+
 run() {
     local input=$(read-operation)
 
     case $input in
         0)
-            git diff data/character.ts
+            data-diff
             return 0
             ;;
         1)
