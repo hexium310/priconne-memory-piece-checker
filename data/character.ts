@@ -40,7 +40,7 @@ export const characters: Character[] = [
   {
     name: 'シズル',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
