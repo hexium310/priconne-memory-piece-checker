@@ -553,14 +553,14 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['master'],
   },
   {
     name: 'マホ（サマー）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['master'],
   },
   {
     name: 'コッコロ（サマー）',
@@ -833,7 +833,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
-    pieceType: ['none'],
+    pieceType: ['master'],
   },
   {
     name: 'アンナ（サマー）',
@@ -844,6 +844,13 @@ export const characters: Character[] = [
   },
   {
     name: 'ルカ（サマー）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'ナナカ（サマー）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
