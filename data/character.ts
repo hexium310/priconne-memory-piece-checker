@@ -686,7 +686,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
-    pieceType: ['none'],
+    pieceType: ['hard'],
   },
   {
     name: 'ノゾミ（クリスマス）',
