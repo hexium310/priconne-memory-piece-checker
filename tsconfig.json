@@ -10,6 +10,7 @@
       "utils/*": ["src/utils/*"]
     },
     "importsNotUsedAsValues": "preserve",
+    "incremental": true,
     "jsx": "react",
     "lib": ["dom", "esnext"],
     "module": "esnext",
@@ -29,8 +30,7 @@
     "node_modules"
   ],
   "include": [
-    "**/*.js",
-    "**/*.ts",
-    "**/*.tsx"
+    "./src/",
+    "./__tests__/"
   ]
 }
