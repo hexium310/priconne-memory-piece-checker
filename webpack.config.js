@@ -4,11 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const loaders = {
-  typescript: {
-    loader: 'ts-loader',
-    options: {
-      transpileOnly: true,
-    },
+  babel: {
+    loader: 'babel-loader',
   },
 };
 
@@ -23,7 +20,7 @@ module.exports = (_, argv) => ({
       {
         test: /.tsx?$/,
         exclude: /node_modules/,
-        use: loaders.typescript,
+        use: loaders.babel,
       },
     ],
   },
@@ -56,7 +53,12 @@ module.exports = (_, argv) => ({
     }),
     new ForkTsCheckerWebpackPlugin({
       async: argv.mode === 'development',
-      useTypescriptIncrementalApi: argv.mode !== 'development',
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
     }),
   ],
   devtool: argv.mode === 'development' ? 'source-map' : 'none',
