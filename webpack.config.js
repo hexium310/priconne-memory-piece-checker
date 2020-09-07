@@ -56,7 +56,6 @@ module.exports = (_, argv) => ({
     }),
     new ForkTsCheckerWebpackPlugin({
       async: argv.mode === 'development',
-      useTypescriptIncrementalApi: argv.mode !== 'development',
     }),
   ],
   devtool: argv.mode === 'development' ? 'source-map' : 'none',
