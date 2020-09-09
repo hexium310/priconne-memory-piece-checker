@@ -1,4 +1,5 @@
-import React from 'react';
+/* @jsx jsx */
+import { jsx } from '@emotion/core';
 import ReactDOM from 'react-dom';
 
 import { parseStorage, initStorage, STORAGE_VERSION } from 'utils/storage/v2';
