@@ -2,7 +2,6 @@ const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const TailwindCSS = require('tailwindcss');
 
 const loaders = {
   babel: {
@@ -22,20 +21,6 @@ module.exports = (_, argv) => ({
         test: /.tsx?$/,
         exclude: /node_modules/,
         use: loaders.babel,
-      },
-      {
-        test: /.css$/,
-        use: [
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: [
-                new TailwindCSS(),
-              ],
-            },
-          },
-        ],
       },
     ],
   },
