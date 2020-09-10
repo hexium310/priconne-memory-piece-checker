@@ -2,6 +2,7 @@ const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const loaders = {
   babel: {
@@ -9,7 +10,10 @@ const loaders = {
   },
 };
 
-module.exports = (_, argv) => ({
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -47,12 +51,13 @@ module.exports = (_, argv) => ({
     },
   },
   plugins: [
+    isDevelopment && new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
     }),
     new ForkTsCheckerWebpackPlugin({
-      async: argv.mode === 'development',
+      async: isDevelopment,
       typescript: {
         diagnosticOptions: {
           semantic: true,
@@ -60,8 +65,8 @@ module.exports = (_, argv) => ({
         },
       },
     }),
-  ],
-  devtool: argv.mode === 'development' ? 'source-map' : 'none',
+  ].filter(Boolean),
+  devtool: isDevelopment ? 'source-map' : 'none',
   stats: {
     warningsFilter: /export .* was not found in/,
   },
@@ -72,5 +77,6 @@ module.exports = (_, argv) => ({
     progress: true,
     overlay: true,
     compress: true,
+    hot: true,
   },
-});
+};
