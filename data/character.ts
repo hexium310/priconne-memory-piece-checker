@@ -678,14 +678,14 @@ export const characters: Character[] = [
     name: 'ルナ',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
     name: 'カヤ',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
