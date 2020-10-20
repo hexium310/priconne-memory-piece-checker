@@ -5,8 +5,11 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const loaders = {
-  babel: {
-    loader: 'babel-loader',
+  typescript: {
+    loader: 'ts-loader',
+    options: {
+      transpileOnly: true,
+    },
   },
 };
 
@@ -24,7 +27,7 @@ module.exports = {
       {
         test: /.tsx?$/,
         exclude: /node_modules/,
-        use: loaders.babel,
+        use: loaders.typescript,
       },
     ],
   },
@@ -58,12 +61,6 @@ module.exports = {
     }),
     new ForkTsCheckerWebpackPlugin({
       async: isDevelopment,
-      typescript: {
-        diagnosticOptions: {
-          semantic: true,
-          syntactic: true,
-        },
-      },
     }),
   ].filter(Boolean),
   devtool: isDevelopment ? 'source-map' : 'none',
