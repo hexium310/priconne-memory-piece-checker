@@ -100,12 +100,12 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   }, []);
 
   const handleChangeRarity = React.useCallback((
-    _: React.MouseEvent<HTMLElement, MouseEvent>,
+    _: React.ChangeEvent<HTMLInputElement>,
     newRarity: string
   ) => storeState('rarity', Number(newRarity), setRarity), []);
 
   const handleChangeEquopmentLevel = React.useCallback((
-    _: React.MouseEvent<HTMLElement, MouseEvent>,
+    _: React.ChangeEvent<HTMLInputElement>,
     newEquipmentLevel: string
   ) => storeState('equipment', Number(newEquipmentLevel), setEquipmentLevel), []);
 
@@ -130,19 +130,21 @@ const CharacterCard = React.memo<CharacterCardProps>(({
           <Grid className={ classes.borderRight } item xs={ 9 }>
             <CharacterState
               title="才能開花"
+              characterName={ characterName }
               valuePrefix="☆"
               data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
               state={ rarity }
-              handleButtonClick={ handleChangeRarity }
+              handleChange={ handleChangeRarity }
               displayCondition
             />
             <Divider />
             <CharacterState
               title="専用装備"
+              characterName={ characterName }
               valuePrefix="Lv. "
               data={ Object.entries(uniqueEquipments) }
               state={ equipmentLevel }
-              handleButtonClick={ handleChangeEquopmentLevel }
+              handleChange={ handleChangeEquopmentLevel }
               displayCondition={ hasUniqueEquipment }
             />
           </Grid>

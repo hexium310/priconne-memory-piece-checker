@@ -1,34 +1,21 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
+import RadioGroup from 'components/RadioGroup';
+import RadioButton from 'components/RadioButton';
+
 type CharacterStateProps = {
+  characterName: string;
   title: string;
   valuePrefix: string;
   data: [string, number][];
   state: number;
-  handleButtonClick: (_: React.MouseEvent<HTMLElement, MouseEvent>, value: string) => void;
+  handleChange: (_: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   displayCondition: boolean;
 }
 
 const useStyles = makeStyles((theme) => createStyles({
-  stateButtonContainer: {
-    paddingTop: theme.spacing(1),
-  },
-  stateButton: {
-    width: 80,
-    textTransform: 'none',
-    '&$stateButtonSelected': {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-      '&:hover': {
-        backgroundColor: theme.palette.primary.dark,
-      },
-    },
-  },
-  stateButtonSelected: {},
   verticalWriting: {
     writingMode: 'vertical-rl',
   },
@@ -40,9 +27,6 @@ const useStyles = makeStyles((theme) => createStyles({
       },
     },
   },
-  toggleButtonGroup: {
-    flexWrap: 'wrap',
-  },
 }));
 
 const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
@@ -50,7 +34,8 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
   valuePrefix,
   data,
   state,
-  handleButtonClick,
+  characterName,
+  handleChange,
   displayCondition,
 }) => {
   const classes = useStyles();
@@ -60,27 +45,22 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
       <Grid className={ classes.verticalWriting } item>{ title }</Grid>
       {
         <Grid item xs={ 11 }>
-          <ToggleButtonGroup
-            className={ classes.toggleButtonGroup }
-            exclusive
-            value={ state.toString() }
-            onChange={ handleButtonClick }
-          >
+          <RadioGroup>
             {
               data.map(([value]) => (
-                <ToggleButton
+                <RadioButton
                   key={ value }
-                  className={ classes.stateButton }
-                  classes={ { selected: classes.stateButtonSelected } }
+                  group={ characterName + title }
                   value={ value }
+                  checked={ value === state.toString() }
                   disabled={ !displayCondition }
-                  disableRipple
+                  handleChange={ handleChange }
                 >
                   { `${ valuePrefix }${ value }` }
-                </ToggleButton>
+                </RadioButton>
               ))
             }
-          </ToggleButtonGroup>
+          </RadioGroup>
         </Grid>
       }
     </Grid>
