@@ -61,10 +61,12 @@ module.exports = (_, argv) => ({
       },
     }),
   ],
-  devtool: argv.mode === 'development' ? 'source-map' : 'none',
-  stats: {
-    warningsFilter: /export .* was not found in/,
-  },
+  devtool: argv.mode === 'development' ? 'source-map' : false,
+  ignoreWarnings: [
+    {
+      message: /export .* was not found in/,
+    },
+  ],
   devServer: {
     clientLogLevel: 'warn',
     historyApiFallback: true,
