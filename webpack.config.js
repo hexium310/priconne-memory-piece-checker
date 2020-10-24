@@ -6,6 +6,12 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const TailwindCSS = require('tailwindcss');
 
 const loaders = {
+  babel: {
+    loader: 'babel-loader',
+    options: {
+      plugins: ['react-refresh/babel'],
+    },
+  },
   css:{
     loader: 'css-loader',
   },
@@ -31,71 +37,81 @@ const loaders = {
   },
 };
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+module.exports = (_, argv) => {
+  const isDevelopment = argv.mode === 'development';
 
-module.exports = {
-  mode: isDevelopment ? 'development' : 'production',
-  entry: './src/index.tsx',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-  },
-  module: {
-    rules: [
-      {
-        test: /.tsx?$/,
-        exclude: /node_modules/,
-        use: loaders.typescript,
-      },
-      {
-        test: /\.css$/,
-        use: [loaders.style, loaders.css, loaders.postcss],
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
-    plugins: [
-      new TsconfigPathsPlugin(),
-    ],
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        react: {
-          test: /[\\/]node_modules[\\/]react.+/,
-          name: 'react',
-          chunks: 'all',
+  return {
+    entry: './src/index.tsx',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: '[name].bundle.js',
+    },
+    module: {
+      rules: [
+        {
+          test: /.tsx?$/,
+          exclude: /node_modules/,
+          use: [
+            isDevelopment && loaders.babel,
+            loaders.typescript,
+          ].filter(Boolean),
         },
-        core: {
-          test: /[\\/]node_modules[\\/](?!react).+/,
-          name: 'core',
-          chunks: 'all',
+        {
+          test: /\.css$/,
+          use: [loaders.style, loaders.css, loaders.postcss],
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.js', '.ts', '.tsx'],
+      plugins: [
+        new TsconfigPathsPlugin(),
+      ],
+    },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          react: {
+            test: /[\\/]node_modules[\\/]react.+/,
+            name: 'react',
+            chunks: 'all',
+          },
+          core: {
+            test: /[\\/]node_modules[\\/](?!react).+/,
+            name: 'core',
+            chunks: 'all',
+          },
         },
       },
     },
-  },
-  plugins: [
-    isDevelopment && new ReactRefreshWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'index.html',
-    }),
-    new ForkTsCheckerWebpackPlugin({
-      async: isDevelopment,
-    }),
-  ].filter(Boolean),
-  devtool: isDevelopment ? 'source-map' : 'none',
-  stats: {
-    warningsFilter: /export .* was not found in/,
-  },
-  devServer: {
-    clientLogLevel: 'warn',
-    historyApiFallback: true,
-    stats: 'errors-only',
-    progress: true,
-    overlay: true,
-    compress: true,
-    hot: true,
-  },
+    plugins: [
+      isDevelopment && new ReactRefreshWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+        filename: 'index.html',
+      }),
+      new ForkTsCheckerWebpackPlugin({
+        async: isDevelopment,
+      }),
+    ].filter(Boolean),
+    devtool: isDevelopment ? 'source-map' : 'none',
+    stats: {
+      warningsFilter: /export .* was not found in/,
+    },
+    devServer: {
+      clientLogLevel: 'info',
+      historyApiFallback: true,
+      stats: {
+        builtAt: true,
+        children: false,
+        modules: false,
+        warningsFilter: /export .* was not found in/,
+        colors: true,
+      },
+      progress: true,
+      overlay: true,
+      compress: true,
+      hot: true,
+    },
+  };
 };
