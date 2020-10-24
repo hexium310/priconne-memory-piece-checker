@@ -94,10 +94,12 @@ module.exports = (_, argv) => {
         async: isDevelopment,
       }),
     ].filter(Boolean),
-    devtool: isDevelopment ? 'source-map' : 'none',
-    stats: {
-      warningsFilter: /export .* was not found in/,
-    },
+    devtool: isDevelopment ? 'source-map' : false,
+    ignoreWarnings: [
+      {
+        message: /export .* was not found in/,
+      },
+    ],
     devServer: {
       clientLogLevel: 'info',
       historyApiFallback: true,
