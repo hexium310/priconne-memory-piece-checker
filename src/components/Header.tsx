@@ -1,17 +1,20 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import cntl from 'cntl';
 
 const Header: React.FunctionComponent = () => {
   return (
-    <AppBar position="relative">
-      <Toolbar>
-        <Typography variant="h6">
-          プリコネメモピ所持数チェッカー
-        </Typography>
-      </Toolbar>
-    </AppBar>
+    <header className={ cntl`
+      bg-primary
+      text-white
+      h-16
+      items-center
+      flex
+      shadow-md
+    ` }>
+      <h2 className={ cntl`px-6 text-xl font-normal` }>
+        プリコネメモピ所持数チェッカー
+      </h2>
+    </header>
   );
 };
 

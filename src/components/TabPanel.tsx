@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import cntl from 'cntl';
 
 type TabPanelProps = {
   children?: React.ReactNode;
@@ -8,15 +8,15 @@ type TabPanelProps = {
 
 const TabPanel: React.FunctionComponent<TabPanelProps> = ({ children, index }) => {
   return (
-    <Grid
-      item
-      container
-      spacing={ 1 }
+    <div
       role='tabpanel'
       id={ `tabpanel-${index}` }
+      className={ cntl`
+        col-span-12
+      ` }
     >
       { children }
-    </Grid>
+    </div>
   );
 };
 

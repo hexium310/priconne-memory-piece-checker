@@ -1,10 +1,5 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import cntl from 'cntl';
 
 import { rarities, uniqueEquipments, Character, Rarities, UniqueEquipments } from 'data';
 import { saveStorage, loadStorage, CharacterState as CharacterStateType } from 'utils/storage/v2';
@@ -14,37 +9,6 @@ interface CharacterCardProps {
   character: Character;
   showExcess: boolean;
 }
-
-const useStyles = makeStyles((theme) => createStyles({
-  textBox: {
-    '& input': {
-      textAlign: 'center',
-      fontSize: '1.2rem',
-      '&::-webkit-inner-spin-button': {
-        appearance: 'none',
-      },
-    },
-  },
-  deficiency: {
-    fontSize: '1.2rem',
-  },
-  borderRight: {
-    borderStyle: 'none solid none none',
-    borderWidth: 1,
-    borderColor: theme.palette.divider,
-  },
-  verticalWriting: {
-    writingMode: 'vertical-rl',
-  },
-  requiredAndPossession: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  required: {
-    paddingTop: 7,
-    fontSize: '1.2rem',
-  },
-}));
 
 const calculateRequired = (
   target: Rarities | UniqueEquipments,
@@ -66,7 +30,6 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   },
   showExcess,
 }) => {
-  const classes = useStyles();
   const [rarity, setRarity] = React.useState(0);
   const [equipmentLevel, setEquipmentLevel] = React.useState(0);
   const [possessionPieces, setPossessionPieces] = React.useState(0);
@@ -100,14 +63,12 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   }, []);
 
   const handleChangeRarity = React.useCallback((
-    _: React.ChangeEvent<HTMLInputElement>,
-    newRarity: string
-  ) => storeState('rarity', Number(newRarity), setRarity), []);
+    event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
+  ) => storeState('rarity', Number(event.target.value), setRarity), []);
 
   const handleChangeEquopmentLevel = React.useCallback((
-    _: React.ChangeEvent<HTMLInputElement>,
-    newEquipmentLevel: string
-  ) => storeState('equipment', Number(newEquipmentLevel), setEquipmentLevel), []);
+    event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
+  ) => storeState('equipment', Number(event.target.value), setEquipmentLevel), []);
 
   const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -115,19 +76,27 @@ const CharacterCard = React.memo<CharacterCardProps>(({
 
   const Character = React.useMemo(() => {
     return showCharacter ? (
-      <Grid item xs={ 12 }>
-        <Grid component={ Card } container alignItems="stretch">
-          <Grid
-            className={ classes.borderRight }
-            alignItems="center"
-            justify="center"
-            container
-            item
-            xs={ 1 }
-          >
-            <Grid item>{ characterName }</Grid>
-          </Grid>
-          <Grid className={ classes.borderRight } item xs={ 9 }>
+      <div className={ cntl`
+        bg-white
+        border
+        border-solid
+        box-border
+        centering-height-full
+        col-span-12
+        divide-x
+        grid
+        grid-cols-12
+        items-center
+        mt-2
+        rounded
+        shadow
+        text-center
+      ` }>
+        <div className={ cntl`col-start-1 col-end-1` }>
+          <p>{ characterName }</p>
+        </div>
+        <div className={ cntl`col-start-2 col-end-11` }>
+          <div className={ cntl`divide-y` }>
             <CharacterState
               title="才能開花"
               characterName={ characterName }
@@ -137,7 +106,6 @@ const CharacterCard = React.memo<CharacterCardProps>(({
               handleChange={ handleChangeRarity }
               displayCondition
             />
-            <Divider />
             <CharacterState
               title="専用装備"
               characterName={ characterName }
@@ -147,39 +115,37 @@ const CharacterCard = React.memo<CharacterCardProps>(({
               handleChange={ handleChangeEquopmentLevel }
               displayCondition={ hasUniqueEquipment }
             />
-          </Grid>
-          <Grid
-            className={ classes.borderRight }
-            container
-            item
-            xs={ 1 }
-            direction="column"
-            alignItems="center"
-            justify="center"
-          >
-            <TextField
-              className={ classes.textBox }
-              value={ possessionPieces }
-              onChange={ handleChangePossessionPieces }
+          </div>
+        </div>
+        <div className={ cntl`col-start-11 col-end-11` }>
+          <div className={ cntl`divide-black divide-dashed divide-y` }>
+            <input
+              className={ cntl`
+                focus:placeholder-transparent
+                spin-none
+                text-center
+                text-xl
+                w-full
+              ` }
               type="number"
-              inputProps={ { min: 0 } }
+              min="0"
+              placeholder={ possessionPieces.toString() }
+              value={ possessionPieces || '' }
+              onChange={ handleChangePossessionPieces }
               onFocus={ handleFocusPossessionPieces }
             />
-            <Typography className={ classes.required }>{ requiredPieces }</Typography>
-          </Grid>
-          <Grid
-            container
-            item
-            xs={ 1 }
-            alignItems="center"
-            justify="center"
-          >
-            <Typography className={ classes.deficiency } color={ deficiency > 0 ? 'error' : 'primary' }>
-              { deficiency }
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+            <p className={ cntl`text-xl` }>{ requiredPieces }</p>
+          </div>
+        </div>
+        <div className={ cntl`col-start-12 col-end-12` }>
+          <p className={ cntl`
+            text-xl
+            ${ deficiency > 0 ? 'text-red-600' : 'text-primary'}
+          ` }>
+            { deficiency }
+          </p>
+        </div>
+      </div>
     ) : null;
   }, [
     rarity,

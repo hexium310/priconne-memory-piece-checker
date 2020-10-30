@@ -3,49 +3,45 @@ import cntl from 'cntl';
 
 type RadioButtonProps = {
   checked: boolean;
-  disabled: boolean;
+  disabled?: boolean;
   group: string;
   value: string;
-  handleChange: (_: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  classes?: {
+    div?: string;
+    input?: string;
+    label?: string;
+  };
+  handleChange: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
 };
 
-const RadioButton: React.FC<RadioButtonProps> = ({
+const RadioButton= React.forwardRef<HTMLDivElement, React.PropsWithChildren<RadioButtonProps>>(({
   checked,
   disabled,
   group,
   handleChange,
   value,
+  classes,
   children,
-}) => {
+}, ref) => {
   const id = group + value;
 
   return (
     <div
       className={ cntl`
         bg-transparent
-        border
-        border-solid
         box-border
-        first:rounded-bl
-        first:rounded-tl
-        inline-grid
-        last:rounded-br
-        last:rounded-tr
-        leading-7
-        not-first:border-l-0
         place-items-center
         text-black
         text-opacity-50
         text-sm
-        w-20
+        ${classes?.div}
       ` }
+      ref={ ref }
     >
       <input
         className={ cntl`
-          checked-label:bg-primary
-          checked-label:text-white
-          disabled-label:opacity-25
           hidden
+          ${classes?.input}
         ` }
         checked={ checked }
         disabled={ disabled }
@@ -53,14 +49,13 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         name={ group }
         type="radio"
         value={ value }
-        onChange={ (e) => handleChange(e, e.target.value) }
+        onChange={ handleChange }
       ></input>
       <label
         className={ cntl`
-          ${ disabled ? '' : 'cursor-pointer' }
           p-2
-          rounded-inherit
           w-full
+          ${classes?.label}
         ` }
         htmlFor={ id }
       >
@@ -68,6 +63,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
       </label>
     </div>
   );
-};
+});
+RadioButton.displayName = 'RadioButton';
 
 export default RadioButton;

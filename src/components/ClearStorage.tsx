@@ -1,58 +1,51 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import cntl from 'cntl';
 
-const useStyles = makeStyles((theme) => createStyles({
-  clearButton: {
-    color: theme.palette.text.hint,
-  },
-}));
+import Modal from 'components/Modal';
+import ModalTitle from 'components/ModalTitle';
+import ModalFooter from 'components/ModalFooter';
 
-const handleClear = (): void => {
+const clear = (): void => {
   window.localStorage.clear();
   window.location.reload();
 };
 
 const ClearStorage: React.FunctionComponent = () => {
   const [showDialog, setShowDialog] = React.useState(false);
-  const classes = useStyles();
 
   const handleClickClearButton = React.useCallback(() => {
     setShowDialog(true);
   }, []);
 
-  const handleClose = React.useCallback(() => {
+  const closeModal = React.useCallback(() => {
     setShowDialog(false);
   }, []);
 
   return (
     <>
-      <Button
-        className={ classes.clearButton }
-        size='small'
+      <button
+        className={ cntl`hover:bg-black hover:bg-opacity-4 min-w-16 p-1 rounded text-black text-opacity-50 text-sm uppercase` }
         onClick={ handleClickClearButton }
       >
         Clear
-      </Button>
-      <Dialog
-        open={ showDialog }
-        onClose={ handleClose }
-      >
-        <DialogTitle>
-          入力されたすべての情報を削除しますか？
-        </DialogTitle>
-        <DialogActions>
-          <Button color="secondary" onClick={ handleClear }>
+      </button>
+      <Modal open={ showDialog } onClose={ closeModal }>
+        <ModalTitle>入力されたすべての情報を削除しますか？</ModalTitle>
+        <ModalFooter>
+          <button
+            className={ cntl`hover:bg-red-600 hover:bg-opacity-4 p-2 rounded text-red-600` }
+            onClick={ clear }
+          >
             削除する
-          </Button>
-          <Button onClick={ handleClose }>
+          </button>
+          <button
+            className={ cntl`hover:bg-black hover:bg-opacity-4 p-2 rounded ml-2` }
+            onClick={ closeModal }
+          >
             削除しない
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 };

@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const TailwindCSS = require('tailwindcss');
+const PostCSSNested = require('postcss-nested');
 
 const loaders = {
   babel: {
@@ -22,6 +23,7 @@ const loaders = {
         ident: 'postcss',
         plugins: [
           new TailwindCSS(),
+          PostCSSNested(),
         ],
       },
     },
@@ -92,6 +94,14 @@ module.exports = (_, argv) => {
       }),
       new ForkTsCheckerWebpackPlugin({
         async: isDevelopment,
+        typescript: {
+          configOverwrite: {
+            compilerOptions: {
+              noUnusedLocals: false,
+              sourceMap: false,
+            },
+          },
+        },
       }),
     ].filter(Boolean),
     devtool: isDevelopment ? 'source-map' : false,
