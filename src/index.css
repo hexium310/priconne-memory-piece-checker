@@ -13,6 +13,7 @@ body {
 }
 
 @layer utilities {
+  /* purgecss start ignore */
   .spin-none {
     appearance: textfield;
 
@@ -28,9 +29,11 @@ body {
   .scroll-smooth {
     scroll-behavior: smooth;
   }
+  /* purgecss end ignore */
 }
 
 @layer components {
+  /* purgecss start ignore */
   .centering-height-full > div {
     @apply h-full relative;
 
@@ -81,4 +84,5 @@ body {
       @apply rotate-45
     }
   }
+  /* purgecss end ignore */
 }
