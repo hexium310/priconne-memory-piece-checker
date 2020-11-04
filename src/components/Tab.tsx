@@ -5,17 +5,12 @@ import { pieceTypes } from 'data';
 import TabButton from 'components/TabButton';
 import ScrollButton from 'components/ScrollButton';
 
-type TabProps = {
-  currentTab: string;
-  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
-}
-
 const directions = {
   left: -1,
   right: 1,
 };
 
-const Tab: React.FC<TabProps> = ({ currentTab, setCurrentTab }) => {
+const Tab: React.FC = () => {
   const ref = React.useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right'): () => void => {
@@ -55,8 +50,6 @@ const Tab: React.FC<TabProps> = ({ currentTab, setCurrentTab }) => {
               key={ pieceType }
               labelValue={ pieceType }
               inputValue={ name }
-              currentTab={ currentTab }
-              setCurrentTab={ setCurrentTab }
             />
           ))
         }

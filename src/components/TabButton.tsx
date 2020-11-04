@@ -2,21 +2,24 @@ import React from 'react';
 import cntl from 'cntl';
 
 import RadioButton from 'components/RadioButton';
+import { TabContext } from 'components/Content';
 
 type TabButtonProps = {
-  currentTab: string;
-  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
   labelValue: string;
   inputValue: string;
 }
 
-const TabButton: React.FC<TabButtonProps> = ({ currentTab, setCurrentTab, labelValue, inputValue }) => {
+const TabButton: React.FC<TabButtonProps> = ({ labelValue, inputValue }) => {
   const ref = React.useRef<HTMLDivElement>(null);
+  const { state: { currentTab }, dispatch } = React.useContext(TabContext);
 
   const handleChangeTab = React.useCallback((event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => {
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
-    setCurrentTab(event.target.value);
+    dispatch({
+      type: 'CHANGE_TAB',
+      payload: event.target.value,
+    });
   }, []);
 
   return (

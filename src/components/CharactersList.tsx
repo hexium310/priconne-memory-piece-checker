@@ -5,13 +5,15 @@ import { characters, pieceTypes, PieceType } from 'data';
 import CharacterCard from 'components/CharacterCard';
 import TabPanel from 'components/TabPanel';
 import Row from 'components/Row';
+import { TabContext } from 'components/Content';
 
 type CharactersListProps = {
-  currentTab: string;
   showExcess: boolean;
 };
 
-const CharactersList: React.FC<CharactersListProps> = ({ currentTab, showExcess }) => {
+const CharactersList: React.FC<CharactersListProps> = ({ showExcess }) => {
+  const { state: { currentTab } } = React.useContext(TabContext);
+
   return (
     <div className={ cntl`grid pt-4 grid-rows-1` }>
       <Row className={ cntl`sticky top-12 z-50` }>
