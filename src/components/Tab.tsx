@@ -26,19 +26,13 @@ const Tab: React.FC<TabProps> = ({ currentTab, setCurrentTab }) => {
 
   return (
     <div className={ cntl`
-      bg-white
-      border
-      border-solid
-      box-border
+      card
       divide-y
       flex
       left-auto
       mt-2
       right-0
-      rounded
-      shadow
       sticky
-      text-center
       top-0
       z-50
     ` }>

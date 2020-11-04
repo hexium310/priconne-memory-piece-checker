@@ -1,6 +1,8 @@
 import React from 'react';
 import cntl from 'cntl';
 
+import Row from 'components/Row';
+
 import { rarities, uniqueEquipments, Character, Rarities, UniqueEquipments } from 'data';
 import { saveStorage, loadStorage, CharacterState as CharacterStateType } from 'utils/storage/v2';
 import CharacterState from 'components/CharacterState';
@@ -76,76 +78,44 @@ const CharacterCard = React.memo<CharacterCardProps>(({
 
   const Character = React.useMemo(() => {
     return showCharacter ? (
-      <div className={ cntl`
-        bg-white
-        border
-        border-solid
-        box-border
-        centering-height-full
-        col-span-12
-        divide-x
-        grid
-        grid-cols-12
-        items-center
-        mt-2
-        rounded
-        shadow
-        text-center
-      ` }>
-        <div className={ cntl`col-start-1 col-end-1` }>
-          <p>{ characterName }</p>
+      <Row className={ cntl`mt-2` }>
+        <p>{ characterName }</p>
+        <div className={ cntl`divide-y` }>
+          <CharacterState
+            title="才能開花"
+            characterName={ characterName }
+            valuePrefix="☆"
+            data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
+            state={ rarity }
+            handleChange={ handleChangeRarity }
+            displayCondition
+          />
+          <CharacterState
+            title="専用装備"
+            characterName={ characterName }
+            valuePrefix="Lv. "
+            data={ Object.entries(uniqueEquipments) }
+            state={ equipmentLevel }
+            handleChange={ handleChangeEquopmentLevel }
+            displayCondition={ hasUniqueEquipment }
+          />
         </div>
-        <div className={ cntl`col-start-2 col-end-11` }>
-          <div className={ cntl`divide-y` }>
-            <CharacterState
-              title="才能開花"
-              characterName={ characterName }
-              valuePrefix="☆"
-              data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
-              state={ rarity }
-              handleChange={ handleChangeRarity }
-              displayCondition
-            />
-            <CharacterState
-              title="専用装備"
-              characterName={ characterName }
-              valuePrefix="Lv. "
-              data={ Object.entries(uniqueEquipments) }
-              state={ equipmentLevel }
-              handleChange={ handleChangeEquopmentLevel }
-              displayCondition={ hasUniqueEquipment }
-            />
-          </div>
+        <div className={ cntl`divide-black divide-dashed divide-y` }>
+          <input
+            className={ cntl`focus:placeholder-transparent spin-none text-center text-xl w-full` }
+            type="number"
+            min="0"
+            placeholder={ possessionPieces.toString() }
+            value={ possessionPieces || '' }
+            onChange={ handleChangePossessionPieces }
+            onFocus={ handleFocusPossessionPieces }
+          />
+          <p className={ cntl`text-xl` }>{ requiredPieces }</p>
         </div>
-        <div className={ cntl`col-start-11 col-end-11` }>
-          <div className={ cntl`divide-black divide-dashed divide-y` }>
-            <input
-              className={ cntl`
-                focus:placeholder-transparent
-                spin-none
-                text-center
-                text-xl
-                w-full
-              ` }
-              type="number"
-              min="0"
-              placeholder={ possessionPieces.toString() }
-              value={ possessionPieces || '' }
-              onChange={ handleChangePossessionPieces }
-              onFocus={ handleFocusPossessionPieces }
-            />
-            <p className={ cntl`text-xl` }>{ requiredPieces }</p>
-          </div>
-        </div>
-        <div className={ cntl`col-start-12 col-end-12` }>
-          <p className={ cntl`
-            text-xl
-            ${ deficiency > 0 ? 'text-red-600' : 'text-primary'}
-          ` }>
-            { deficiency }
-          </p>
-        </div>
-      </div>
+        <p className={ cntl`text-xl ${ deficiency > 0 ? 'text-red-600' : 'text-primary'}` }>
+          { deficiency }
+        </p>
+      </Row>
     ) : null;
   }, [
     rarity,

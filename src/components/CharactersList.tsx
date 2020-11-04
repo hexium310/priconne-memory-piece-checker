@@ -4,66 +4,47 @@ import cntl from 'cntl';
 import { characters, pieceTypes, PieceType } from 'data';
 import CharacterCard from 'components/CharacterCard';
 import TabPanel from 'components/TabPanel';
-import ClearStorage from 'components/ClearStorage';
-import Tab from 'components/Tab';
-import List from 'components/List';
+import Row from 'components/Row';
 
-const CharactersList: React.FunctionComponent = () => {
-  const [showExcess, setShowExcess] = React.useState(true);
-  const [currentTab, setCurrentTab] = React.useState('hard');
+type CharactersListProps = {
+  currentTab: string;
+  showExcess: boolean;
+};
 
-  const handleChangeShowExcess = React.useCallback(() => {
-    setShowExcess((value) => !value);
-  }, []);
-
+const CharactersList: React.FC<CharactersListProps> = ({ currentTab, showExcess }) => {
   return (
-    <div className={ cntl`mt-4` }>
-      <div className={ cntl`flex justify-between` }>
-        <label className={ cntl`
-          relative pl-4
-          h-fit
-        ` }>
-          <input
-            type="checkbox"
-            className={ cntl`
-              absolute
-              inset-y-0
-              left-0
-              m-auto
-            ` }
-            checked={ showExcess }
-            onChange={ handleChangeShowExcess }
-          />
-          必要数持っているキャラクターも表示
-        </label>
-        <ClearStorage></ClearStorage>
-      </div>
-      <Tab currentTab={ currentTab } setCurrentTab={ setCurrentTab } />
-      <List>
-        {
-          Object.entries(pieceTypes)
-            .filter(([pieceType]) => pieceType === currentTab || currentTab === 'all')
-            .map(([pieceType]) => (
-              <TabPanel key={ pieceType } index={ pieceType }>
-                {
-                  characters
-                    .filter((character) => (
-                      character.pieceType.includes(currentTab as PieceType) ||
-                        currentTab === 'all' &&
-                        character.pieceType.includes(pieceType as PieceType)
-                    ))
-                    .map((character) => (
-                      <CharacterCard
-                        key={ character.name }
-                        character={ character }
-                        showExcess={ showExcess }
-                      />
-                    ))
-                }
-              </TabPanel>
-            ))
-        }
-      </List>
+    <div className={ cntl`grid pt-4 grid-rows-1` }>
+      <Row className={ cntl`sticky top-12 z-50` }>
+        <p>名前</p>
+        <p>キャラクターの状態</p>
+        <div className={ cntl`divide-black divide-dashed divide-y` }>
+          <p>所持数</p><p>必要数</p>
+        </div>
+        <p>不足数</p>
+      </Row>
+      {
+        Object.entries(pieceTypes)
+          .filter(([pieceType]) => pieceType === currentTab || currentTab === 'all')
+          .map(([pieceType]) => (
+            <TabPanel key={ pieceType } index={ pieceType }>
+              {
+                characters
+                  .filter((character) => (
+                    character.pieceType.includes(currentTab as PieceType) ||
+                      currentTab === 'all' &&
+                      character.pieceType.includes(pieceType as PieceType)
+                  ))
+                  .map((character) => (
+                    <CharacterCard
+                      key={ character.name }
+                      character={ character }
+                      showExcess={ showExcess }
+                    />
+                  ))
+              }
+            </TabPanel>
+          ))
+      }
     </div>
   );
 };
