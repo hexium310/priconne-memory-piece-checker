@@ -9,7 +9,6 @@
       "data": ["data"],
       "utils/*": ["src/utils/*"]
     },
-    "importsNotUsedAsValues": "preserve",
     "incremental": true,
     "jsx": "react",
     "lib": ["dom", "esnext"],
