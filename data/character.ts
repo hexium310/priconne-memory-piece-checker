@@ -525,14 +525,14 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['master'],
   },
   {
     name: 'エミリア',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['master'],
   },
   {
     name: 'スズナ（サマー）',
