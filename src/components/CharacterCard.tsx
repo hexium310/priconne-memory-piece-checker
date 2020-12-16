@@ -64,13 +64,23 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     setState(value);
   }, []);
 
-  const handleChangeRarity = React.useCallback((
+  const handleClickRarityButton = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
-  ) => storeState('rarity', Number(event.target.value), setRarity), []);
+  ) => {
+    const value = Number(event.target.value);
+    const newRarity = value === rarity ? 0: value;
 
-  const handleChangeEquopmentLevel = React.useCallback((
+    storeState('rarity', newRarity, setRarity);
+  }, [rarity]);
+
+  const handleClickEquipmentLevelButton = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
-  ) => storeState('equipment', Number(event.target.value), setEquipmentLevel), []);
+  ) => {
+    const value = Number(event.target.value);
+    const newEquipmentLevel = value === equipmentLevel ? 0: value;
+
+    storeState('equipment', newEquipmentLevel, setEquipmentLevel);
+  }, [equipmentLevel]);
 
   const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -87,7 +97,7 @@ const CharacterCard = React.memo<CharacterCardProps>(({
             valuePrefix="☆"
             data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
             state={ rarity }
-            handleChange={ handleChangeRarity }
+            handleClick={ handleClickRarityButton }
             displayCondition
           />
           <CharacterState
@@ -96,7 +106,7 @@ const CharacterCard = React.memo<CharacterCardProps>(({
             valuePrefix="Lv. "
             data={ Object.entries(uniqueEquipments) }
             state={ equipmentLevel }
-            handleChange={ handleChangeEquopmentLevel }
+            handleClick={ handleClickEquipmentLevelButton }
             displayCondition={ hasUniqueEquipment }
           />
         </div>

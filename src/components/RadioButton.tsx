@@ -11,7 +11,8 @@ type RadioButtonProps = {
     input?: string;
     label?: string;
   };
-  handleChange: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
+  handleClick?: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
 };
 
 const RadioButton= React.forwardRef<HTMLDivElement, React.PropsWithChildren<RadioButtonProps>>(({
@@ -19,6 +20,7 @@ const RadioButton= React.forwardRef<HTMLDivElement, React.PropsWithChildren<Radi
   disabled,
   group,
   handleChange,
+  handleClick,
   value,
   classes,
   children,
@@ -50,6 +52,7 @@ const RadioButton= React.forwardRef<HTMLDivElement, React.PropsWithChildren<Radi
         type="radio"
         value={ value }
         onChange={ handleChange }
+        onClick={ handleClick }
       ></input>
       <label
         className={ cntl`
