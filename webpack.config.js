@@ -2,77 +2,128 @@ const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const TailwindCSS = require('tailwindcss');
+const PostCSSNested = require('postcss-nested');
 
 const loaders = {
   babel: {
     loader: 'babel-loader',
+    options: {
+      plugins: ['react-refresh/babel'],
+    },
+  },
+  css:{
+    loader: 'css-loader',
+  },
+  postcss: {
+    loader: 'postcss-loader',
+    options: {
+      postcssOptions: {
+        ident: 'postcss',
+        plugins: [
+          new TailwindCSS(),
+          PostCSSNested(),
+        ],
+      },
+    },
+  },
+  style:{
+    loader: 'style-loader',
+  },
+  typescript: {
+    loader: 'ts-loader',
+    options: {
+      transpileOnly: true,
+    },
   },
 };
 
-module.exports = (_, argv) => ({
-  entry: './src/index.tsx',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-  },
-  module: {
-    rules: [
-      {
-        test: /.tsx?$/,
-        exclude: /node_modules/,
-        use: loaders.babel,
+module.exports = (_, argv) => {
+  const isDevelopment = argv.mode === 'development';
+
+  return {
+    entry: './src/index.tsx',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: '[name].bundle.js',
+    },
+    module: {
+      rules: [
+        {
+          test: /.tsx?$/,
+          exclude: /node_modules/,
+          use: [
+            isDevelopment && loaders.babel,
+            loaders.typescript,
+          ].filter(Boolean),
+        },
+        {
+          test: /\.css$/,
+          use: [loaders.style, loaders.css, loaders.postcss],
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.js', '.ts', '.tsx'],
+      plugins: [
+        new TsconfigPathsPlugin(),
+      ],
+    },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          react: {
+            test: /[\\/]node_modules[\\/]react.+/,
+            name: 'react',
+            chunks: 'all',
+          },
+          core: {
+            test: /[\\/]node_modules[\\/](?!react).+/,
+            name: 'core',
+            chunks: 'all',
+          },
+        },
       },
-    ],
-  },
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
+    },
     plugins: [
-      new TsconfigPathsPlugin(),
+      isDevelopment && new ReactRefreshWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+        filename: 'index.html',
+      }),
+      new ForkTsCheckerWebpackPlugin({
+        async: isDevelopment,
+        typescript: {
+          configOverwrite: {
+            compilerOptions: {
+              noUnusedLocals: false,
+              sourceMap: false,
+            },
+          },
+        },
+      }),
+    ].filter(Boolean),
+    devtool: isDevelopment ? 'source-map' : false,
+    ignoreWarnings: [
+      {
+        message: /export .* was not found in/,
+      },
     ],
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        react: {
-          test: /[\\/]node_modules[\\/]react.+/,
-          name: 'react',
-          chunks: 'all',
-        },
-        core: {
-          test: /[\\/]node_modules[\\/](?!react).+/,
-          name: 'core',
-          chunks: 'all',
-        },
+    devServer: {
+      clientLogLevel: 'info',
+      historyApiFallback: true,
+      stats: {
+        builtAt: true,
+        children: false,
+        modules: false,
+        warningsFilter: /export .* was not found in/,
+        colors: true,
       },
+      progress: true,
+      overlay: true,
+      compress: true,
+      hot: true,
     },
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'index.html',
-    }),
-    new ForkTsCheckerWebpackPlugin({
-      async: argv.mode === 'development',
-      typescript: {
-        diagnosticOptions: {
-          semantic: true,
-          syntactic: true,
-        },
-      },
-    }),
-  ],
-  devtool: argv.mode === 'development' ? 'source-map' : false,
-  ignoreWarnings: [
-    {
-      message: /export .* was not found in/,
-    },
-  ],
-  devServer: {
-    clientLogLevel: 'warn',
-    historyApiFallback: true,
-    stats: 'errors-only',
-    progress: true,
-    overlay: true,
-    compress: true,
-  },
-});
+  };
+};

@@ -1,10 +1,7 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import cntl from 'cntl';
+
+import Row from 'components/Row';
 
 import { rarities, uniqueEquipments, Character, Rarities, UniqueEquipments } from 'data';
 import { saveStorage, loadStorage, CharacterState as CharacterStateType } from 'utils/storage/v2';
@@ -14,37 +11,6 @@ interface CharacterCardProps {
   character: Character;
   showExcess: boolean;
 }
-
-const useStyles = makeStyles((theme) => createStyles({
-  textBox: {
-    '& input': {
-      textAlign: 'center',
-      fontSize: '1.2rem',
-      '&::-webkit-inner-spin-button': {
-        appearance: 'none',
-      },
-    },
-  },
-  deficiency: {
-    fontSize: '1.2rem',
-  },
-  borderRight: {
-    borderStyle: 'none solid none none',
-    borderWidth: 1,
-    borderColor: theme.palette.divider,
-  },
-  verticalWriting: {
-    writingMode: 'vertical-rl',
-  },
-  requiredAndPossession: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  required: {
-    paddingTop: 7,
-    fontSize: '1.2rem',
-  },
-}));
 
 const calculateRequired = (
   target: Rarities | UniqueEquipments,
@@ -66,7 +32,6 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   },
   showExcess,
 }) => {
-  const classes = useStyles();
   const [rarity, setRarity] = React.useState(0);
   const [equipmentLevel, setEquipmentLevel] = React.useState(0);
   const [possessionPieces, setPossessionPieces] = React.useState(0);
@@ -99,15 +64,23 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     setState(value);
   }, []);
 
-  const handleChangeRarity = React.useCallback((
-    _: React.MouseEvent<HTMLElement, MouseEvent>,
-    newRarity: string
-  ) => storeState('rarity', Number(newRarity), setRarity), []);
+  const handleClickRarityButton = React.useCallback((
+    event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
+  ) => {
+    const value = Number(event.target.value);
+    const newRarity = value === rarity ? 0: value;
 
-  const handleChangeEquopmentLevel = React.useCallback((
-    _: React.MouseEvent<HTMLElement, MouseEvent>,
-    newEquipmentLevel: string
-  ) => storeState('equipment', Number(newEquipmentLevel), setEquipmentLevel), []);
+    storeState('rarity', newRarity, setRarity);
+  }, [rarity]);
+
+  const handleClickEquipmentLevelButton = React.useCallback((
+    event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
+  ) => {
+    const value = Number(event.target.value);
+    const newEquipmentLevel = value === equipmentLevel ? 0: value;
+
+    storeState('equipment', newEquipmentLevel, setEquipmentLevel);
+  }, [equipmentLevel]);
 
   const handleChangePossessionPieces = React.useCallback((
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -115,69 +88,44 @@ const CharacterCard = React.memo<CharacterCardProps>(({
 
   const Character = React.useMemo(() => {
     return showCharacter ? (
-      <Grid item xs={ 12 }>
-        <Grid component={ Card } container alignItems="stretch">
-          <Grid
-            className={ classes.borderRight }
-            alignItems="center"
-            justify="center"
-            container
-            item
-            xs={ 1 }
-          >
-            <Grid item>{ characterName }</Grid>
-          </Grid>
-          <Grid className={ classes.borderRight } item xs={ 9 }>
-            <CharacterState
-              title="才能開花"
-              valuePrefix="☆"
-              data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
-              state={ rarity }
-              handleButtonClick={ handleChangeRarity }
-              displayCondition
-            />
-            <Divider />
-            <CharacterState
-              title="専用装備"
-              valuePrefix="Lv. "
-              data={ Object.entries(uniqueEquipments) }
-              state={ equipmentLevel }
-              handleButtonClick={ handleChangeEquopmentLevel }
-              displayCondition={ hasUniqueEquipment }
-            />
-          </Grid>
-          <Grid
-            className={ classes.borderRight }
-            container
-            item
-            xs={ 1 }
-            direction="column"
-            alignItems="center"
-            justify="center"
-          >
-            <TextField
-              className={ classes.textBox }
-              value={ possessionPieces }
-              onChange={ handleChangePossessionPieces }
-              type="number"
-              inputProps={ { min: 0 } }
-              onFocus={ handleFocusPossessionPieces }
-            />
-            <Typography className={ classes.required }>{ requiredPieces }</Typography>
-          </Grid>
-          <Grid
-            container
-            item
-            xs={ 1 }
-            alignItems="center"
-            justify="center"
-          >
-            <Typography className={ classes.deficiency } color={ deficiency > 0 ? 'error' : 'primary' }>
-              { deficiency }
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+      <Row className={ cntl`mt-2` }>
+        <p>{ characterName }</p>
+        <div className={ cntl`divide-y` }>
+          <CharacterState
+            title="才能開花"
+            characterName={ characterName }
+            valuePrefix="☆"
+            data={ Object.entries(rarities).filter(([rarity]) => isInRarityRange(Number(rarity))) }
+            state={ rarity }
+            handleClick={ handleClickRarityButton }
+            displayCondition
+          />
+          <CharacterState
+            title="専用装備"
+            characterName={ characterName }
+            valuePrefix="Lv. "
+            data={ Object.entries(uniqueEquipments) }
+            state={ equipmentLevel }
+            handleClick={ handleClickEquipmentLevelButton }
+            displayCondition={ hasUniqueEquipment }
+          />
+        </div>
+        <div className={ cntl`divide-black divide-dashed divide-y` }>
+          <input
+            className={ cntl`focus:placeholder-transparent spin-none text-center text-xl w-full` }
+            type="number"
+            min="0"
+            placeholder={ possessionPieces.toString() }
+            value={ possessionPieces || '' }
+            onChange={ handleChangePossessionPieces }
+            onFocus={ handleFocusPossessionPieces }
+          />
+          <p className={ cntl`text-xl` }>{ requiredPieces }</p>
+        </div>
+        <p className={ cntl`text-xl ${ deficiency > 0 ? 'text-red-600' : 'text-primary'}` }>
+          { deficiency }
+        </p>
+      </Row>
     ) : null;
   }, [
     rarity,

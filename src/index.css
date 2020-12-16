@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply antialiased;
+}
+
+body {
+  @apply text-sm leading-6;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  background-color: #fafafa;
+}
+
+@layer utilities {
+  /* purgecss start ignore */
+  .spin-none {
+    appearance: textfield;
+
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+      appearance: none;
+    }
+  }
+
+  .vertical-writing {
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  .card {
+    @apply bg-white border border-solid box-border rounded shadow text-center;
+  }
+  /* purgecss end ignore */
+}
+
+@layer components {
+  /* purgecss start ignore */
+  .centering-height-full > div {
+    @apply h-full relative;
+
+    > div, > p {
+      @apply top-1/2 relative w-full;
+      transform: translate(0, -50%);
+    }
+  }
+
+  .tab {
+    input + label::after {
+      content: "";
+    }
+
+    input:checked + label {
+      @apply text-primary;
+
+      &::after {
+        @apply bg-primary block inset-x-0 absolute m-auto transition-all duration-500;
+        content: "";
+        width: 90%;
+        height: 2px;
+      }
+    }
+  }
+
+  .arrow {
+    @apply relative inline-block cursor-pointer;
+
+    &::before {
+      @apply w-2 h-2 border-solid border-black border-t-2 border-r-2 rounded-sm transform absolute inset-0 m-auto;
+      content: "";
+    }
+  }
+
+  .arrow-left {
+    @apply arrow;
+
+    &::before {
+      --transform-rotate: -135deg;
+    }
+  }
+
+  .arrow-right {
+    @apply arrow;
+
+    &::before {
+      @apply rotate-45
+    }
+  }
+  /* purgecss end ignore */
+}
