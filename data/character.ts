@@ -222,7 +222,7 @@ export const characters: Character[] = [
   {
     name: 'アカリ',
     initialRarity: 2,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['dungeon'],
   },
@@ -949,6 +949,20 @@ export const characters: Character[] = [
   },
   {
     name: 'サレン（クリスマス）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'ムイミ（ニューイヤー）',
+    initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'ヒヨリ（プリンセス）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
