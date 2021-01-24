@@ -383,7 +383,7 @@ export const characters: Character[] = [
   {
     name: 'ヨリ',
     initialRarity: 1,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['clan', 'side'],
   },
