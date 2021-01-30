@@ -989,4 +989,11 @@ export const characters: Character[] = [
     hasUniqueEquipment: false,
     pieceType: ['none'],
   },
+  {
+    name: 'ユイ（儀装束）',
+    initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
 ];
