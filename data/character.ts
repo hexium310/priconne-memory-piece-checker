@@ -734,14 +734,14 @@ export const characters: Character[] = [
     name: 'シオリ（マジカル）',
     initialRarity: 1,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
     name: 'カスミ（マジカル）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
