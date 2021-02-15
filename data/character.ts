@@ -47,14 +47,14 @@ export const characters: Character[] = [
   {
     name: 'ミミ',
     initialRarity: 2,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['hard', 'side'],
   },
   {
     name: 'キョウカ',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
@@ -299,7 +299,7 @@ export const characters: Character[] = [
   {
     name: 'ミソギ',
     initialRarity: 1,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['arena', 'side'],
   },
@@ -992,6 +992,13 @@ export const characters: Character[] = [
   {
     name: 'ユイ（儀装束）',
     initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'シェフィ',
+    initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
     pieceType: ['none'],
