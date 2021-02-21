@@ -1010,4 +1010,18 @@ export const characters: Character[] = [
     hasUniqueEquipment: false,
     pieceType: ['none'],
   },
+  {
+    name: 'キャル（プリンセス）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'カスミ（サマー）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
 ];
