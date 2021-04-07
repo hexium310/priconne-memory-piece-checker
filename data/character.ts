@@ -776,14 +776,14 @@ export const characters: Character[] = [
     name: 'ユニ',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
     name: 'チエル',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
