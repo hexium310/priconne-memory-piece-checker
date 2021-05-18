@@ -28,7 +28,7 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 6,
     hasUniqueEquipment: true,
-    pieceType: ['hard'],
+    pieceType: ['hard', 'side'],
   },
   {
     name: 'レイ',
@@ -168,7 +168,7 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['hard'],
+    pieceType: ['hard', 'side'],
   },
   {
     name: 'ユキ',
@@ -203,7 +203,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['hard', 'side'],
+    pieceType: ['hard'],
   },
   {
     name: 'ノゾミ',
@@ -350,7 +350,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['pArena'],
+    pieceType: ['pArena', 'side'],
   },
   {
     name: 'ハツネ',
@@ -392,7 +392,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 6,
     hasUniqueEquipment: true,
-    pieceType: ['clan'],
+    pieceType: ['clan', 'side'],
   },
   {
     name: 'チカ',
@@ -609,7 +609,7 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['side'],
   },
   {
     name: 'ラム',
@@ -623,7 +623,7 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['side'],
   },
   {
     name: 'カオリ（サマー）',
