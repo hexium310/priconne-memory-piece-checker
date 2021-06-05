@@ -36,13 +36,12 @@ const Tab: React.FC = () => {
         flex
         overflow-y-scroll
         scrollbar:hidden
-        h-10
         whitespace-no-wrap
         transition-all
         duration-500
         scroll-smooth
         relative
-        h-fit
+        h-[fit-content]
       ` }>
         {
           Object.entries(pieceTypes).concat([['all', 'すべて']]).map(([pieceType, name]) => (

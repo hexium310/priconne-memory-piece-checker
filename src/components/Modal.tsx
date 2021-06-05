@@ -13,13 +13,13 @@ const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
     <div className={ cntl`
         fixed
         inset-0
-        z-1000
+        z-[1000]
         h-full
         flex
         items-center
         justify-center
     ` }>
-      <div className={ cntl`-z-1 bg-black bg-opacity-50 fixed inset-0` } onClick={ onClose }></div>
+      <div className={ cntl`z-[-1] bg-black bg-opacity-50 fixed inset-0` } onClick={ onClose }></div>
       <div className={ cntl`
         bg-white
         max-w-xl

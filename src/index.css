@@ -13,7 +13,6 @@ body {
 }
 
 @layer utilities {
-  /* purgecss start ignore */
   .spin-none {
     appearance: textfield;
 
@@ -33,11 +32,9 @@ body {
   .card {
     @apply bg-white border border-solid box-border rounded shadow text-center;
   }
-  /* purgecss end ignore */
 }
 
 @layer components {
-  /* purgecss start ignore */
   .centering-height-full > div {
     @apply h-full relative;
 
@@ -66,18 +63,18 @@ body {
 
   .arrow {
     @apply relative inline-block cursor-pointer;
+  }
 
-    &::before {
-      @apply w-2 h-2 border-solid border-black border-t-2 border-r-2 rounded-sm transform absolute inset-0 m-auto;
-      content: "";
-    }
+  .arrow::before {
+    @apply w-2 h-2 border-solid border-black border-t-2 border-r-2 rounded-sm transform absolute inset-0 m-auto;
+    content: "";
   }
 
   .arrow-left {
     @apply arrow;
 
     &::before {
-      --transform-rotate: -135deg;
+      @apply rotate-[-135deg]
     }
   }
 
@@ -88,5 +85,4 @@ body {
       @apply rotate-45
     }
   }
-  /* purgecss end ignore */
 }
