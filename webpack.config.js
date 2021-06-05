@@ -15,10 +15,14 @@ const loaders = {
   },
   css:{
     loader: 'css-loader',
+    options: {
+      sourceMap: false,
+    },
   },
   postcss: {
     loader: 'postcss-loader',
     options: {
+      sourceMap: false,
       postcssOptions: {
         ident: 'postcss',
         plugins: [
