@@ -36,7 +36,6 @@ const Tab: React.FC = () => {
         flex
         overflow-y-scroll
         scrollbar:hidden
-        h-10
         whitespace-no-wrap
         transition-all
         duration-500
