@@ -15,7 +15,7 @@ const Main: React.FC = () => {
     <main className="sm:px-6">
       <div className={ cntl`mt-4` }>
         <div className={ cntl`flex justify-between` }>
-          <label className={ cntl`relative pl-4 h-fit` }>
+          <label className={ cntl`relative pl-4 h-[fit-content]` }>
             <input
               type="checkbox"
               className={ cntl`absolute inset-y-0 left-0 m-auto` }

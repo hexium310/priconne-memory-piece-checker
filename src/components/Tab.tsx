@@ -41,7 +41,7 @@ const Tab: React.FC = () => {
         duration-500
         scroll-smooth
         relative
-        h-fit
+        h-[fit-content]
       ` }>
         {
           Object.entries(pieceTypes).concat([['all', 'すべて']]).map(([pieceType, name]) => (

@@ -25,7 +25,7 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
   return (
     <div className={ cntl`flex items-center` }>
       <div className={ cntl`vertical-writing py-2 pr-2` }>{ title }</div>
-      <div className={ cntl`auto-rows-auto py-2 grid grid-cols-fill h-fit w-full` }>
+      <div className={ cntl`auto-rows-auto py-2 grid grid-cols-[repeat(auto-fill,80px)] h-[fit-content] w-full` }>
         {
           data.map(([value]) => (
             <StateButton

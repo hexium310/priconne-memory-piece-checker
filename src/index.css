@@ -13,7 +13,6 @@ body {
 }
 
 @layer utilities {
-  /* purgecss start ignore */
   .spin-none {
     appearance: textfield;
 
@@ -33,11 +32,9 @@ body {
   .card {
     @apply bg-white border border-solid box-border rounded shadow text-center;
   }
-  /* purgecss end ignore */
 }
 
 @layer components {
-  /* purgecss start ignore */
   .centering-height-full > div {
     @apply h-full relative;
 
@@ -77,7 +74,7 @@ body {
     @apply arrow;
 
     &::before {
-      --transform-rotate: -135deg;
+      @apply rotate-[-135deg]
     }
   }
 
@@ -88,5 +85,4 @@ body {
       @apply rotate-45
     }
   }
-  /* purgecss end ignore */
 }

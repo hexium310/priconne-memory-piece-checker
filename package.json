@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --mode production",
-    "watch": "TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling webpack serve --mode development",
+    "watch": "NODE_ENV=development TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling webpack serve --mode development",
     "start": "nodemon --watch ./tailwind.config.js --exec 'yarn watch'",
     "test": "jest",
     "prebuild": "yarn lint && yarn test",

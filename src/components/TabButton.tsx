@@ -35,7 +35,7 @@ const TabButton: React.FC<TabButtonProps> = ({ labelValue, inputValue }) => {
         inline-grid
         leading-7
         max-w-xs
-        min-w-40
+        min-w-[10rem]
         place-items-center
         tab
         mb-1
