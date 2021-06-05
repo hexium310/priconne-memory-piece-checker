@@ -4,7 +4,7 @@ const { compilerOptions: { paths } } = require('./tsconfig');
 module.exports = {
   globals: {
     'ts-jest': {
-      tsConfig: {
+      tsconfig: {
         allowSyntheticDefaultImports: true,
       },
     },
