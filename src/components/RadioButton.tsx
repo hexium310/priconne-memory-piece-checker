@@ -1,4 +1,4 @@
-import React from 'react';
+import { forwardRef, ChangeEvent, MouseEvent, PropsWithChildren } from 'react';
 import cntl from 'cntl';
 
 type RadioButtonProps = {
@@ -11,10 +11,10 @@ type RadioButtonProps = {
     input?: string;
     label?: string;
   };
-  handleChange?: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
+  handleChange?: (event: ChangeEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>) => void;
 };
 
-const RadioButton= React.forwardRef<HTMLDivElement, React.PropsWithChildren<RadioButtonProps>>(({
+const RadioButton= forwardRef<HTMLDivElement, PropsWithChildren<RadioButtonProps>>(({
   checked,
   disabled,
   group,

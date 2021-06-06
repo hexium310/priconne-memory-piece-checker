@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useState, FC } from 'react';
 import cntl from 'cntl';
 
 import Modal from 'components/Modal';
@@ -10,14 +10,14 @@ const clear = (): void => {
   window.location.reload();
 };
 
-const ClearStorage: React.FunctionComponent = () => {
-  const [showDialog, setShowDialog] = React.useState(false);
+const ClearStorage: FC = () => {
+  const [showDialog, setShowDialog] = useState(false);
 
-  const handleClickClearButton = React.useCallback(() => {
+  const handleClickClearButton = useCallback(() => {
     setShowDialog(true);
   }, []);
 
-  const closeModal = React.useCallback(() => {
+  const closeModal = useCallback(() => {
     setShowDialog(false);
   }, []);
 

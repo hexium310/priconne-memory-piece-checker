@@ -1,13 +1,13 @@
-import React from 'react';
+import { useCallback, useState, FC } from 'react';
 import cntl from 'cntl';
 
 import ClearStorage from 'components/ClearStorage';
 import Content from 'components/Content';
 
-const Main: React.FC = () => {
-  const [showExcess, setShowExcess] = React.useState(true);
+const Main: FC = () => {
+  const [showExcess, setShowExcess] = useState(true);
 
-  const handleChangeShowExcess = React.useCallback(() => {
+  const handleChangeShowExcess = useCallback(() => {
     setShowExcess((value) => !value);
   }, []);
 

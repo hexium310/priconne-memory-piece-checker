@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo, useCallback, useEffect, useState, ChangeEvent, MouseEvent, useMemo, FocusEvent, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 
 import Row from 'components/Row';
@@ -18,12 +18,12 @@ const calculateRequired = (
 ): number => Object.keys(target).filter(condition).reduce((sum, key) => sum + target[key], 0);
 
 const handleFocusPossessionPieces = (
-  event: React.FocusEvent<HTMLInputElement>
+  event: FocusEvent<HTMLInputElement>
 ): void => {
   event.target.select();
 };
 
-const CharacterCard = React.memo<CharacterCardProps>(({
+const CharacterCard = memo<CharacterCardProps>(({
   character: {
     initialRarity,
     maxRarity,
@@ -32,9 +32,9 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   },
   showExcess,
 }) => {
-  const [rarity, setRarity] = React.useState(0);
-  const [equipmentLevel, setEquipmentLevel] = React.useState(0);
-  const [possessionPieces, setPossessionPieces] = React.useState(0);
+  const [rarity, setRarity] = useState(0);
+  const [equipmentLevel, setEquipmentLevel] = useState(0);
+  const [possessionPieces, setPossessionPieces] = useState(0);
 
   const isInRarityRange = (rarity: number): boolean => rarity > initialRarity && rarity <= maxRarity;
 
@@ -44,7 +44,7 @@ const CharacterCard = React.memo<CharacterCardProps>(({
   const deficiency = requiredPieces - possessionPieces;
   const showCharacter = deficiency > 0 || showExcess;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const data = loadStorage('characters')[characterName];
 
     setRarity(data.rarity || 0);
@@ -52,10 +52,10 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     setPossessionPieces(data.possessionPieces || 0);
   }, []);
 
-  const storeState = React.useCallback((
+  const storeState = useCallback((
     key: string,
     value: number,
-    setState: React.Dispatch<React.SetStateAction<number>>
+    setState: Dispatch<SetStateAction<number>>
   ): void => {
     const oldData = loadStorage('characters')[characterName];
     const newData: CharacterStateType = { ...oldData, [key]: value };
@@ -64,8 +64,8 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     setState(value);
   }, []);
 
-  const handleChangeRarity = React.useCallback((
-    event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
+  const handleChangeRarity = useCallback((
+    event: ChangeEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>,
   ) => {
     const value = Number(event.target.value);
     const newRarity = value === rarity ? 0: value;
@@ -73,8 +73,8 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     storeState('rarity', newRarity, setRarity);
   }, [rarity]);
 
-  const handleChangeEquipmentLevel = React.useCallback((
-    event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>,
+  const handleChangeEquipmentLevel = useCallback((
+    event: ChangeEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>,
   ) => {
     const value = Number(event.target.value);
     const newEquipmentLevel = value === equipmentLevel ? 0: value;
@@ -82,11 +82,11 @@ const CharacterCard = React.memo<CharacterCardProps>(({
     storeState('equipment', newEquipmentLevel, setEquipmentLevel);
   }, [equipmentLevel]);
 
-  const handleChangePossessionPieces = React.useCallback((
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  const handleChangePossessionPieces = useCallback((
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => storeState('possessionPieces', Number(event.target.value), setPossessionPieces), []);
 
-  const Character = React.useMemo(() => {
+  const Character = useMemo(() => {
     return showCharacter ? (
       <Row className={ cntl`mt-2` }>
         <p>{ characterName }</p>

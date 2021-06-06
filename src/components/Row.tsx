@@ -1,13 +1,13 @@
-import React from 'react';
+import { FC, Children, ReactNode } from 'react';
 import cntl from 'cntl';
 
-type RowProps<T extends React.ReactNode = React.ReactNode>  = {
+type RowProps<T extends ReactNode = ReactNode>  = {
   children: [T, T, T, T];
   className?: string;
 };
 
-const Row: React.FC<RowProps> = ({ className, children }) => {
-  const [Name, State, PossessionAndRequired, Deficiency] = React.Children.toArray(children);
+const Row: FC<RowProps> = ({ className, children }) => {
+  const [Name, State, PossessionAndRequired, Deficiency] = Children.toArray(children);
 
   return (
     <div className={ cntl`

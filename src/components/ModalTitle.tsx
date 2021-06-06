@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import cntl from 'cntl';
 
-const ModalTitle: React.FC = ({ children }) => {
+const ModalTitle: FC = ({ children }) => {
   return (
     <div className={ cntl`text-xl py-4 px-5` }>
       <h2>{ children }</h2>

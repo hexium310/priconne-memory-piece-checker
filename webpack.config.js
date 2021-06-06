@@ -6,45 +6,48 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const TailwindCSS = require('tailwindcss');
 const PostCSSNested = require('postcss-nested');
 
-const loaders = {
-  babel: {
-    loader: 'babel-loader',
-    options: {
-      plugins: ['react-refresh/babel'],
-    },
-  },
-  css:{
-    loader: 'css-loader',
-    options: {
-      sourceMap: false,
-    },
-  },
-  postcss: {
-    loader: 'postcss-loader',
-    options: {
-      sourceMap: false,
-      postcssOptions: {
-        ident: 'postcss',
-        plugins: [
-          new TailwindCSS(),
-          PostCSSNested(),
-        ],
-      },
-    },
-  },
-  style:{
-    loader: 'style-loader',
-  },
-  typescript: {
-    loader: 'ts-loader',
-    options: {
-      transpileOnly: true,
-    },
-  },
-};
-
 module.exports = (_, argv) => {
   const isDevelopment = argv.mode === 'development';
+
+  const loaders = {
+    babel: {
+      loader: 'babel-loader',
+      options: {
+        plugins: ['react-refresh/babel'],
+      },
+    },
+    css:{
+      loader: 'css-loader',
+      options: {
+        sourceMap: false,
+      },
+    },
+    postcss: {
+      loader: 'postcss-loader',
+      options: {
+        sourceMap: false,
+        postcssOptions: {
+          ident: 'postcss',
+          plugins: [
+            new TailwindCSS(),
+            PostCSSNested(),
+          ],
+        },
+      },
+    },
+    style:{
+      loader: 'style-loader',
+    },
+    typescript: {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+        compilerOptions: {
+          jsx: isDevelopment ? 'react-jsxdev' : 'react-jsx',
+        },
+      },
+    },
+  };
 
   return {
     entry: './src/index.tsx',

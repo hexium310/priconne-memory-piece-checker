@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC, ChangeEvent, MouseEvent } from 'react';
 import cntl from 'cntl';
 
 import RadioButton from 'components/RadioButton';
@@ -8,10 +8,10 @@ type StateButtonProps = {
   disabled?: boolean;
   group: string;
   value: string;
-  handleChange?: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
+  handleChange?: (event: ChangeEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>) => void;
 };
 
-const StateButton: React.FC<StateButtonProps> = ({
+const StateButton: FC<StateButtonProps> = ({
   checked,
   disabled,
   group,
