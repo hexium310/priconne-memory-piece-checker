@@ -9,7 +9,7 @@ type CharacterStateProps = {
   valuePrefix: string;
   data: [string, number][];
   state: number;
-  handleClick: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
   displayCondition: boolean;
 }
 
@@ -19,7 +19,7 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
   data,
   state,
   characterName,
-  handleClick,
+  handleChange,
   displayCondition,
 }) => {
   return (
@@ -34,7 +34,7 @@ const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
               value={ value }
               checked={ value === state.toString() }
               disabled={ !displayCondition }
-              handleClick={ handleClick }
+              handleChange={ handleChange }
             >
               { `${ valuePrefix }${ value }` }
             </StateButton>

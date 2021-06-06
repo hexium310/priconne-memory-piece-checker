@@ -9,14 +9,13 @@ type StateButtonProps = {
   group: string;
   value: string;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
-  handleClick?: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
 };
 
 const StateButton: React.FC<StateButtonProps> = ({
   checked,
   disabled,
   group,
-  handleClick,
+  handleChange,
   value,
   children,
 }) => {
@@ -48,7 +47,7 @@ const StateButton: React.FC<StateButtonProps> = ({
       checked={ checked }
       disabled={ disabled }
       group={ group }
-      handleClick={ handleClick }
+      handleChange={ handleChange }
       value={ value }
       classes={ {
         div,

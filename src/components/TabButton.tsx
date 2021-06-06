@@ -31,21 +31,21 @@ const TabButton: React.FC<TabButtonProps> = ({ labelValue, inputValue }) => {
       handleChange={ handleChangeTab }
       classes={ {
         div: cntl`
-        flex-none
-        inline-grid
-        leading-7
-        max-w-xs
-        min-w-[10rem]
-        place-items-center
-        tab
-        mb-1
+          flex-none
+          inline-grid
+          leading-7
+          max-w-xs
+          min-w-[10rem]
+          place-items-center
+          tab
+          mb-1
         `,
         input: cntl`
         `,
         label: cntl`
-        relative
-        px-3
-        pb-0
+          relative
+          px-3
+          pb-0
         `,
       } }
     >
