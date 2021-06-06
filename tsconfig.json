@@ -10,7 +10,7 @@
       "utils/*": ["src/utils/*"]
     },
     "incremental": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["dom", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",

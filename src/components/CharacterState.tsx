@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC, ChangeEvent, MouseEvent } from 'react';
 import cntl from 'cntl';
 
 import StateButton from 'components/StateButton';
@@ -9,11 +9,11 @@ type CharacterStateProps = {
   valuePrefix: string;
   data: [string, number][];
   state: number;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => void;
+  handleChange: (event: ChangeEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>) => void;
   displayCondition: boolean;
 }
 
-const CharacterState: React.FunctionComponent<CharacterStateProps> = ({
+const CharacterState: FC<CharacterStateProps> = ({
   title,
   valuePrefix,
   data,

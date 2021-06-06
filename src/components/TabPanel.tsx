@@ -1,12 +1,12 @@
-import React from 'react';
+import { FC, ReactNode } from 'react';
 import cntl from 'cntl';
 
 type TabPanelProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
   index: string | number;
 }
 
-const TabPanel: React.FunctionComponent<TabPanelProps> = ({ children, index }) => {
+const TabPanel: FC<TabPanelProps> = ({ children, index }) => {
   return (
     <div
       role='tabpanel'

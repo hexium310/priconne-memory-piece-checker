@@ -1,5 +1,4 @@
-import React from 'react';
-
+import { useReducer, FC, Dispatch, createContext, Reducer } from 'react';
 import CharactersList from 'components/CharactersList';
 import Tab from 'components/Tab';
 
@@ -18,16 +17,16 @@ type Action = {
 
 type Context = {
   state: State;
-  dispatch: React.Dispatch<Action>;
+  dispatch: Dispatch<Action>;
 };
 
-export const TabContext = React.createContext({} as Context);
+export const TabContext = createContext({} as Context);
 
 const initialState: State = {
   currentTab: 'hard',
 };
 
-const reducer: React.Reducer<State, Action> = (state, action) => {
+const reducer: Reducer<State, Action> = (state, action) => {
   switch(action.type) {
     case 'CHANGE_TAB':
       return {
@@ -39,8 +38,8 @@ const reducer: React.Reducer<State, Action> = (state, action) => {
   }
 };
 
-const Row: React.FC<RowProps> = ({ showExcess }) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+const Row: FC<RowProps> = ({ showExcess }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <TabContext.Provider value={ { state, dispatch } }>

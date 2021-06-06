@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext, FC } from 'react';
 import cntl from 'cntl';
 
 import { characters, pieceTypes, PieceType } from 'data';
@@ -11,8 +11,8 @@ type CharactersListProps = {
   showExcess: boolean;
 };
 
-const CharactersList: React.FC<CharactersListProps> = ({ showExcess }) => {
-  const { state: { currentTab } } = React.useContext(TabContext);
+const CharactersList: FC<CharactersListProps> = ({ showExcess }) => {
+  const { state: { currentTab } } = useContext(TabContext);
 
   return (
     <div className={ cntl`grid pt-4 grid-rows-1` }>

@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import cntl from 'cntl';
 
-const Header: React.FunctionComponent = () => {
+const Header: FC = () => {
   return (
     <header className={ cntl`
       bg-primary

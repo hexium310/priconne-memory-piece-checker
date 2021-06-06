@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useContext, useRef, FC, ChangeEvent, MouseEvent } from 'react';
 import cntl from 'cntl';
 
 import RadioButton from 'components/RadioButton';
@@ -9,11 +9,11 @@ type TabButtonProps = {
   inputValue: string;
 }
 
-const TabButton: React.FC<TabButtonProps> = ({ labelValue, inputValue }) => {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const { state: { currentTab }, dispatch } = React.useContext(TabContext);
+const TabButton: FC<TabButtonProps> = ({ labelValue, inputValue }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { state: { currentTab }, dispatch } = useContext(TabContext);
 
-  const handleChangeTab = React.useCallback((event: React.ChangeEvent<HTMLInputElement> & React.MouseEvent<HTMLInputElement>) => {
+  const handleChangeTab = useCallback((event: ChangeEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>) => {
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
     dispatch({

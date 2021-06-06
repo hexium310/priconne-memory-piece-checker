@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef, FC } from 'react';
 import cntl from 'cntl';
 
 import { pieceTypes } from 'data';
@@ -10,8 +10,8 @@ const directions = {
   right: 1,
 };
 
-const Tab: React.FC = () => {
-  const ref = React.useRef<HTMLDivElement>(null);
+const Tab: FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right'): () => void => {
     return (): void => {

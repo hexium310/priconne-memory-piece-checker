@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import ReactDOM from 'react-dom';
 import cntl from 'cntl';
 
@@ -7,7 +7,7 @@ type ModalProps = {
   onClose: (event: unknown) => void;
 };
 
-const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
+const Modal: FC<ModalProps> = ({ open, onClose, children }) => {
   onClose;
   const modal = open ? (
     <div className={ cntl`
