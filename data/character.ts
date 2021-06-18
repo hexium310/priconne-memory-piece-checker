@@ -1018,13 +1018,6 @@ export const characters: Character[] = [
     pieceType: ['master'],
   },
   {
-    name: 'カスミ（サマー）',
-    initialRarity: 3,
-    maxRarity: 5,
-    hasUniqueEquipment: false,
-    pieceType: ['none'],
-  },
-  {
     name: 'リマ（シンデレラ）',
     initialRarity: 1,
     maxRarity: 5,
