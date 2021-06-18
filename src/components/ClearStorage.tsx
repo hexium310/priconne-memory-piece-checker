@@ -24,7 +24,7 @@ const ClearStorage: FC = () => {
   return (
     <>
       <button
-        className={ cntl`hover:bg-black hover:bg-opacity-[0.04] min-w-[4rem] p-1 rounded text-black text-opacity-50 text-sm uppercase` }
+        className={ cntl`hover:bg-black/[0.04] min-w-[4rem] p-1 rounded text-black/50 text-sm uppercase` }
         onClick={ handleClickClearButton }
       >
         Clear
@@ -33,13 +33,13 @@ const ClearStorage: FC = () => {
         <ModalTitle>入力されたすべての情報を削除しますか？</ModalTitle>
         <ModalFooter>
           <button
-            className={ cntl`hover:bg-red-600 hover:bg-opacity-[0.04] p-2 rounded text-red-600` }
+            className={ cntl`hover:bg-red-600/[0.04] p-2 rounded text-red-600` }
             onClick={ clear }
           >
             削除する
           </button>
           <button
-            className={ cntl`hover:bg-black hover:bg-opacity-[0.04] p-2 rounded ml-2` }
+            className={ cntl`hover:bg-black/[0.04] p-2 rounded ml-2` }
             onClick={ closeModal }
           >
             削除しない

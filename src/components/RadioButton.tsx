@@ -31,8 +31,7 @@ const RadioButton= forwardRef<HTMLDivElement, PropsWithChildren<RadioButtonProps
         bg-transparent
         box-border
         place-items-center
-        text-black
-        text-opacity-50
+        text-black/50
         text-sm
         ${classes?.div}
       ` }
@@ -42,6 +41,7 @@ const RadioButton= forwardRef<HTMLDivElement, PropsWithChildren<RadioButtonProps
         className={ cntl`
           hidden
           ${classes?.input}
+          peer
         ` }
         checked={ checked }
         disabled={ disabled }

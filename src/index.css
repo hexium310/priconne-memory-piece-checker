@@ -28,10 +28,6 @@ body {
   .scroll-smooth {
     scroll-behavior: smooth;
   }
-
-  .card {
-    @apply bg-white border border-solid box-border rounded shadow text-center;
-  }
 }
 
 @layer components {
@@ -44,45 +40,23 @@ body {
     }
   }
 
-  .tab {
-    input + label::after {
-      content: "";
-    }
-
-    input:checked + label {
-      @apply text-primary;
-
-      &::after {
-        @apply bg-primary block inset-x-0 absolute m-auto transition-all duration-500;
-        content: "";
-        width: 90%;
-        height: 2px;
-      }
-    }
+  .card {
+    @apply bg-white border border-solid box-border rounded shadow text-center;
   }
 
   .arrow {
     @apply relative inline-block cursor-pointer;
-  }
-
-  .arrow::before {
-    @apply w-2 h-2 border-solid border-black border-t-2 border-r-2 rounded-sm transform absolute inset-0 m-auto;
-    content: "";
+    @apply before:w-2 before:h-2 before:absolute before:inset-0 before:m-auto;
+    @apply before:border-solid before:border-black before:border-t-2 before:border-r-2 before:rounded-sm;
   }
 
   .arrow-left {
     @apply arrow;
-
-    &::before {
-      @apply rotate-[-135deg]
-    }
+    @apply before:rotate-[-135deg];
   }
 
   .arrow-right {
     @apply arrow;
-
-    &::before {
-      @apply rotate-45
-    }
+    @apply before:rotate-45
   }
 }

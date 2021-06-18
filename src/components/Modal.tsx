@@ -19,7 +19,7 @@ const Modal: FC<ModalProps> = ({ open, onClose, children }) => {
         items-center
         justify-center
     ` }>
-      <div className={ cntl`z-[-1] bg-black bg-opacity-50 fixed inset-0` } onClick={ onClose }></div>
+      <div className={ cntl`z-[-1] bg-black/50 fixed inset-0` } onClick={ onClose }></div>
       <div className={ cntl`
         bg-white
         max-w-xl

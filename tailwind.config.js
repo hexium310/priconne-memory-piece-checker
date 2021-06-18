@@ -7,20 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // it seems that *-[inherit] is not able to used.
-      borderRadius: {
-        inherit: 'inherit',
-      },
       colors: {
         primary: '#3f51b5',
       },
     },
     pseudo: {
-      'before': 'before',
-      'after': 'after',
       'not-first': 'not(:first-child)',
-      'checked-label': 'checked + label',
-      'disabled-label': 'disabled + label',
       'scrollbar': ':-webkit-scrollbar',
     },
   },

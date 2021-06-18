@@ -3,8 +3,6 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const TailwindCSS = require('tailwindcss');
-const PostCSSNested = require('postcss-nested');
 
 module.exports = (_, argv) => {
   const isDevelopment = argv.mode === 'development';
@@ -29,8 +27,8 @@ module.exports = (_, argv) => {
         postcssOptions: {
           ident: 'postcss',
           plugins: [
-            new TailwindCSS(),
-            PostCSSNested(),
+            require('tailwindcss/nesting'),
+            require('tailwindcss'),
           ],
         },
       },

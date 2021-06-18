@@ -37,7 +37,6 @@ const TabButton: FC<TabButtonProps> = ({ labelValue, inputValue }) => {
           max-w-xs
           min-w-[10rem]
           place-items-center
-          tab
           mb-1
         `,
         input: cntl`
@@ -46,6 +45,17 @@ const TabButton: FC<TabButtonProps> = ({ labelValue, inputValue }) => {
           relative
           px-3
           pb-0
+          after:content-[""]
+          peer-checked:text-primary
+          peer-checked:after:block
+          peer-checked:after:bg-primary
+          peer-checked:after:inset-x-0
+          peer-checked:after:absolute
+          peer-checked:after:m-auto
+          peer-checked:after:transition-all
+          peer-checked:after:duration-500
+          peer-checked:after:w-[90%]
+          peer-checked:after:h-[2px]
         `,
       } }
     >

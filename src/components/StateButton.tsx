@@ -33,13 +33,13 @@ const StateButton: FC<StateButtonProps> = ({
     w-20
   `;
   const input = cntl`
-    checked-label:bg-primary
-    checked-label:text-white
-    disabled-label:opacity-25
   `;
   const label = cntl`
     ${ disabled ? '' : 'cursor-pointer' }
-    rounded-inherit
+    rounded-[inherit]
+    peer-checked:bg-primary
+    peer-checked:text-white
+    peer-disabled:opacity-25
   `;
 
   return (
