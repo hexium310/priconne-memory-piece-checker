@@ -888,14 +888,14 @@ export const characters: Character[] = [
     name: 'アカリ（エンジェル）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
     name: 'ヨリ（エンジェル）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
