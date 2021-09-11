@@ -10,7 +10,7 @@ const TabPanel: FC<TabPanelProps> = ({ children, index }) => {
   return (
     <div
       role='tabpanel'
-      id={ `tabpanel-${index}` }
+      id={ `tabpanel-${ index }` }
       className={ cntl`
         col-span-12
       ` }

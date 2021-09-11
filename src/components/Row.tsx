@@ -17,7 +17,7 @@ const Row: FC<RowProps> = ({ className, children }) => {
       divide-x
       grid
       grid-cols-12
-      ${className}
+      ${ className }
     ` }>
       <div className={ cntl`col-start-1 col-end-1` }>
         { Name }

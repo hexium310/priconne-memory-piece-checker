@@ -33,14 +33,14 @@ const RadioButton= forwardRef<HTMLDivElement, PropsWithChildren<RadioButtonProps
         place-items-center
         text-black/50
         text-sm
-        ${classes?.div}
+        ${ classes?.div }
       ` }
       ref={ ref }
     >
       <input
         className={ cntl`
           hidden
-          ${classes?.input}
+          ${ classes?.input }
           peer
         ` }
         checked={ checked }
@@ -55,7 +55,7 @@ const RadioButton= forwardRef<HTMLDivElement, PropsWithChildren<RadioButtonProps
         className={ cntl`
           p-2
           w-full
-          ${classes?.label}
+          ${ classes?.label }
         ` }
         htmlFor={ id }
       >

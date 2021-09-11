@@ -122,7 +122,7 @@ const CharacterCard = memo<CharacterCardProps>(({
           />
           <p className={ cntl`text-xl` }>{ requiredPieces }</p>
         </div>
-        <p className={ cntl`text-xl ${ deficiency > 0 ? 'text-red-600' : 'text-primary'}` }>
+        <p className={ cntl`text-xl ${ deficiency > 0 ? 'text-red-600' : 'text-primary' }` }>
           { deficiency }
         </p>
       </Row>

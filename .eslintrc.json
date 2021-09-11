@@ -26,6 +26,7 @@
     "comma-dangle": ["error", "always-multiline"],
     "no-extra-boolean-cast": "off",
     "object-curly-spacing": ["error", "always"],
+    "template-curly-spacing": ["error", "always"],
     "semi": ["error", "always"],
     "react/prop-types": "off",
     "react/jsx-curly-spacing": ["error", "always"],
