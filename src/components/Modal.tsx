@@ -8,7 +8,6 @@ type ModalProps = {
 };
 
 const Modal: FC<ModalProps> = ({ open, onClose, children }) => {
-  onClose;
   const modal = open ? (
     <div className={ cntl`
         fixed
