@@ -115,20 +115,20 @@ module.exports = (_, argv) => {
         message: /export .* was not found in/,
       },
     ],
+    stats: {
+      builtAt: true,
+      children: false,
+      modules: false,
+      warningsFilter: /export .* was not found in/,
+      colors: true,
+    },
     devServer: {
-      clientLogLevel: 'info',
-      historyApiFallback: true,
-      stats: {
-        builtAt: true,
-        children: false,
-        modules: false,
-        warningsFilter: /export .* was not found in/,
-        colors: true,
+      client: {
+        logging: 'info',
+        progress: true,
       },
-      progress: true,
-      overlay: true,
-      compress: true,
       hot: true,
+      historyApiFallback: true,
     },
   };
 };
