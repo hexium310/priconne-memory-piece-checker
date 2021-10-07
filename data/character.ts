@@ -902,7 +902,7 @@ export const characters: Character[] = [
     name: 'ツムギ（ハロウィン）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
@@ -916,7 +916,7 @@ export const characters: Character[] = [
     name: 'レイ（ハロウィン）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
   {
@@ -1169,6 +1169,13 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 5,
     hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'マツリ（ハロウィン）',
+    initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
 ];
