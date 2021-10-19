@@ -70,7 +70,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['hard'],
+    pieceType: ['hard', 'side'],
   },
   {
     name: 'シノブ',
@@ -693,7 +693,7 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['side'],
   },
   {
     name: 'クリスティーナ（クリスマス）',
@@ -1184,5 +1184,12 @@ export const characters: Character[] = [
     maxRarity: 5,
     hasUniqueEquipment: false,
     pieceType: ['none'],
+  },
+  {
+    name: 'カリン',
+    initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['master'],
   },
 ];
