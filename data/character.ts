@@ -187,7 +187,7 @@ export const characters: Character[] = [
   {
     name: 'アリサ',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['hard'],
   },
@@ -306,7 +306,7 @@ export const characters: Character[] = [
   {
     name: 'モニカ',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['arena', 'side'],
   },
@@ -1191,5 +1191,12 @@ export const characters: Character[] = [
     maxRarity: 5,
     hasUniqueEquipment: false,
     pieceType: ['master'],
+  },
+  {
+    name: 'ホマレ',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
   },
 ];
