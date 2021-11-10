@@ -923,14 +923,14 @@ export const characters: Character[] = [
     name: 'モニカ（マジカル）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
     name: 'トモ（マジカル）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
