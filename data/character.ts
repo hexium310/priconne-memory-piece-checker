@@ -166,7 +166,7 @@ export const characters: Character[] = [
   {
     name: 'ミサキ',
     initialRarity: 1,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['hard', 'side'],
   },
