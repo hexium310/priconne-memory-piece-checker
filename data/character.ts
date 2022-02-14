@@ -425,14 +425,14 @@ export const characters: Character[] = [
   {
     name: 'ペコリーヌ（サマー）',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['master'],
   },
   {
     name: 'キャル（サマー）',
     initialRarity: 3,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['master'],
   },
@@ -565,7 +565,7 @@ export const characters: Character[] = [
   {
     name: 'コッコロ（サマー）',
     initialRarity: 1,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['side'],
   },
@@ -748,7 +748,7 @@ export const characters: Character[] = [
     name: 'ペコリーヌ（プリンセス）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['master'],
   },
   {
@@ -832,7 +832,7 @@ export const characters: Character[] = [
     name: 'ユイ（プリンセス）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['master'],
   },
   {
@@ -1285,6 +1285,20 @@ export const characters: Character[] = [
   },
   {
     name: 'ユニ（聖学祭）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'ランファ',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'キャル（オーバーロード）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
