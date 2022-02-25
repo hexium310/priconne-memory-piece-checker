@@ -119,7 +119,7 @@ export const characters: Character[] = [
     initialRarity: 2,
     maxRarity: 6,
     hasUniqueEquipment: true,
-    pieceType: ['hard'],
+    pieceType: ['hard', 'side'],
   },
   {
     name: 'リマ',
