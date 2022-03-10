@@ -1021,7 +1021,7 @@ export const characters: Character[] = [
     name: 'リマ（シンデレラ）',
     initialRarity: 1,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
@@ -1035,7 +1035,7 @@ export const characters: Character[] = [
     name: 'マホ（シンデレラ）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
@@ -1309,6 +1309,13 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'マコト（シンデレラ）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
 ];
