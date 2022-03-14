@@ -1318,4 +1318,11 @@ export const characters: Character[] = [
     hasUniqueEquipment: true,
     pieceType: ['none'],
   },
+  {
+    name: 'ミサキ（ステージ）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
 ];
