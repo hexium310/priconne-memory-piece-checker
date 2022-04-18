@@ -161,7 +161,7 @@ export const characters: Character[] = [
     initialRarity: 2,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['hard'],
+    pieceType: ['hard', 'side'],
   },
   {
     name: 'ミサキ',
@@ -840,7 +840,7 @@ export const characters: Character[] = [
     initialRarity: 1,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['side'],
   },
   {
     name: 'ルカ（サマー）',
