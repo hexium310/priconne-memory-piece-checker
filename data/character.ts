@@ -1056,14 +1056,14 @@ export const characters: Character[] = [
     name: 'イノリ（タイムトラベル）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
     name: 'カヤ（タイムトラベル）',
     initialRarity: 3,
     maxRarity: 5,
-    hasUniqueEquipment: false,
+    hasUniqueEquipment: true,
     pieceType: ['none'],
   },
   {
