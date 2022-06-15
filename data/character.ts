@@ -1316,7 +1316,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['pArena'],
   },
   {
     name: 'ミサキ（ステージ）',
@@ -1369,6 +1369,13 @@ export const characters: Character[] = [
   },
   {
     name: 'ユカリ（キャンプ）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'ヴァンピィ',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
