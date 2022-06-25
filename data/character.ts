@@ -264,7 +264,7 @@ export const characters: Character[] = [
   {
     name: 'ミサト',
     initialRarity: 2,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['dungeon'],
   },
