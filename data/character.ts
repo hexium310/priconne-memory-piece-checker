@@ -159,7 +159,7 @@ export const characters: Character[] = [
   {
     name: 'エリコ',
     initialRarity: 2,
-    maxRarity: 5,
+    maxRarity: 6,
     hasUniqueEquipment: true,
     pieceType: ['hard', 'side'],
   },
@@ -1036,7 +1036,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['hard'],
   },
   {
     name: 'チエル（聖学祭）',
@@ -1397,6 +1397,13 @@ export const characters: Character[] = [
   },
   {
     name: 'ユイ（サマー）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'ミミ（サマー）',
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: false,
