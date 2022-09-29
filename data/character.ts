@@ -1444,4 +1444,18 @@ export const characters: Character[] = [
     hasUniqueEquipment: false,
     pieceType: ['none'],
   },
+  {
+    name: 'リン（ハロウィン）',
+    initialRarity: 1,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
+  {
+    name: 'トモ（ハロウィン）',
+    initialRarity: 3,
+    maxRarity: 5,
+    hasUniqueEquipment: false,
+    pieceType: ['none'],
+  },
 ];
