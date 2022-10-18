@@ -1050,7 +1050,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['dungeon'],
   },
   {
     name: 'イノリ（タイムトラベル）',
@@ -1162,7 +1162,7 @@ export const characters: Character[] = [
     initialRarity: 3,
     maxRarity: 5,
     hasUniqueEquipment: true,
-    pieceType: ['none'],
+    pieceType: ['master'],
   },
   {
     name: 'ニノン（ハロウィン）',
